@@ -9,6 +9,7 @@ import { ReactComponent as FrameNftTop } from './m1-nft-card.svg'
 import { ReactComponent as FrameNftBottom } from './m2-nft-card.svg'
 import { ReactComponent as FrameTop } from './frame-top.svg'
 import { ReactComponent as FrameBottom } from './frame-bottom.svg'
+import { ReactComponent as RankFrame } from './rank-frame.svg'
 
 export const FrameCounterSVG = FrameCounter
 export const FrameCounterTopSVG = FrameCounterTop
@@ -21,3 +22,4 @@ export const FrameNftTopSVG = FrameNftTop
 export const FrameNftBottomSVG = FrameNftBottom
 export const FrameTopSVG = FrameTop
 export const FrameBottomSVG = FrameBottom
+export const RankFrameSVG = RankFrame

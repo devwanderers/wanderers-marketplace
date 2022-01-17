@@ -1,4 +1,5 @@
 const colors = require('tailwindcss/colors')
+// const theme = require('tailwindcss/defaultTheme')
 
 module.exports = {
     // important: true,
@@ -6,6 +7,10 @@ module.exports = {
     purge: [],
     darkMode: 'class', // or 'media' or 'class'
     theme: {
+        // height: {
+        //     ...theme.height,
+        //     // '450px': '450px',
+        // },
         backgroundSize: {
             auto: 'auto',
             cover: 'cover',
@@ -36,6 +41,7 @@ module.exports = {
             '1000px': '1000px',
             '1100px': '1100px',
             '1300px': '1300px',
+            '1800px': '1800px',
         },
         fontFamily: {
             'russo-one': ['Russo One', 'sans-serif'],
@@ -58,6 +64,7 @@ module.exports = {
                 1: '#243c49',
                 2: '#2a4655',
                 3: '#337184',
+                4: '#4889A1',
             },
             aqua: {
                 1: '#7CC4D1',
@@ -67,8 +74,13 @@ module.exports = {
                 2: '#81A4D5',
                 3: '#171230',
                 4: '#688CA5',
-                5: '#03152b',
+                5: '#071229',
                 6: '#041B37',
+                7: '#122135',
+                8: '#141C2F',
+                9: '#101E34',
+                10: '#11182E',
+                11: '#203045', // Bordes
             },
             black: {
                 1: '#1d1d1b',
@@ -125,6 +137,7 @@ module.exports = {
                 '1000px': '1000px',
                 '1025px': '1025px',
                 '1100px': '1100px',
+                '1800px': '1800px',
             },
         },
         backgroundColor: (theme) => ({
@@ -137,6 +150,7 @@ module.exports = {
             opacity: ['disabled'],
             scale: ['active'],
             ringWidth: ['focus'],
+            // borderStyle: ['focus'],
         },
     },
     plugins: [],

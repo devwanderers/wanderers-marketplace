@@ -32,8 +32,8 @@ class GlobeComponent extends Component {
         const { width, height } = this.props
         this.clock = new THREE.Clock()
         this.pointer = new THREE.Vector2()
+
         this.globe = new Globe(width, height, {
-            htmlContainer: this.htmlRef.current,
             data: this.state.data,
             // mode: 'addMarker',
         })
@@ -149,6 +149,8 @@ class GlobeComponent extends Component {
         this.globe.pointer.y =
             -((e.pageY - topOffset) / this.globe.domElement.clientHeight) * 2 +
             1
+
+        // console.log(this.globe.pointer.x, this.globe.pointer.y)
     }
 
     onMouseClick = (e) => {
@@ -299,10 +301,11 @@ class GlobeComponent extends Component {
     render() {
         const { width, height } = this.props
         const { marker, markers } = this.state
-
+        console.log(width, height)
         return (
-            <div className="relative" style={{ width, height }}>
-                <div ref={this.htmlRef} className="absolute left-0 right-0 ">
+            <div className="relative inline-block" style={{ width, height }}>
+                <div ref={this.canvasRef} className="w-full h-full"></div>
+                <div className="absolute top-0">
                     <AnimatePresence>
                         {marker && (
                             <motion.div
@@ -345,7 +348,6 @@ class GlobeComponent extends Component {
                         )}
                     </AnimatePresence>
                 </div>
-                <div ref={this.canvasRef} className="w-full h-full"></div>
             </div>
         )
     }

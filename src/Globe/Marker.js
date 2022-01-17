@@ -4,8 +4,10 @@ const calculatePositionOnCanvas = function () {
     const topOffset =
         this.canvas.getBoundingClientRect().top +
         document.documentElement.scrollTop
-    const widthHalf = this.opts.canvasWidth / 2
-    const heightHalf = this.opts.canvasHeight / 2
+
+    const widthHalf = this.canvas.clientWidth / 2
+    const heightHalf = this.canvas.clientHeight / 2
+
     const temp = this.marker.position.clone()
     temp.project(this.camera)
     temp.x = temp.x * widthHalf + widthHalf
@@ -22,14 +24,14 @@ function Marker(
     globe,
     camera,
     canvas,
-    htmlContainer,
+    // htmlContainer,
     _opts
 ) {
     this.posX = posX
     this.posY = posY
     this.posZ = posZ
     this.globe = globe
-    this.htmlContainer = htmlContainer
+    // this.htmlContainer = htmlContainer
     this.showHtml = false
     this.camera = camera
     this.label = label
@@ -37,8 +39,8 @@ function Marker(
     this.canvas = canvas
 
     const opts = {
-        canvasWidth: 0,
-        canvasHeight: 0,
+        // canvasWidth: 0,
+        // canvasHeight: 0,
         radius: 5,
         segments: 32,
         color: 0x00ff00,
@@ -118,7 +120,7 @@ Marker.prototype.selected = function () {
     this.marker.remove(this.lightTrailMesh1)
     this.marker.remove(this.lightTrailMesh2)
     this.marker.material = this.highlightedMaterial
-    console.log('selected')
+
     this.markerHover = true
 }
 
@@ -142,7 +144,6 @@ Marker.prototype.getMakerPositionOnCanvas = function () {
 
 Marker.prototype.clearHtml = function () {
     if (this.showHtml) {
-        this.htmlContainer.removeChild(this.element)
         this.showHtml = false
     }
 }

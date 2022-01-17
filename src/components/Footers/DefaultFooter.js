@@ -5,7 +5,7 @@ import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa'
 const DefaultFooter = (props) => {
     return (
         <footer className="py-12 ">
-            <div className="section ">
+            <div className="section px-8">
                 <div className="flex flex-row justify-between border-b border-gray-300 pb-8">
                     <div className="flex flex-row justify-between max-h-full w-full lg:w-6/12  items-center">
                         <div className="flex-1">

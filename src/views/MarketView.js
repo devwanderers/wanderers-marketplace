@@ -11,6 +11,9 @@ import { SearchOutlined } from '@ant-design/icons'
 import { filterSearch } from './../services/filters'
 import { landsImages } from './../assets/images/lands/index'
 import { FrameTopSVG, FrameBottomSVG } from '../assets/svg/frames'
+import { AnimatePresence, motion } from 'framer-motion'
+import CardNftMarket from '../components/Cards/CardNftMarket'
+
 // import { FrameBottomSVG } from './../assets/svg/frames/index'
 
 const { TabPane } = Tabs
@@ -120,6 +123,7 @@ const MarketView = () => {
     const [globeSizes, setGlobalSizes] = useState({ width: 0, height: 0 })
     const [searchText, setSearchText] = useState()
     const [selectedText, setSelected] = useState()
+    const [marker, setMarker] = useState()
     // const [tab, setTab] = useState(1)
     // const [markerSelected, setMarkerSelected] = useState()
 
@@ -208,28 +212,105 @@ const MarketView = () => {
         []
     )
     const optionsFilter = filterSearch(searchText, options)
-
+    // const _markers = data.reduce(
+    //     (acc, { label, image }) => ({
+    //         ...acc,
+    //         [label]: {
+    //             label,
+    //             image,
+    //         },
+    //     }),
+    //     {}
+    // )
+    // console.log({ marker, _markers })
     return (
-        <div className="w-full  bg-blue-5">
+        <div className="w-full bg-blue-10 relative">
             <div
                 ref={globeContainerRef}
-                className="w-full m-auto"
-                style={{ height: '600px' }}
+                className="w-full m-auto relative"
+                style={{ height: '650px' }}
             >
                 <GlobeComponent
                     ref={globeRef}
                     data={markers}
-                    width={globeSizes.width}
-                    height={globeSizes.height}
+                    width={window.innerWidth}
+                    height={650}
                     onAddMarker={(marker) =>
                         setMarkers([...markers, { ...marker, label: '' }])
                     }
                     onClickMarker={handleOnClickMarker}
-                    // selectedMarker={markerSelected}
                 />
+                <div className="absolute bottom-0 w-full mb-5">
+                    <div
+                        className="relative flex justify-center items-center m-auto w-10/12 md:w-8/12 lg:w-6/12 2xl:w-4/12"
+                        // style={{ maxWidth: '750px' }}
+                    >
+                        <Input.Group>
+                            <Row className="border border-blue-11 rounded-lg bg-blue-7">
+                                <Col
+                                    xs={4}
+                                    className="bg-blue-8 border border-blue-11 rounded-l-lg "
+                                >
+                                    <Select
+                                        className="w-full ant-selector-border-0 ant-selector-custom bg-blue-8 text-blue-4"
+                                        size="large"
+                                        value={selectedText}
+                                        onChange={handleOnChangeSelect}
+                                    >
+                                        {options.map((d) => (
+                                            <Select.Option
+                                                key={d.label}
+                                                value={d.value}
+                                            >
+                                                {d.label}
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Col>
+                                <Col
+                                    xs={16}
+                                    className="border-r border-blue-11"
+                                >
+                                    <AutoComplete
+                                        options={optionsFilter}
+                                        className="auto-complete-custom absolute h-full ant-select-h-full"
+                                        dropdownClassName=""
+                                        onSearch={handleOnSearch}
+                                        onSelect={handleOnChangeSelectAuto}
+                                        style={{ width: '100%' }}
+                                        onKeyDown={onKeyDown}
+                                        // onKeyUp={onKeyUpAuto}
+                                        value={searchText}
+                                        onClear={onClear}
+                                        allowClear
+                                    >
+                                        <input
+                                            // className="w-6/12"
+                                            className="h-full w-full bg-transparent border-0 text-blue-4 pl-5 focus:border-none rounded-none "
+                                            size="large"
+                                        />
+                                    </AutoComplete>
+                                </Col>
+                                <Col xs={4}>
+                                    <button
+                                        ref={searchButtonRef}
+                                        className="h-full w-full rounded-r-full bg-transparent border-0 text-blue-4"
+                                        size="large"
+                                        // onKeyDown={onKeyDown}
+                                        onClick={onClick}
+                                        onKeyUp={onKeyUp}
+                                    >
+                                        <SearchOutlined />
+                                    </button>
+                                </Col>
+                            </Row>
+                        </Input.Group>
+                    </div>
+                </div>
             </div>
+            {/* <div className="relative"></div> */}
 
-            <div className="">
+            {/* <div className="">
                 <div className="relative max-w-1000px -mt-5 flex justify-center items-center m-auto">
                     <Input.Group>
                         <Row>
@@ -288,61 +369,40 @@ const MarketView = () => {
                         </Row>
                     </Input.Group>
                 </div>
+            </div> */}
+            <div className="w-full bg-blue-8 border-b-2 border-blue-11">
+                <div className="max-w-1800px m-auto">
+                    <div className="flex flex-row justify-center md:justify-start text-2xl font-saira-condensed pl-5 space-x-5 ">
+                        <a className="px-3 pb-2 border-b-4  border-green-0">
+                            <div className="pt-4 text-white"> Lands</div>
+                        </a>
+                        <a className="px-3 pb-2">
+                            <div className="pt-4 text-blue-4"> Ships</div>
+                        </a>
+                        <a className="px-3 pb-2">
+                            <div className="pt-4 text-blue-4">Monuments</div>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div className="py-10">
-                <div className="max-w-1300px m-auto relative ">
-                    <Row
-                        gutter={[14, 20]}
-                        className="m-0 px-0"
-                        style={{
-                            marginLeft: '0px',
-                            marginRight: '0px',
-                        }}
-                    >
+            <div className="bg-blue-10 relative py-16">
+                <div className="absolute inset-0 background-pattern-polka py-10"></div>
+                <div
+                    className="relative m-auto max-w-1800px px-6 2xl:px-16"
+                    style={{ maxWidth: '1800px' }}
+                >
+                    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
                         {filter.map((f) => {
                             return (
-                                <Col
-                                    key={`${f.country}-${f.city}`}
-                                    span={12}
-                                    md={8}
-                                    xl={6}
-                                    className=""
-                                >
-                                    <div className="rounded-lg bg-blue-5 ">
-                                        <div className="relative w-full h-64 border-2 p-5 border-green-0 rounded-t-md cursor-pointer">
-                                            <div
-                                                className="absolute left-0 right-0 px-20"
-                                                style={{ top: '-9px' }}
-                                            >
-                                                <FrameTopSVG />
-                                            </div>
-                                            <div
-                                                className="absolute left-0 right-0 px-8"
-                                                style={{
-                                                    bottom: '-12px',
-                                                }}
-                                            >
-                                                <FrameBottomSVG />
-                                            </div>
-                                            <img
-                                                src={f.image}
-                                                alt={f.image}
-                                                className="w-auto h-full m-auto object-cover"
-                                            />
-                                        </div>
-                                        <div className="px-5 pt-5 pb-4 border-2 border-t-0 border-info rounded-b-md cursor-pointer">
-                                            <div className="text-center text-xl text-info">
-                                                {f.city}
-                                            </div>
-                                            <div className="text-blue-4">
-                                                {f.details}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Col>
+                                <div key={`${f.country}-${f.city}`}>
+                                    <CardNftMarket
+                                        image={f.image}
+                                        city={f.city}
+                                    />
+                                </div>
                             )
                         })}
-                    </Row>
+                    </div>
                 </div>
             </div>
         </div>

@@ -141,7 +141,6 @@ const markerAnimate = function () {
 
 const raycastIntersect = function () {
     if (!this.raycaster) this.raycaster = new THREE.Raycaster()
-    console.log('active', this.active)
 
     this.raycaster.setFromCamera(this.pointer, this.camera)
     if (this.mode === 'default') raycastMarkers.call(this)
@@ -310,7 +309,7 @@ function Globe(width, height, opts = {}) {
 
     const defaults = {
         minZoom: 325,
-        maxZoom: 500,
+        maxZoom: 425,
         radius: 200,
         data: [],
         mode: 'default',
@@ -328,7 +327,7 @@ function Globe(width, height, opts = {}) {
 
     // this.renderer.setClearColorHex(0xffffff, 1)
     this.renderer.setPixelRatio(window.devicePixelRatio)
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.renderer.setSize(this.width, this.height)
     this.renderer.sortObjects = false
 
     this.domElement = this.renderer.domElement
@@ -336,7 +335,7 @@ function Globe(width, height, opts = {}) {
 
 Globe.prototype.init = function (cb) {
     this.scene = new THREE.Scene()
-    this.scene.background = new THREE.Color(0x03152b)
+    this.scene.background = new THREE.Color(0x070f21)
     // this.ambientLight = new THREE.AmbientLight()
 
     this.scene.add(this.ambientLight)
@@ -395,11 +394,8 @@ Globe.prototype.addMarker = function (posX, posY, posZ, label) {
         this.globe,
         this.camera,
         this.domElement,
-        this.htmlContainer,
-        {
-            canvasWidth: this.width,
-            canvasHeight: this.height,
-        }
+        // this.htmlContainer,
+        {}
     )
     this.markers.push(marker)
 
