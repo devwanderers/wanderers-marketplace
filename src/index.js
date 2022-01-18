@@ -12,11 +12,6 @@ import configureStore from './store/config/index'
 
 const store = configureStore()
 
-// const themes = {
-//     dark: `${process.env.PUBLIC_URL}/themes/dark-theme.css`,
-//     light: `${process.env.PUBLIC_URL}/themes/light-theme.css`,
-// }
-
 function getLibrary(provider) {
     return new Web3(provider)
 }
