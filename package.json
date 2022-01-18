@@ -64,8 +64,8 @@
         "web3": "^1.6.1"
     },
     "scripts": {
-        "start": "craco start",
-        "build": "craco build",
+        "start": "craco --openssl-legacy-provider start",
+        "build": "craco --openssl-legacy-provider build",
         "test": "craco test",
         "eject": "react-scripts eject"
     },
@@ -88,5 +88,5 @@
         ]
     },
     "devDependencies": {},
-    "engines" : { "node" : "14.17.6" }
+    "engines" : { "node" : "17.4.0" }
 }
