@@ -540,4 +540,4 @@ Globe.prototype.tick = function (delta) {
     this.renderer.render(this.scene, this.camera)
 }
 
-module.exports = Globe
+export default Globe
