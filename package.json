@@ -88,5 +88,5 @@
         ]
     },
     "devDependencies": {},
-    "engines" : { "node" : ">=14.0.0 <=15.0.1" }
+    "engines" : { "node" : "14.17.6" }
 }
