@@ -376,12 +376,6 @@ const MarketView = () => {
                         <a className="px-3 pb-2 border-b-4  border-green-0">
                             <div className="pt-4 text-white"> Lands</div>
                         </a>
-                        <a className="px-3 pb-2">
-                            <div className="pt-4 text-blue-4"> Ships</div>
-                        </a>
-                        <a className="px-3 pb-2">
-                            <div className="pt-4 text-blue-4">Monuments</div>
-                        </a>
                     </div>
                 </div>
             </div>

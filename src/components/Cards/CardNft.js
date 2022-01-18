@@ -4,7 +4,7 @@ import useResponsive from './../../hooks/useResponsive'
 
 export const CardNft = ({ image, city }) => {
     const [topFrame] = useResponsive({ base: '-2.6%' })
-    const [bottomFrame] = useResponsive({ base: '-3.5%' })
+    const [bottomFrame] = useResponsive({ base: '-3.5%', xxl: '-2.5%' })
 
     return (
         <div className="rounded-lg bg-blue-7">
@@ -31,8 +31,8 @@ export const CardNft = ({ image, city }) => {
                     />
                 </div>
             </div>
-            <div className="px-2 lg:px-5 pt-5 pb-4 border border-t-0 border-green-4 rounded-b-md cursor-pointer">
-                <div className="text-left text-base md:text-lg 2xl:text-xl text-info font-russo-one">
+            <div className="px-2 lg:px-4 pt-5 pb-4 border border-t-0 border-green-4 rounded-b-md cursor-pointer">
+                <div className="text-left text-base md:text-lg lg:text-base 2xl:text-xl text-info font-russo-one">
                     {city}
                 </div>
             </div>

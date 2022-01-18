@@ -1,5 +1,5 @@
 const colors = require('tailwindcss/colors')
-// const theme = require('tailwindcss/defaultTheme')
+const theme = require('tailwindcss/defaultTheme')
 
 module.exports = {
     // important: true,
@@ -11,6 +11,14 @@ module.exports = {
         //     ...theme.height,
         //     // '450px': '450px',
         // },
+        screens: {
+            ...theme.screens,
+            '3xl': '2560px',
+        },
+        spacing: {
+            ...theme.spacing,
+            '20rem': '20rem',
+        },
         backgroundSize: {
             auto: 'auto',
             cover: 'cover',
@@ -128,6 +136,7 @@ module.exports = {
                 '50px': '50px',
             },
             width: {
+                '20rem': '20rem',
                 '100px': '100px',
                 '125px': '125px',
                 '150px': '150px',
