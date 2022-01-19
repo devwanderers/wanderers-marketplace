@@ -242,7 +242,7 @@ const MarketView = () => {
         <div className="w-full bg-blue-10 relative">
             <div
                 ref={globeContainerRef}
-                className="w-full m-auto relative"
+                className="w-full m-auto relative overflow-hidden"
                 style={{ height: '650px' }}
             >
                 <GlobeComponent
