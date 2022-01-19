@@ -2,9 +2,12 @@ import { useState } from 'react'
 import useEventListener from './useEventListener'
 
 export default function useWindowSize() {
+    const { innerWidth, innerHeight, screen } = window
     const [windowSize, setWindowSize] = useState({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        innerWidth,
+        innerHeight,
+        width: screen?.width,
+        height: screen?.height,
     })
 
     useEventListener('resize', () => {

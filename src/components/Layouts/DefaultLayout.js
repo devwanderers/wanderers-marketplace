@@ -16,23 +16,22 @@ const { Content } = Layout
 const DefaultLayout = ({ children, ...rest }) => {
     const history = useHistory()
     const [showDrawer, setShowDrawer] = useState(false)
-    const { width } = useWindowSize()
+    const { innerWidth } = useWindowSize()
 
     const handleOnClickBurger = () => {
         setShowDrawer(!showDrawer)
     }
     // const [isOpen, setOpenDrawer] = useState(false)
     return (
-        <Layout className="overflow-x-hidden flex flex-col min-h-screen">
-            {width >= 768 ? (
-                <header className="h-24 relative z-50 lg:px-0 text-white bg-blue-5">
+        <Layout
+            className="overflow-x-hidden flex flex-col min-h-screen"
+            style={{ minWidth: '425px' }}
+        >
+            {innerWidth >= 768 ? (
+                <header className="h-24 relative z-50 lg:px-0 text-white bg-blue-5 2xl:px-8">
                     <div className="max-w-1800px m-auto flex h-full px-6 2xl:px-0">
-                        {' '}
                         <div className="mr-20 h-full py-5">
-                            <Link
-                                to={routePaths.HomePath}
-                                className="h-full bg-blue-2"
-                            >
+                            <Link to={routePaths.HomePath} className="h-full ">
                                 <div className="h-full">
                                     <BrandLogoSVG
                                         width={'100%'}
@@ -101,7 +100,11 @@ const DefaultLayout = ({ children, ...rest }) => {
                                 <div className="">
                                     <a
                                         target="_blank"
-                                        href="https://thewanderers.io/"
+                                        onClick={() => {
+                                            window.location.replace(
+                                                'https://thewanderers.io/'
+                                            )
+                                        }}
                                     >
                                         Home
                                     </a>
@@ -126,7 +129,12 @@ const DefaultLayout = ({ children, ...rest }) => {
                                 <button className="font-saira-condensed text-xl py-2 px-8 rounded-full border border-green-0 text-green-0">
                                     Connect Wallet
                                 </button>
-                                <button className="font-saira-condensed text-xl text-white bg-primary py-2 px-8 rounded-full">
+                                <button
+                                    onClick={() =>
+                                        history.push(routePaths.ProfilePath)
+                                    }
+                                    className="font-saira-condensed text-xl text-white bg-primary py-2 px-8 rounded-full"
+                                >
                                     My Profile
                                 </button>
                             </div>

@@ -5,18 +5,19 @@ import GlobeComponent from './../components/GlobeComponent/index'
 // import useResponsive from './../hooks/useResponsive'
 import useEventListener from './../hooks/useEventListener'
 import useEffectOnce from './../hooks/useEffectOnce'
-import { AutoComplete, Input, Select, Button, Row, Col, Tabs } from 'antd'
+import { AutoComplete, Input, Select, Button, Row, Col } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
 import { filterSearch } from './../services/filters'
-import { landsImages } from './../assets/images/lands/index'
 import { FrameTopSVG, FrameBottomSVG } from '../assets/svg/frames'
 import { AnimatePresence, motion } from 'framer-motion'
 import CardNftMarket from '../components/Cards/CardNftMarket'
-
 // import { FrameBottomSVG } from './../assets/svg/frames/index'
+import { landColors } from './../assets/images/lands/colors/index'
+import Tabs, { TabPane } from '../components/Tabs/Tabs'
+import { rolesImg } from './../assets/images/roles/index'
 
-const { TabPane } = Tabs
+// const { TabPane } = Tabs
 
 const data = [
     {
@@ -26,7 +27,7 @@ const data = [
             z: -178.0902142475668,
         },
         label: 'Brasil',
-        image: landsImages.cristoRedentor,
+        image: landColors.redLand,
     },
     {
         coordinates: {
@@ -35,7 +36,7 @@ const data = [
             z: -182.5701668425229,
         },
         label: 'Mexico',
-        image: landsImages.cristoRedentor,
+        image: landColors.yellowLand,
     },
     {
         coordinates: {
@@ -44,74 +45,95 @@ const data = [
             z: -151.4402925276393,
         },
         label: 'USA',
-        image: landsImages.cristoRedentor,
+        image: landColors.greenLand,
     },
 ]
 
 const lands = [
     {
         id: 'VG',
-        city: 'Las Vegas',
+        title: 'Las Vegas',
         country: 'USA',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landsImages.arai01,
+        image: landColors.orangeLand,
     },
     {
         id: 'LA',
-        city: 'Los Angeles',
+        title: 'Los Angeles',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'USA',
-        image: landsImages.cebu01,
+        image: landColors.purpleLand,
     },
     {
         id: 'LA',
-        city: 'North Las Vegas',
+        title: 'North Las Vegas',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'USA',
-        image: landsImages.drottningholmv01,
+        image: landColors.blueLand,
     },
     {
         id: 'jacksonVille',
-        city: 'Jackson Ville',
+        title: 'Jackson Ville',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Mexico',
-        image: landsImages.gotland01,
+        image: landColors.greenLand,
     },
     {
         id: 'EL',
-        city: 'Elko',
+        title: 'Elko',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Mexico',
-        image: landsImages.mapTest,
+        image: landColors.redLand,
     },
     {
         id: 'CA',
-        city: 'Carson',
+        title: 'Carson',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Brasil',
-        image: landsImages.carson,
+        image: landColors.greenLand,
     },
     {
         id: 'austin',
-        city: 'Austing',
+        title: 'Austing',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Brasil',
-        image: landsImages.austin,
+        image: landColors.yellowLand,
     },
     {
         id: 'maiami',
-        city: 'Miami',
+        title: 'Miami',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Brasil',
-        image: landsImages.miami,
+        image: landColors.purpleLand,
+    },
+]
+
+const roles = [
+    {
+        id: 'BRC',
+        title: 'AMB Vegas',
+        image: rolesImg.bronce,
+        country: 'USA',
+    },
+    {
+        id: 'SLV',
+        title: 'AMB Los Angeles',
+        image: rolesImg.silver,
+        country: 'USA',
+    },
+    {
+        id: 'GLD',
+        title: 'AMB California',
+        image: rolesImg.gold,
+        country: 'USA',
     },
 ]
 
@@ -207,22 +229,15 @@ const MarketView = () => {
         ? lands.filter((l) => l.country === selectedText)
         : lands
 
+    const filterRoles = selectedText
+        ? roles.filter((l) => l.country === selectedText)
+        : roles
+
     const options = markers.reduce(
         (acc, m, key) => [...acc, { label: m.label, value: m.label }],
         []
     )
     const optionsFilter = filterSearch(searchText, options)
-    // const _markers = data.reduce(
-    //     (acc, { label, image }) => ({
-    //         ...acc,
-    //         [label]: {
-    //             label,
-    //             image,
-    //         },
-    //     }),
-    //     {}
-    // )
-    // console.log({ marker, _markers })
     return (
         <div className="w-full bg-blue-10 relative">
             <div
@@ -370,34 +385,37 @@ const MarketView = () => {
                     </Input.Group>
                 </div>
             </div> */}
-            <div className="w-full bg-blue-8 border-b-2 border-blue-11">
-                <div className="max-w-1800px m-auto">
-                    <div className="flex flex-row justify-center md:justify-start text-2xl font-saira-condensed pl-5 space-x-5 ">
-                        <a className="px-3 pb-2 border-b-4  border-green-0">
-                            <div className="pt-4 text-white"> Lands</div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div className="bg-blue-10 relative py-16">
-                <div className="absolute inset-0 background-pattern-polka py-10"></div>
-                <div
-                    className="relative m-auto max-w-1800px px-6 2xl:px-16"
-                    style={{ maxWidth: '1800px' }}
-                >
-                    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
-                        {filter.map((f) => {
-                            return (
-                                <div key={`${f.country}-${f.city}`}>
-                                    <CardNftMarket
-                                        image={f.image}
-                                        city={f.city}
-                                    />
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
+            <div>
+                <Tabs>
+                    <TabPane tab="Lands" style={{ maxWidth: '1800px' }}>
+                        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+                            {filter.map((f) => {
+                                return (
+                                    <div key={`${f.country}-${f.title}`}>
+                                        <CardNftMarket
+                                            image={f.image}
+                                            title={f.title}
+                                        />
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </TabPane>
+                    <TabPane tab="Roles" style={{ maxWidth: '1800px' }}>
+                        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+                            {filterRoles.map((f) => {
+                                return (
+                                    <div key={`${f.country}-${f.title}`}>
+                                        <CardNftMarket
+                                            image={f.image}
+                                            title={f.title}
+                                        />
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </TabPane>
+                </Tabs>
             </div>
         </div>
     )

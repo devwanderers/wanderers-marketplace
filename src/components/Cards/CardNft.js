@@ -2,7 +2,7 @@ import React from 'react'
 import { FrameTopSVG, FrameBottomSVG } from '../../assets/svg/frames'
 import useResponsive from './../../hooks/useResponsive'
 
-export const CardNft = ({ image, city }) => {
+export const CardNft = ({ image, title }) => {
     const [topFrame] = useResponsive({ base: '-2.6%' })
     const [bottomFrame] = useResponsive({ base: '-3.5%', xxl: '-2.5%' })
 
@@ -23,7 +23,7 @@ export const CardNft = ({ image, city }) => {
                 >
                     <FrameBottomSVG />
                 </div>
-                <div className="h-40 w-40 2xl:h-48 2xl:w-48 m-auto p-2">
+                <div className="h-40 w-40 2xl:h-48 2xl:w-48 m-auto p-6">
                     <img
                         src={image}
                         alt={image}
@@ -33,7 +33,7 @@ export const CardNft = ({ image, city }) => {
             </div>
             <div className="px-2 lg:px-4 pt-5 pb-4 border border-t-0 border-green-4 rounded-b-md cursor-pointer">
                 <div className="text-left text-base md:text-lg lg:text-base 2xl:text-xl text-info font-russo-one">
-                    {city}
+                    {title}
                 </div>
             </div>
         </div>

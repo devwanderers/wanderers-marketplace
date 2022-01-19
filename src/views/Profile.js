@@ -4,11 +4,13 @@ import { landColors } from './../assets/images/lands/colors'
 import { RankFrameSVG } from '../assets/svg/frames'
 import nft256 from '../assets/images/utilities/nfts/256.png'
 import CardNft from '../components/Cards/CardNft'
+import { rolesImg } from './../assets/images/roles/index'
+import Tabs, { TabPane } from '../components/Tabs/Tabs'
 
 const lands = [
     {
         id: 'VG',
-        city: 'Las Vegas',
+        title: 'Las Vegas',
         country: 'USA',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
@@ -16,7 +18,7 @@ const lands = [
     },
     {
         id: 'LA',
-        city: 'Los Angeles',
+        title: 'Los Angeles',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'USA',
@@ -24,7 +26,7 @@ const lands = [
     },
     {
         id: 'LA',
-        city: 'North Las Vegas',
+        title: 'North Las Vegas',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'USA',
@@ -32,7 +34,7 @@ const lands = [
     },
     {
         id: 'jacksonVille',
-        city: 'Jackson Ville',
+        title: 'Jackson Ville',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Mexico',
@@ -40,7 +42,7 @@ const lands = [
     },
     {
         id: 'EL',
-        city: 'Elko',
+        title: 'Elko',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Mexico',
@@ -48,7 +50,7 @@ const lands = [
     },
     {
         id: 'CA',
-        city: 'Carson',
+        title: 'Carson',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Brasil',
@@ -56,7 +58,7 @@ const lands = [
     },
     {
         id: 'austin',
-        city: 'Austing',
+        title: 'Austing',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Brasil',
@@ -64,11 +66,29 @@ const lands = [
     },
     {
         id: 'maiami',
-        city: 'Miami',
+        title: 'Miami',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Brasil',
         image: landColors.greenLand,
+    },
+]
+
+const roles = [
+    {
+        id: 'BRC',
+        title: 'Bronce',
+        image: rolesImg.bronce,
+    },
+    {
+        id: 'SLV',
+        title: 'Silver',
+        image: rolesImg.silver,
+    },
+    {
+        id: 'GLD',
+        title: 'GOLD',
+        image: rolesImg.gold,
     },
 ]
 
@@ -118,33 +138,36 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="flex-1">
-                    <div className="bg-blue-7">
-                        <div className="flex flex-row text-2xl justify-center md:justify-start font-saira-condensed pl-5 space-x-5 border-b-2 border-blue-11">
-                            <a className="px-3 pb-2 border-b-4  border-green-0">
-                                <div className="pt-4 text-white">Lands</div>
-                            </a>
-                        </div>
-                    </div>{' '}
-                    <div
-                        className="bg-blue-10 relative"
-                        // style={{ maxWidth: '1200px' }}
-                    >
-                        <div className="absolute inset-0 background-pattern-polka"></div>
-                        <div className="relative w-full px-6 xl:pl-5 2xl:pr-12 pt-8 2xl:pt-12 pb-16 ">
+                    <Tabs>
+                        <TabPane tab="Lands">
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-4">
                                 {lands.map((f) => {
                                     return (
-                                        <div key={`${f.country}-${f.city}`}>
+                                        <div key={`${f.country}-${f.title}`}>
                                             <CardNft
                                                 image={f.image}
-                                                city={f.city}
+                                                title={f.title}
                                             />
                                         </div>
                                     )
                                 })}
                             </div>
-                        </div>
-                    </div>
+                        </TabPane>
+                        <TabPane tab="Roles">
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-4">
+                                {roles.map((f) => {
+                                    return (
+                                        <div key={`${f.country}-${f.title}`}>
+                                            <CardNft
+                                                image={f.image}
+                                                title={f.title}
+                                            />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </TabPane>
+                    </Tabs>
                 </div>
             </div>
         </div>
