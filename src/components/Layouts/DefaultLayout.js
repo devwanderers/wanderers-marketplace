@@ -57,9 +57,9 @@ const DefaultLayout = ({ children, ...rest }) => {
                                     </a>
                                 </div>
                                 <div>
-                                    <Link to={routePaths.HomePath}>
+                                    {/* <Link to={routePaths.HomePath}>
                                         Marketplace
-                                    </Link>
+                                    </Link> */}
                                 </div>
                                 {/* <div>
                                     <a className="">
