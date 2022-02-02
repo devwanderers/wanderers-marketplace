@@ -57,7 +57,7 @@ const createGlobe = function () {
 
     const globeGeo = new THREE.IcosahedronBufferGeometry(this.radius, 50, 50)
     const globeMaterial = new THREE.MeshBasicMaterial()
-    const textureGlobe = new THREE.TextureLoader().load('img/earth-dots.png')
+    const textureGlobe = new THREE.TextureLoader().load('img/global-dot3.png')
 
     // textureGlobe.wrapS = THREE.RepeatWrapping
     // textureGlobe.wrapT = THREE.RepeatWrapping
