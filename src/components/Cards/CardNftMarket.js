@@ -1,10 +1,10 @@
 import React from 'react'
-import { FrameTopSVG, FrameBottomSVG } from '../../assets/svg/frames'
+import { FrameTopSVG, FrameLandNameSVG } from '../../assets/svg/frames'
 import useResponsive from '../../hooks/useResponsive'
+import { limitStringLengthTo } from './../../services/stringServices'
 
 const CardNftMarket = ({ image, title }) => {
-    const [topFrame] = useResponsive({ base: '-2%' })
-    const [bottomFrame] = useResponsive({ base: '-2.5%' })
+    const [topFrame] = useResponsive({ base: '-2%', lg: '-1%' })
 
     return (
         <div className="rounded-lg bg-blue-7">
@@ -15,25 +15,38 @@ const CardNftMarket = ({ image, title }) => {
                 >
                     <FrameTopSVG />
                 </div>
-                <div
+                {/* <div
                     className="absolute left-0 right-0 w-28 m-auto"
                     style={{
                         bottom: bottomFrame,
                     }}
                 >
                     <FrameBottomSVG />
-                </div>
-                <div className="h-40 w-40 2xl:h-60 2xl:w-60 m-auto p-10">
-                    <img
-                        src={image}
-                        alt={image}
-                        className="w-auto h-full m-auto object-cover"
-                    />
-                </div>
-            </div>
-            <div className="px-2 lg:px-5 pt-5 pb-4 border border-t-0 border-green-4  cursor-pointer">
-                <div className="text-left text-base md:text-lg 2xl:text-xl text-info font-russo-one">
-                    {title}
+                </div> */}
+                <div className="relative overflow-hidden py-2 lg:py-4">
+                    <div className="w-36 lg:w-56 mx-auto pb-1">
+                        <img
+                            src={image}
+                            alt={image}
+                            className="w-full h-auto"
+                        />
+                    </div>
+                    <div
+                        className=""
+                        style={{
+                            paddingLeft: '8%',
+                            paddingRight: '8%',
+                        }}
+                    >
+                        <div className="w-full relative">
+                            <FrameLandNameSVG width={'100%'} />
+                            <div className="absolute inset-0 flex justify-center items-center">
+                                <span className=" font-semibold text-xl lg:text-3xl text-white">
+                                    {limitStringLengthTo(12, title)}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="w-full text-center py-3 bg-green-4 rounded-b-md hover:bg-aqua-1 cursor-pointer">

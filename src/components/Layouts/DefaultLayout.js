@@ -13,7 +13,7 @@ import { BrandLogoSVG } from '../../assets/svg/brand'
 
 const { Content } = Layout
 
-const DefaultLayout = ({ children, ...rest }) => {
+const DefaultLayout = ({ hideFooter, children, ...rest }) => {
     const history = useHistory()
     const [showDrawer, setShowDrawer] = useState(false)
     const { innerWidth } = useWindowSize()
@@ -161,7 +161,8 @@ const DefaultLayout = ({ children, ...rest }) => {
             <Content className="bg-white flex flex-1 flex-shrink flex-grow">
                 {children}
             </Content>
-            <DefaultFooter className="bg-white flex-1 flex-shrink flex-grow" />
+            {!hideFooter &
+            <DefaultFooter className="bg-white flex-1 flex-shrink flex-grow" />}
         </Layout>
     )
 }

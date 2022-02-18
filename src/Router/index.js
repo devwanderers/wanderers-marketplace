@@ -25,8 +25,14 @@ class AppRouter extends Component {
                                             fallback: <PageLoading />,
                                         }
                                     )
+                                    const layoutProps = route?.layoutProps
+                                        ? route?.layoutProps
+                                        : {}
                                     return route?.layout ? (
-                                        <route.layout {...props}>
+                                        <route.layout
+                                            {...props}
+                                            {...layoutProps}
+                                        >
                                             <Component
                                                 {...route?.componentProps}
                                             />

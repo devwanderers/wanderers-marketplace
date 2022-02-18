@@ -138,8 +138,11 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="flex-1">
-                    <Tabs>
-                        <TabPane tab="Lands">
+                    <Tabs
+                        tabContainerClassName=" px-6 2xl:px-16"
+                        panelContainerClassName="py-16"
+                    >
+                        <TabPane tab="Lands" className="px-6 2xl:px-16">
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-4">
                                 {lands.map((f) => {
                                     return (

@@ -8,8 +8,10 @@ export const TabPane = ({ children, ...restProps }) => {
 const Tabs = ({
     children,
     onChange,
+    className,
     tabContainerClassName = '',
-    panelContainerClassName,
+    panelContainerClassName = '',
+    disableBackground,
 }) => {
     const [selectedMenu, setSelectedMenu] = useState(0)
     const arrayChildren = React.Children.toArray(children)
@@ -25,40 +27,44 @@ const Tabs = ({
     if (arrayChildren.length === 0) return null
 
     return (
-        <div className="w-full">
+        <div className={`w-full ${className} `}>
             <div
                 id="tabs"
-                className={`w-full bg-blue-8 border-b-2 border-blue-11 ${tabContainerClassName}`}
+                className={`w-full bg-blue-8 border-b-2 border-blue-11`}
             >
-                <div className="max-w-1800px m-auto">
-                    <div className="flex flex-row justify-center  md:justify-start text-2xl font-saira-condensed pl-5 space-x-5">
-                        {arrayChildren.map(({ props, key }, index) => (
-                            <a
-                                key={`tab-${props.tab}`}
-                                className={`px-3 pb-2   border-green-0 ${
-                                    selectedMenu === props.tab
-                                        ? 'border-b-4'
-                                        : ''
-                                }`}
-                                onClick={() => {
-                                    if (selectedMenu !== props.tab) {
-                                        setSelectedMenu(props.tab)
-                                    }
-                                }}
-                            >
-                                <div className="pt-4 text-white">
-                                    {props.tab}
-                                </div>
-                            </a>
-                        ))}
+                <div className={tabContainerClassName}>
+                    <div className="">
+                        <div className="flex flex-row justify-start text-2xl font-saira-condensed space-x-5">
+                            {arrayChildren.map(({ props, key }, index) => (
+                                <a
+                                    key={`tab-${props.tab}`}
+                                    className={`px-3 pb-2   border-green-0 ${
+                                        selectedMenu === props.tab
+                                            ? 'border-b-4'
+                                            : ''
+                                    }`}
+                                    onClick={() => {
+                                        if (selectedMenu !== props.tab) {
+                                            setSelectedMenu(props.tab)
+                                        }
+                                    }}
+                                >
+                                    <div className="pt-4 text-white">
+                                        {props.tab}
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
             <div
                 id="tabs-pane"
-                className={`bg-blue-10 relative py-16 ${panelContainerClassName}`}
+                className={`bg-blue-10 relative ${panelContainerClassName}`}
             >
-                <div className="absolute inset-0 background-pattern-polka py-10"></div>
+                {!disableBackground && (
+                    <div className="absolute inset-0 background-pattern-polka py-10"></div>
+                )}
                 {arrayChildren.map(({ props }, index) => {
                     const {
                         children,
@@ -71,7 +77,7 @@ const Tabs = ({
                             key={`pane-${tab}`}
                             role="tabpanel"
                             hidden={selectedMenu !== tab}
-                            className={`relative m-auto px-6 2xl:px-16 ${className}`}
+                            className={`relative mx-auto  ${className}`}
                             {...restProps}
                         >
                             {children}

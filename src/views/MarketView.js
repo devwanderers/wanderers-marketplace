@@ -14,6 +14,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import CardNftMarket from '../components/Cards/CardNftMarket'
 // import { FrameBottomSVG } from './../assets/svg/frames/index'
 import { landColors } from './../assets/images/lands/colors/index'
+import { landsImages } from './../assets/images/lands/'
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
 import { rolesImg } from './../assets/images/roles/index'
 
@@ -51,68 +52,60 @@ const data = [
 
 const lands = [
     {
-        id: 'VG',
-        title: 'Las Vegas',
-        country: 'USA',
+        id: 'EL',
+        title: 'Martiniquez',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landColors.orangeLand,
+        image: landsImages.martiniquez,
+    },
+    {
+        id: 'CA',
+        title: 'Houston',
+        details:
+            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
+        image: landsImages.houston,
+    },
+    {
+        id: 'austin',
+        title: 'Mayaguez',
+        details:
+            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
+        image: landsImages.mayaguez,
+    },
+    {
+        id: 'VG',
+        title: 'Las Vegas',
+        details:
+            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
+        image: landsImages.landTest,
     },
     {
         id: 'LA',
         title: 'Los Angeles',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'USA',
-        image: landColors.purpleLand,
+        image: landsImages.humacaco,
     },
     {
-        id: 'LA',
-        title: 'North Las Vegas',
+        id: 'PR',
+        title: 'Puerto Rico',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'USA',
-        image: landColors.blueLand,
+        image: landsImages.puertoRico,
     },
     {
         id: 'jacksonVille',
-        title: 'Jackson Ville',
+        title: 'Fonds Saint Denis',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Mexico',
-        image: landColors.greenLand,
-    },
-    {
-        id: 'EL',
-        title: 'Elko',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Mexico',
-        image: landColors.redLand,
-    },
-    {
-        id: 'CA',
-        title: 'Carson',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Brasil',
-        image: landColors.greenLand,
-    },
-    {
-        id: 'austin',
-        title: 'Austing',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Brasil',
-        image: landColors.yellowLand,
+        image: landsImages.fontdsSaintDenis,
     },
     {
         id: 'maiami',
         title: 'Miami',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Brasil',
-        image: landColors.purpleLand,
+        image: landsImages.humacaco,
     },
 ]
 
@@ -191,14 +184,6 @@ const MarketView = () => {
             searchButtonRef.current.focus()
         }
     }
-
-    // const onKeyUpAuto = (e) => {
-    //     console.log({ searchText, selectedText })
-    //     if (e.code === 'Enter' && searchText === '' && selectedText) {
-    //         console.log('set search')
-    //         setSearchText(selectedText)
-    //     }
-    // }
 
     const onKeyUp = (e) => {
         if (e.code === 'Enter') {
@@ -323,71 +308,16 @@ const MarketView = () => {
                     </div>
                 </div>
             </div>
-            {/* <div className="relative"></div> */}
-
-            {/* <div className="">
-                <div className="relative max-w-1000px -mt-5 flex justify-center items-center m-auto">
-                    <Input.Group>
-                        <Row>
-                            <Col
-                                xs={4}
-                                className="pl-4 bg-white  rounded-l-full "
-                            >
-                                <Select
-                                    className="w-full ant-selector-border-0"
-                                    size="large"
-                                    value={selectedText}
-                                    onChange={handleOnChangeSelect}
-                                >
-                                    {options.map((d) => (
-                                        <Select.Option
-                                            key={d.label}
-                                            value={d.value}
-                                        >
-                                            {d.label}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Col>
-                            <Col xs={16}>
-                                <AutoComplete
-                                    options={optionsFilter}
-                                    className="absolute"
-                                    dropdownClassName=""
-                                    onSearch={handleOnSearch}
-                                    onSelect={handleOnChangeSelectAuto}
-                                    style={{ width: '100%' }}
-                                    onKeyDown={onKeyDown}
-                                    // onKeyUp={onKeyUpAuto}
-                                    value={searchText}
-                                    onClear={onClear}
-                                    allowClear
-                                >
-                                    <Input
-                                        // className="w-6/12"
-                                        size="large"
-                                    />
-                                </AutoComplete>
-                            </Col>
-                            <Col xs={3}>
-                                <Button
-                                    ref={searchButtonRef}
-                                    className="w-full rounded-r-full"
-                                    size="large"
-                                    // onKeyDown={onKeyDown}
-                                    onClick={onClick}
-                                    onKeyUp={onKeyUp}
-                                >
-                                    <SearchOutlined />
-                                </Button>
-                            </Col>
-                        </Row>
-                    </Input.Group>
-                </div>
-            </div> */}
-            <div>
-                <Tabs>
-                    <TabPane tab="Lands" style={{ maxWidth: '1800px' }}>
+            <div className="">
+                {/* <div className=" max-w-1800px mx-auto"></div> */}
+                <Tabs
+                    tabContainerClassName="max-w-1800px mx-auto px-6 2xl:px-16"
+                    panelContainerClassName="py-16"
+                >
+                    <TabPane
+                        tab="Lands"
+                        className="max-w-1800px px-6 2xl:px-16"
+                    >
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
                             {filter.map((f) => {
                                 return (
@@ -401,7 +331,10 @@ const MarketView = () => {
                             })}
                         </div>
                     </TabPane>
-                    <TabPane tab="Roles" style={{ maxWidth: '1800px' }}>
+                    <TabPane
+                        tab="Roles"
+                        className="max-w-1800px  px-6 2xl:px-16"
+                    >
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
                             {filterRoles.map((f) => {
                                 return (

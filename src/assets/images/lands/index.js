@@ -15,6 +15,13 @@ import gotland01 from './Gotland-01.png'
 import malmo01 from './Malmo-01.png'
 import mapTest from './pruebaMapa.png'
 import cristoRedentor from './cristo-redentor-corcovado-rio-de-janeiro.jpg'
+import humacaco from './Humacaco.png'
+import puertoRico from './puertoRico.png'
+import landTest from './land-test1.png'
+import fontdsSaintDenis from './Fonds-Saint-Denis.png'
+import houston from './houston.png'
+import martiniquez from './Martiniquez.png'
+import mayaguez from './Mayaguez.png'
 
 export const landsImages = {
     oragenCounty,
@@ -33,4 +40,11 @@ export const landsImages = {
     malmo01,
     mapTest,
     cristoRedentor,
+    humacaco,
+    puertoRico,
+    landTest,
+    fontdsSaintDenis,
+    houston,
+    martiniquez,
+    mayaguez,
 }

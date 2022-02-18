@@ -22,6 +22,15 @@ const routes = [
         exact: true,
     },
     {
+        name: 'MarketNftDetail',
+        path: paths.MarketDetailPath,
+        route: Route,
+        layoutProps: { hideFooter: true },
+        componentProps: { routes: [] },
+        layout: DefaultLayout,
+        exact: true,
+    },
+    {
         name: 'Profile',
         path: paths.ProfilePath,
         route: Route,
