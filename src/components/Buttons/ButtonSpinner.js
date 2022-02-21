@@ -4,7 +4,7 @@ import { FaSpinner } from 'react-icons/fa'
 import { cls } from './../../services/helpers'
 
 const classes = {
-    base: 'inline-flex items-center focus:outline-none transition ease-in-out duration-300 rounded-2xl',
+    base: 'inline-flex items-center focus:outline-none transition ease-in-out duration-300 rounded-md',
     disabled: 'opacity-50 cursor-not-allowed',
     pill: 'rounded-full',
     size: {
@@ -18,6 +18,10 @@ const classes = {
         secondary:
             'bg-gray-200 hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-gray-900 hover:text-white',
         danger: 'bg-red-500 hover:bg-red-800 focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-white',
+        warning:
+            'bg-yellow-600 hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-600 focus:ring-opacity-50 text-white',
+        warningLink:
+            'bg-transparent hover:bg-gray-100 border border-yellow-600 focus:ring-2 focus:ring-yellow-600 focus:ring-opacity-50 text-yellow-600',
     },
     spinnerSize: {
         small: 'text-xl',

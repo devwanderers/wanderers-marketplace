@@ -4,11 +4,11 @@ import ButtonSpinner from '../Buttons/ButtonSpinner'
 const InfoNft = (props) => {
     return (
         <div
-            className="siFancyScrollbar flex-1 flex flex-col justify-between overflow-y-auto  pr-3 2xl:pl-8 2xl:pr-8"
+            className="siFancyScrollbar flex-1 flex flex-col justify-between overflow-y-auto pr-4 lg:pr-8"
             style={{ maxHeight: '75vh' }}
         >
             <div>
-                <p className="text-blue-4 text-base font-medium pb-8">
+                <p className="text-blue-4 text-base font-medium text-justify pb-8">
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                     Autem, odit ad. Optio natus quis quas temporibus ipsa?
                     Officiis provident libero ut ex perferendis, ullam aperiam
@@ -84,7 +84,7 @@ const InfoNft = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="w-full flex justify-center mt-20">
+            <div className="w-full flex justify-center mt-20 ">
                 <div>
                     <ButtonSpinner
                         className="px-28 py-4 text-3xl"

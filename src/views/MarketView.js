@@ -312,7 +312,7 @@ const MarketView = () => {
                 {/* <div className=" max-w-1800px mx-auto"></div> */}
                 <Tabs
                     tabContainerClassName="max-w-1800px mx-auto px-6 2xl:px-16"
-                    panelContainerClassName="py-16"
+                    panelContainerClassName="py-16 bg-blue-10 "
                 >
                     <TabPane
                         tab="Lands"

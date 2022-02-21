@@ -42,6 +42,7 @@ module.exports = {
             '-top-15': 'center top -15rem',
         },
         minWidth: {
+            min70: '70px',
             minMobileWidth: '375px',
         },
         maxWidth: {

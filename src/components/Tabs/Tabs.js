@@ -60,7 +60,7 @@ const Tabs = ({
             </div>
             <div
                 id="tabs-pane"
-                className={`bg-blue-10 relative ${panelContainerClassName}`}
+                className={`relative ${panelContainerClassName}`}
             >
                 {!disableBackground && (
                     <div className="absolute inset-0 background-pattern-polka py-10"></div>

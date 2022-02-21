@@ -6,3 +6,7 @@ export const cls = (input) => {
         .join(' ')
         .trim()
 }
+
+export const escapeRegExp = (string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
+}
