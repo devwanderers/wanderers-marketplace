@@ -15,6 +15,7 @@ import CardNftMarket from '../components/Cards/CardNftMarket'
 // import { FrameBottomSVG } from './../assets/svg/frames/index'
 import { landColors } from './../assets/images/lands/colors/index'
 import { landsImages } from './../assets/images/lands/'
+import places from './../assets/images/places'
 import nfts from '../assets/images/nfts'
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
 import { lands, roles } from './../constants/nftsDummy'
@@ -47,7 +48,7 @@ const data = [
             z: -151.4402925276393,
         },
         label: 'USA',
-        image: landColors.greenLand,
+        image: places.houston,
     },
     {
         coordinates: {
@@ -56,7 +57,7 @@ const data = [
             z: 6.93358832079753,
         },
         label: 'France',
-        image: landColors.greenLand,
+        image: places.paris,
     },
 ]
 
