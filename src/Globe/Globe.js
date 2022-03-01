@@ -144,7 +144,7 @@ const raycastIntersect = function () {
 
     this.raycaster.setFromCamera(this.pointer, this.camera)
     if (this.mode === 'default') raycastMarkers.call(this)
-    // if (this.mode === 'addMarker') raycastGlobe.call(this)
+    if (this.mode === 'addMarker') raycastGlobe.call(this)
     this.raycastInit = true
 }
 

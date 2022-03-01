@@ -15,8 +15,9 @@ import CardNftMarket from '../components/Cards/CardNftMarket'
 // import { FrameBottomSVG } from './../assets/svg/frames/index'
 import { landColors } from './../assets/images/lands/colors/index'
 import { landsImages } from './../assets/images/lands/'
+import nfts from '../assets/images/nfts'
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
-import { rolesImg } from './../assets/images/roles/index'
+import { lands, roles } from './../constants/nftsDummy'
 
 // const { TabPane } = Tabs
 
@@ -48,85 +49,14 @@ const data = [
         label: 'USA',
         image: landColors.greenLand,
     },
-]
-
-const lands = [
     {
-        id: 'EL',
-        title: 'Martiniquez',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landsImages.martiniquez,
-    },
-    {
-        id: 'CA',
-        title: 'Houston',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landsImages.houston,
-    },
-    {
-        id: 'austin',
-        title: 'Mayaguez',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landsImages.mayaguez,
-    },
-    {
-        id: 'VG',
-        title: 'Las Vegas',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landsImages.landTest,
-    },
-    {
-        id: 'LA',
-        title: 'Los Angeles',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landsImages.humacaco,
-    },
-    {
-        id: 'PR',
-        title: 'Puerto Rico',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landsImages.puertoRico,
-    },
-    {
-        id: 'jacksonVille',
-        title: 'Fonds Saint Denis',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landsImages.fontdsSaintDenis,
-    },
-    {
-        id: 'maiami',
-        title: 'Miami',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landsImages.humacaco,
-    },
-]
-
-const roles = [
-    {
-        id: 'BRC',
-        title: 'AMB Vegas',
-        image: rolesImg.bronce,
-        country: 'USA',
-    },
-    {
-        id: 'SLV',
-        title: 'AMB Los Angeles',
-        image: rolesImg.silver,
-        country: 'USA',
-    },
-    {
-        id: 'GLD',
-        title: 'AMB California',
-        image: rolesImg.gold,
-        country: 'USA',
+        coordinates: {
+            x: -138.98259027183832,
+            y: 149.14810446550766,
+            z: 6.93358832079753,
+        },
+        label: 'France',
+        image: landColors.greenLand,
     },
 ]
 
@@ -139,8 +69,6 @@ const MarketView = () => {
     const [searchText, setSearchText] = useState()
     const [selectedText, setSelected] = useState()
     const [marker, setMarker] = useState()
-    // const [tab, setTab] = useState(1)
-    // const [markerSelected, setMarkerSelected] = useState()
 
     useEffectOnce(() => {
         setGlobalSizes({
@@ -235,9 +163,12 @@ const MarketView = () => {
                     data={markers}
                     width={window.innerWidth}
                     height={650}
-                    onAddMarker={(marker) =>
+                    // disabledRotation
+                    // mode={"addMarker"}
+                    onAddMarker={(marker) => {
+                        console.log({ marker })
                         setMarkers([...markers, { ...marker, label: '' }])
-                    }
+                    }}
                     onClickMarker={handleOnClickMarker}
                 />
                 <div className="absolute bottom-0 w-full mb-5">
@@ -311,18 +242,19 @@ const MarketView = () => {
             <div className="">
                 {/* <div className=" max-w-1800px mx-auto"></div> */}
                 <Tabs
-                    tabContainerClassName="max-w-1800px mx-auto px-6 2xl:px-16"
+                    tabContainerClassName="max-w-1280px mx-auto px-6 2xl:px-16"
                     panelContainerClassName="py-16 bg-blue-10 "
                 >
                     <TabPane
                         tab="Lands"
-                        className="max-w-1800px px-6 2xl:px-16"
+                        className="max-w-1280px px-6 2xl:px-16"
                     >
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
-                            {filter.map((f) => {
+                            {filter.map((f, index) => {
                                 return (
                                     <div key={`${f.country}-${f.title}`}>
                                         <CardNftMarket
+                                            id={index}
                                             image={f.image}
                                             title={f.title}
                                         />
@@ -332,14 +264,15 @@ const MarketView = () => {
                         </div>
                     </TabPane>
                     <TabPane
-                        tab="Roles"
-                        className="max-w-1800px  px-6 2xl:px-16"
+                        tab="Ambassadors"
+                        className="max-w-1280px  px-6 2xl:px-16"
                     >
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
-                            {filterRoles.map((f) => {
+                            {filterRoles.map((f, index) => {
                                 return (
                                     <div key={`${f.country}-${f.title}`}>
                                         <CardNftMarket
+                                            id={index}
                                             image={f.image}
                                             title={f.title}
                                         />

@@ -11,7 +11,6 @@ const Tabs = ({
     className,
     tabContainerClassName = '',
     panelContainerClassName = '',
-    disableBackground,
 }) => {
     const [selectedMenu, setSelectedMenu] = useState(0)
     const arrayChildren = React.Children.toArray(children)
@@ -62,9 +61,9 @@ const Tabs = ({
                 id="tabs-pane"
                 className={`relative ${panelContainerClassName}`}
             >
-                {!disableBackground && (
+                {/* {!disableBackground && (
                     <div className="absolute inset-0 background-pattern-polka py-10"></div>
-                )}
+                )} */}
                 {arrayChildren.map(({ props }, index) => {
                     const {
                         children,

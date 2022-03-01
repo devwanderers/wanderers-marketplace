@@ -34,6 +34,7 @@ class AppRouter extends Component {
                                             {...layoutProps}
                                         >
                                             <Component
+                                                {...props}
                                                 {...route?.componentProps}
                                             />
                                         </route.layout>

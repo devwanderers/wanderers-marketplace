@@ -29,19 +29,20 @@ class GlobeComponent extends Component {
     }
 
     componentDidMount() {
-        const { width, height } = this.props
+        const { width, height, mode = 'default', disabledRotation } = this.props
         this.clock = new THREE.Clock()
         this.pointer = new THREE.Vector2()
 
         this.globe = new Globe(width, height, {
             data: this.state.data,
-            // mode: 'addMarker',
+            mode,
+            // enabledRotation: false,
         })
 
         this.canvasRef.current.appendChild(this.globe.domElement)
         this.globe.init()
         this.globe.initGui()
-        // this.globe.enabledRotation = false
+        if (disabledRotation) this.globe.enabledRotation = false
         this.initListeners()
         this.initCameraControlsListeners()
         this.start()
@@ -198,13 +199,13 @@ class GlobeComponent extends Component {
     onReset = () => {
         this.globe.cameraControls.removeEventListener('rest', this.onReset)
         this.globe.userDragging = false
-        this.globe.enabledRotation = true
+        if (!this.props.disabledRotation) this.globe.enabledRotation = true
     }
 
     onControlStart = () => {
         this.globe.cameraControls.removeEventListener('rest', this.onReset)
         this.globe.userDragging = true
-        this.globe.enabledRotation = false
+        if (!this.props.disabledRotation) this.globe.enabledRotation = false
     }
 
     onControlEnd = () => {
@@ -223,7 +224,7 @@ class GlobeComponent extends Component {
         if (this.globe.userDragging && !this.globe.cameraControls.enabled)
             return
 
-        this.enabledRotation = false
+        if (!this.props.disabledRotation) this.enabledRotation = false
         this.globe.cameraControls.addEventListener('reset', this.onReset)
     }
 

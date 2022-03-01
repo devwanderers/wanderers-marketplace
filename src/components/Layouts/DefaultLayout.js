@@ -24,12 +24,12 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
     // const [isOpen, setOpenDrawer] = useState(false)
     return (
         <Layout
-            className="overflow-x-hidden flex flex-col min-h-screen"
+            className="overflow-x-hidden flex flex-col h-screen"
             style={{ minWidth: '425px' }}
         >
             {innerWidth >= 768 ? (
                 <header className="h-24 relative z-50 lg:px-0 text-white bg-blue-5 2xl:px-8">
-                    <div className="max-w-1800px m-auto flex h-full px-6 2xl:px-0">
+                    <div className="max-w-1280px m-auto flex h-full px-6 2xl:px-0">
                         <div className="mr-20 h-full py-5">
                             <Link to={routePaths.HomePath} className="h-full ">
                                 <div className="h-full">

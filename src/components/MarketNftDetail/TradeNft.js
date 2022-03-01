@@ -10,7 +10,7 @@ const TradeNft = (props) => {
     const { bind } = useInput('', validateOnlyNumbers)
 
     return (
-        <div className="flex-1 flex flex-col pr-4 lg:pr-8 ">
+        <div className="flex-1 flex flex-col md:pr-4 lg:pr-8 ">
             <div className="mb-16">
                 <div className="flex flex-row space-x-4 mb-12">
                     <div className="flex-1 flex flex-col">
@@ -36,23 +36,29 @@ const TradeNft = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-row justify-end space-x-2">
-                    <ButtonSpinner
-                        size="large"
-                        loading
-                        className="w-56 justify-center py-5"
-                    >
-                        BUY
-                    </ButtonSpinner>
-
-                    <ButtonSpinner
-                        size="large"
-                        variant="danger"
-                        loading
-                        className="w-56 justify-center py-5"
-                    >
-                        SELL
-                    </ButtonSpinner>
+                <div className="flex  flex-col-reverse md:flex-row justify-end md:space-x-4">
+                    <div className="flex items-end">
+                        <div className="text-2xl text-white text-right leading-7 tracking-wide w-full mt-2 md:mt-0">
+                            OWNED
+                        </div>
+                    </div>
+                    <div className="inline-flex space-x-2">
+                        <ButtonSpinner
+                            size="large"
+                            loading
+                            className="w-full md:w-56 justify-center py-5"
+                        >
+                            BUY
+                        </ButtonSpinner>
+                        <ButtonSpinner
+                            size="large"
+                            variant="danger"
+                            loading
+                            className="w-full md:w-56 justify-center py-5"
+                        >
+                            SELL
+                        </ButtonSpinner>
+                    </div>
                 </div>
             </div>
             <hr className="border-blue-11" />
@@ -66,6 +72,9 @@ const TradeNft = (props) => {
                 >
                     Refresh
                 </ButtonSpinner>
+                <div className="mt-12 text-2xl flex items-baseline justify-center w-full leading-7 text-center text-white opacity-50">
+                    You have no Open Orders for this Land
+                </div>
             </div>
         </div>
     )

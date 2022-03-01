@@ -43,10 +43,10 @@ function Marker(
         // canvasHeight: 0,
         radius: 5,
         segments: 32,
-        color: 0x00ff00,
+        color: 0xc5c000,
         lineHeight: 45,
         lineWidth: 8,
-        highLightColor: 0x00ff00,
+        highLightColor: 0xc5c000,
     }
 
     if (_opts) {

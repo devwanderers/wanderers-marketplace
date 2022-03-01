@@ -11,7 +11,7 @@ const temp = (values) => {
 }
 
 const useResponsive = ({ xxl, xl, lg, md, sm, base }) => {
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState(temp([xxl, xl, lg, md, sm, base]))
 
     const { width } = useWindowSize()
     useDeepCompareEffect(() => {

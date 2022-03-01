@@ -22,13 +22,13 @@ const routes = [
         exact: true,
     },
     {
-        name: 'MarketNftDetail',
-        path: paths.MarketDetailPath,
+        name: 'MarketNftDetailView',
+        path: `${paths.MarketDetailPath}/:id`,
         route: Route,
         layoutProps: { hideFooter: true },
         componentProps: { routes: [] },
         layout: DefaultLayout,
-        exact: true,
+        // exact: true,
     },
     {
         name: 'Profile',
