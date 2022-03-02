@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NFTDisplay = ({ title, image }) => {
+const NFTDisplay = ({ title, nft }) => {
     return (
         <div className="flex justify-center py-4">
             <div className="">
@@ -13,7 +13,11 @@ const NFTDisplay = ({ title, image }) => {
                         padding: '4px',
                     }}
                 >
-                    <img className="w-full h-full object-cover" src={image} />
+                    <img
+                        className="w-full h-full object-cover"
+                        src={nft}
+                        alt={nft}
+                    />
                     <div
                         className="absolute left-0 top-0 border-l border-blue-12"
                         style={{ height: '20%' }}

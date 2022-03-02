@@ -10,7 +10,7 @@ import EthIcon from '../../assets/svg/icons/EthIcon'
 import { useHistory } from 'react-router-dom'
 import { MarketDetailPath } from '../../constants/routerConstants'
 
-const CardNftMarket = ({ image, title, id }) => {
+const CardNftMarket = ({ nft, title, id }) => {
     const [topFrame] = useResponsive({ base: '-2%', lg: '-1%' })
 
     const history = useHistory()
@@ -30,8 +30,8 @@ const CardNftMarket = ({ image, title, id }) => {
                 >
                     <div className="w-full h-60 relative flex justify-center items-center overflow-hidden">
                         <img
-                            src={image}
-                            alt={image}
+                            src={nft}
+                            alt={nft}
                             className="w-full h-full object-cover"
                         />
                     </div>

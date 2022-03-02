@@ -114,7 +114,6 @@ class GlobeComponent extends Component {
                 ? marker
                 : this.globe.getMarkerByLabel(marker)
         if (_marker === -1) return
-
         this.globe.stopTweenAnimation()
         // const data = marker.getData()
         const point = new THREE.Vector3(

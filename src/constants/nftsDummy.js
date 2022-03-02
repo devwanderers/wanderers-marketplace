@@ -1,10 +1,12 @@
 import nfts from '../assets/images/nfts'
+import places from '../assets/images/places/index'
 
 export const lands = [
     {
         id: 'usa',
         title: 'USA',
-        image: nfts.usa,
+        nft: nfts.usa,
+        locationImg: places.usa,
         country: 'USA',
         description:
             'It is a major European city and a world center of art, fashion, gastronomy and culture. Its 19th century cityscape is crisscrossed by wide boulevards and the Seine River. Apart from landmarks such as the Eiffel Tower and the 12th century Gothic cathedral of Notre Dame.',
@@ -18,7 +20,8 @@ export const lands = [
     {
         id: 'chicago',
         title: 'Chicago',
-        image: nfts.chicago,
+        nft: nfts.chicago,
+        locationImg: places.chicago,
         country: 'USA',
         description:
             'It is a major European city and a world center of art, fashion, gastronomy and culture. Its 19th century cityscape is crisscrossed by wide boulevards and the Seine River. Apart from landmarks such as the Eiffel Tower and the 12th century Gothic cathedral of Notre Dame.',
@@ -32,8 +35,9 @@ export const lands = [
     {
         id: 'france',
         title: 'France',
-        image: nfts.france,
+        nft: nfts.france,
         country: 'France',
+        locationImg: places.france,
         description:
             'It is a major European city and a world center of art, fashion, gastronomy and culture. Its 19th century cityscape is crisscrossed by wide boulevards and the Seine River. Apart from landmarks such as the Eiffel Tower and the 12th century Gothic cathedral of Notre Dame.',
         detail: {
@@ -46,7 +50,8 @@ export const lands = [
     {
         id: 'paris',
         title: 'Paris',
-        image: nfts.paris,
+        nft: nfts.paris,
+        locationImg: places.paris,
         country: 'France',
         description:
             'It is a major European city and a world center of art, fashion, gastronomy and culture. Its 19th century cityscape is crisscrossed by wide boulevards and the Seine River. Apart from landmarks such as the Eiffel Tower and the 12th century Gothic cathedral of Notre Dame.',
@@ -63,13 +68,13 @@ export const roles = [
     {
         id: 'SLV',
         title: 'AMB Los Angeles',
-        image: nfts.silver,
+        nft: nfts.silver,
         country: 'USA',
     },
     {
         id: 'GLD',
         title: 'AMB California',
-        image: nfts.gold,
+        nft: nfts.gold,
         country: 'USA',
     },
 ]

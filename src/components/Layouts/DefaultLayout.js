@@ -10,13 +10,14 @@ import DefaultFooter from '../Footers/DefaultFooter'
 import useWindowSize from './../../hooks/useWindowSize'
 import * as routePaths from '../../constants/routerConstants'
 import { BrandLogoSVG } from '../../assets/svg/brand'
+// import DefaultNavbar from './../Navbar/DefaultNavbar'
 
 const { Content } = Layout
 
 const DefaultLayout = ({ hideFooter, children, ...rest }) => {
     const history = useHistory()
     const [showDrawer, setShowDrawer] = useState(false)
-    const { innerWidth } = useWindowSize()
+    const { width } = useWindowSize()
 
     const handleOnClickBurger = () => {
         setShowDrawer(!showDrawer)
@@ -27,7 +28,7 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
             className="overflow-x-hidden flex flex-col h-screen"
             style={{ minWidth: '425px' }}
         >
-            {innerWidth >= 768 ? (
+            {width >= 768 ? (
                 <header className="h-24 relative z-50 lg:px-0 text-white bg-blue-5 2xl:px-8">
                     <div className="max-w-1280px m-auto flex h-full px-6 2xl:px-0">
                         <div className="mr-20 h-full py-5">

@@ -14,7 +14,8 @@ const MarketNftDetailView = (props) => {
     if (!id) console.log('No data')
 
     useEffect(() => {
-        setDetail(lands[id])
+        const _id = lands.findIndex((l) => l.id === id)
+        if (id !== -1) setDetail(lands[_id])
     }, [id])
     return width > 1024 ? (
         <MarketNftDetail data={detail} {...props} />

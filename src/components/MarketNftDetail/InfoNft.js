@@ -1,8 +1,7 @@
 import React from 'react'
 import ButtonSpinner from '../Buttons/ButtonSpinner'
-import places from './../../assets/images/places/index'
 
-const InfoNft = ({ title, description, detail }) => {
+const InfoNft = ({ title, description, detail, locationImg }) => {
     return (
         <div
             className="fancyScrollbar flex-1 flex flex-col justify-between overflow-y-auto pr-4 lg:pr-8"
@@ -11,14 +10,14 @@ const InfoNft = ({ title, description, detail }) => {
             <div>
                 <div className="mb-6 flex flex-row w-full">
                     <div
-                        className="relative h-40 w-40  mr-4 overflow-hidden justify-center items-center border-t border-b border-blue-12"
+                        className="relative h-48 w-48  mr-4 overflow-hidden justify-center items-center border-t border-b border-blue-12"
                         style={{
                             padding: '4px',
                         }}
                     >
                         <img
                             className="w-full h-full object-cover"
-                            src={places.houston}
+                            src={locationImg}
                         />
                         <div
                             className="absolute left-0 top-0 border-l border-blue-12"

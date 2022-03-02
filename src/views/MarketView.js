@@ -89,6 +89,7 @@ const MarketView = () => {
         const marker = markers.filter((m) => m.label === val)[0]
         setSelected(marker.label)
         setSearchText(marker.label)
+        console.log('entro')
         globeRef.current.goToMarkerSelected(marker.label)
     }
 
@@ -114,19 +115,19 @@ const MarketView = () => {
         }
     }
 
-    const onKeyUp = (e) => {
-        if (e.code === 'Enter') {
-            if (searchText === '') {
-                setSelected(undefined)
-
-                globeRef.current.moveCameraToOriginalOrbit()
-                // setMarkerSelected(undefined)
-            } else if (selectedText)
-                globeRef.current.goToMarkerSelected(selectedText)
-        }
-    }
+    // const onKeyUp = (e) => {
+    //     if (e.code === 'Enter') {
+    //         // if (searchText === '') {
+    //         //     setSelected(undefined)
+    //         //     globeRef.current.moveCameraToOriginalOrbit()
+    //         //     // setMarkerSelected(undefined)
+    //         // } else if (selectedText)
+    //         //     globeRef.current.goToMarkerSelected(selectedText)
+    //     }
+    // }
 
     const onClick = () => {
+        console.log('onClick')
         if (selectedText) globeRef.current.goToMarkerSelected(selectedText)
         else if (searchText === '') {
             setSelected(undefined)
@@ -230,7 +231,7 @@ const MarketView = () => {
                                         size="large"
                                         // onKeyDown={onKeyDown}
                                         onClick={onClick}
-                                        onKeyUp={onKeyUp}
+                                        // onKeyUp={onKeyUp}
                                     >
                                         <SearchOutlined />
                                     </button>
@@ -255,8 +256,8 @@ const MarketView = () => {
                                 return (
                                     <div key={`${f.country}-${f.title}`}>
                                         <CardNftMarket
-                                            id={index}
-                                            image={f.image}
+                                            id={f.id}
+                                            nft={f.nft}
                                             title={f.title}
                                         />
                                     </div>
@@ -273,8 +274,8 @@ const MarketView = () => {
                                 return (
                                     <div key={`${f.country}-${f.title}`}>
                                         <CardNftMarket
-                                            id={index}
-                                            image={f.image}
+                                            id={f.id}
+                                            nft={f.nft}
                                             title={f.title}
                                         />
                                     </div>

@@ -14,7 +14,7 @@ const lands = [
         country: 'USA',
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        image: landColors.redLand,
+        nft: landColors.redLand,
     },
     {
         id: 'LA',
@@ -22,7 +22,7 @@ const lands = [
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'USA',
-        image: landColors.greenLand,
+        nft: landColors.greenLand,
     },
     {
         id: 'LA',
@@ -30,7 +30,7 @@ const lands = [
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'USA',
-        image: landColors.yellowLand,
+        nft: landColors.yellowLand,
     },
     {
         id: 'jacksonVille',
@@ -38,7 +38,7 @@ const lands = [
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Mexico',
-        image: landColors.greenLand,
+        nft: landColors.greenLand,
     },
     {
         id: 'EL',
@@ -46,7 +46,7 @@ const lands = [
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Mexico',
-        image: landColors.purpleLand,
+        nft: landColors.purpleLand,
     },
     {
         id: 'CA',
@@ -54,7 +54,7 @@ const lands = [
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Brasil',
-        image: landColors.orangeLand,
+        nft: landColors.orangeLand,
     },
     {
         id: 'austin',
@@ -62,7 +62,7 @@ const lands = [
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Brasil',
-        image: landColors.redLand,
+        nft: landColors.redLand,
     },
     {
         id: 'maiami',
@@ -70,7 +70,7 @@ const lands = [
         details:
             'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
         country: 'Brasil',
-        image: landColors.greenLand,
+        nft: landColors.greenLand,
     },
 ]
 
@@ -78,17 +78,17 @@ const roles = [
     {
         id: 'BRC',
         title: 'Bronce',
-        image: rolesImg.bronce,
+        nft: rolesImg.bronce,
     },
     {
         id: 'SLV',
         title: 'Silver',
-        image: rolesImg.silver,
+        nft: rolesImg.silver,
     },
     {
         id: 'GLD',
         title: 'GOLD',
-        image: rolesImg.gold,
+        nft: rolesImg.gold,
     },
 ]
 
@@ -148,7 +148,7 @@ const Profile = () => {
                                     return (
                                         <div key={`${f.country}-${f.title}`}>
                                             <CardNft
-                                                image={f.image}
+                                                nft={f.nft}
                                                 title={f.title}
                                             />
                                         </div>
@@ -156,13 +156,13 @@ const Profile = () => {
                                 })}
                             </div>
                         </TabPane>
-                        <TabPane tab="Roles">
+                        <TabPane tab="Roles" className="px-6 2xl:px-16">
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-4">
                                 {roles.map((f) => {
                                     return (
                                         <div key={`${f.country}-${f.title}`}>
                                             <CardNft
-                                                image={f.image}
+                                                nft={f.nft}
                                                 title={f.title}
                                             />
                                         </div>
