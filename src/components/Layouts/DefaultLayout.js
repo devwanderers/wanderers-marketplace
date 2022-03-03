@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-target-blank */
 import React, { useState } from 'react'
 import { PropTypes } from 'prop-types'
@@ -162,8 +163,9 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
             <Content className="bg-white flex flex-1 flex-shrink flex-grow">
                 {children}
             </Content>
-            {!hideFooter &
-            <DefaultFooter className="bg-white flex-1 flex-shrink flex-grow" />}
+            {/* {!hideFooter && (
+                <DefaultFooter className="bg-white flex-1 flex-shrink flex-grow" />
+            )} */}
         </Layout>
     )
 }

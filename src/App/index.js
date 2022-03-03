@@ -26,11 +26,7 @@ const App = () => {
     // useDeactivateListener()
     // useEffectOnce(() => widget.create())
 
-    return (
-        <React.Fragment>
-            <Router />
-        </React.Fragment>
-    )
+    return <Router />
 }
 
 export default App

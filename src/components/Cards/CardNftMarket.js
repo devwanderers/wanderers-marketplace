@@ -10,7 +10,7 @@ import EthIcon from '../../assets/svg/icons/EthIcon'
 import { useHistory } from 'react-router-dom'
 import { MarketDetailPath } from '../../constants/routerConstants'
 
-const CardNftMarket = ({ nft, title, id }) => {
+const CardNftMarket = ({ nft, title, id, isProfile }) => {
     const [topFrame] = useResponsive({ base: '-2%', lg: '-1%' })
 
     const history = useHistory()
@@ -64,7 +64,7 @@ const CardNftMarket = ({ nft, title, id }) => {
                                 onClick={handleClickNft}
                                 className="bg-blue-12 rounded-md px-2 text-lg font-medium text-blue-11"
                             >
-                                TRADE
+                                {!isProfile ? 'TRADE' : 'SELL'}
                             </button>
                         </div>
                     </div>

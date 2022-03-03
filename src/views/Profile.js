@@ -1,96 +1,10 @@
 import React from 'react'
 
-import { landColors } from './../assets/images/lands/colors'
 import { RankFrameSVG } from '../assets/svg/frames'
-import nft256 from '../assets/images/utilities/nfts/256.png'
-import CardNft from '../components/Cards/CardNft'
-import { rolesImg } from './../assets/images/roles/index'
+import queen2 from '../assets/images/utilities/nfts/queen 2.png'
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
-
-const lands = [
-    {
-        id: 'VG',
-        title: 'Las Vegas',
-        country: 'USA',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        nft: landColors.redLand,
-    },
-    {
-        id: 'LA',
-        title: 'Los Angeles',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'USA',
-        nft: landColors.greenLand,
-    },
-    {
-        id: 'LA',
-        title: 'North Las Vegas',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'USA',
-        nft: landColors.yellowLand,
-    },
-    {
-        id: 'jacksonVille',
-        title: 'Jackson Ville',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Mexico',
-        nft: landColors.greenLand,
-    },
-    {
-        id: 'EL',
-        title: 'Elko',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Mexico',
-        nft: landColors.purpleLand,
-    },
-    {
-        id: 'CA',
-        title: 'Carson',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Brasil',
-        nft: landColors.orangeLand,
-    },
-    {
-        id: 'austin',
-        title: 'Austing',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Brasil',
-        nft: landColors.redLand,
-    },
-    {
-        id: 'maiami',
-        title: 'Miami',
-        details:
-            'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa maiores ducimus saepe?',
-        country: 'Brasil',
-        nft: landColors.greenLand,
-    },
-]
-
-const roles = [
-    {
-        id: 'BRC',
-        title: 'Bronce',
-        nft: rolesImg.bronce,
-    },
-    {
-        id: 'SLV',
-        title: 'Silver',
-        nft: rolesImg.silver,
-    },
-    {
-        id: 'GLD',
-        title: 'GOLD',
-        nft: rolesImg.gold,
-    },
-]
+import CardNftMarket from './../components/Cards/CardNftMarket'
+import { lands, roles } from './../constants/nftsDummy'
 
 const Profile = () => {
     return (
@@ -116,8 +30,8 @@ const Profile = () => {
                                     style={{ padding: '5.5%' }}
                                 >
                                     <img
-                                        src={nft256}
-                                        alt={nft256}
+                                        src={queen2}
+                                        alt={queen2}
                                         className="w-full h-full object-fill"
                                     />
                                 </div>
@@ -147,23 +61,27 @@ const Profile = () => {
                                 {lands.map((f) => {
                                     return (
                                         <div key={`${f.country}-${f.title}`}>
-                                            <CardNft
+                                            <CardNftMarket
+                                                id={f.id}
                                                 nft={f.nft}
                                                 title={f.title}
+                                                isProfile
                                             />
                                         </div>
                                     )
                                 })}
                             </div>
                         </TabPane>
-                        <TabPane tab="Roles" className="px-6 2xl:px-16">
+                        <TabPane tab="Ambassador" className="px-6 2xl:px-16">
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-4">
                                 {roles.map((f) => {
                                     return (
                                         <div key={`${f.country}-${f.title}`}>
-                                            <CardNft
+                                            <CardNftMarket
+                                                id={f.id}
                                                 nft={f.nft}
                                                 title={f.title}
+                                                isProfile
                                             />
                                         </div>
                                     )
