@@ -8,9 +8,9 @@ import { lands, roles } from './../constants/nftsDummy'
 
 const Profile = () => {
     return (
-        <div className="w-full bg-blue-10">
+        <div className="w-full bg-blue-4">
             <div className="flex flex-col lg:flex-row h-full">
-                <div className="w-full lg:w-3/12 2xl:w-96  border-b-2 lg:border-r-2 border-blue-11 h-full pt-8 lg:pt-16 pb-4">
+                <div className="w-full lg:w-3/12 2xl:w-96  border-b-2 lg:border-r-2 border-blue-5 h-full pt-8 lg:pt-16 pb-4">
                     <div
                         className="w-full flex flex-col justify-center items-center "
                         // style={{ height: '450px' }}
@@ -37,7 +37,7 @@ const Profile = () => {
                                 </div>
                             </div>
                             <div className="w-full mt-1">
-                                <div className="py-6 px-10 bg-blue-7">
+                                <div className="py-6 px-10 bg-blue-2">
                                     <div>
                                         <div className="font-russo-one font-semibold text-info">
                                             USER:
@@ -54,7 +54,7 @@ const Profile = () => {
                 <div className="flex-1">
                     <Tabs
                         tabContainerClassName=" px-6 2xl:px-16"
-                        panelContainerClassName="py-16 bg-blue-10 "
+                        panelContainerClassName="py-16 bg-blue-4 "
                     >
                         <TabPane tab="Lands" className="px-6 2xl:px-16">
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-4">

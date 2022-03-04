@@ -7,7 +7,7 @@ export const CardNft = ({ nft, title }) => {
     const [bottomFrame] = useResponsive({ base: '-3.5%', xxl: '-2.5%' })
 
     return (
-        <div className="rounded-lg bg-blue-7">
+        <div className="rounded-lg bg-blue-2">
             <div className="relative w-full border border-green-4 rounded-t-md cursor-pointer">
                 <div
                     className="absolute left-0 right-0 w-20 m-auto"

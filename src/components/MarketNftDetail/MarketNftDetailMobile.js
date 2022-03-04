@@ -8,7 +8,7 @@ import NFTSmallDisplay from './NFTSmallDisplay'
 
 const MarketNftDetailMobile = () => {
     return (
-        <div className="flex-1 flex flex-col xl:flex-row bg-blue-10">
+        <div className="flex-1 flex flex-col xl:flex-row bg-blue-4">
             <div className="flex-1 pb-16">
                 <div className="w-full px-12">
                     <div className="mt-4 mb-10">
@@ -20,7 +20,7 @@ const MarketNftDetailMobile = () => {
                 <Tabs
                     className="flex-1 flex flex-col"
                     tabContainerClassName=" pl-3 px-4 lg:px-8 "
-                    panelContainerClassName="py-2 flex-1 flex bg-blue-8"
+                    panelContainerClassName="py-2 flex-1 flex bg-blue-3"
                 >
                     <TabPane
                         tab="Info"

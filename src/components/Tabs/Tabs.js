@@ -29,7 +29,7 @@ const Tabs = ({
         <div className={`w-full ${className} `}>
             <div
                 id="tabs"
-                className={`w-full bg-blue-8 border-b-2 border-blue-11`}
+                className={`w-full bg-blue-3 border-b border-aqua-3`}
             >
                 <div className={tabContainerClassName}>
                     <div className="">

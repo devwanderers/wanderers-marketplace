@@ -127,7 +127,6 @@ const MarketView = () => {
     // }
 
     const onClick = () => {
-        console.log('onClick')
         if (selectedText) globeRef.current.goToMarkerSelected(selectedText)
         else if (searchText === '') {
             setSelected(undefined)
@@ -154,7 +153,7 @@ const MarketView = () => {
     )
     const optionsFilter = filterSearch(searchText, options)
     return (
-        <div className="w-full bg-blue-10 relative">
+        <div className="w-full bg-blue-4 relative">
             <div
                 ref={globeContainerRef}
                 className="w-full m-auto relative overflow-hidden"
@@ -179,13 +178,13 @@ const MarketView = () => {
                         // style={{ maxWidth: '750px' }}
                     >
                         <Input.Group>
-                            <Row className="border border-blue-11 rounded-lg bg-blue-7">
+                            <Row className="border border-aqua-3 rounded-lg bg-blue-2">
                                 <Col
                                     xs={4}
-                                    className="bg-blue-8 border border-blue-11 rounded-l-lg "
+                                    className="bg-blue-3 border border-aqua-3 rounded-l-lg "
                                 >
                                     <Select
-                                        className="w-full ant-selector-border-0 ant-selector-custom bg-blue-8 text-blue-4"
+                                        className="w-full ant-selector-border-0 ant-selector-custom bg-blue-3 text-blue-9"
                                         size="large"
                                         value={selectedText}
                                         onChange={handleOnChangeSelect}
@@ -200,10 +199,7 @@ const MarketView = () => {
                                         ))}
                                     </Select>
                                 </Col>
-                                <Col
-                                    xs={16}
-                                    className="border-r border-blue-11"
-                                >
+                                <Col xs={16} className="border-r border-aqua-3">
                                     <AutoComplete
                                         options={optionsFilter}
                                         className="auto-complete-custom absolute h-full ant-select-h-full"
@@ -219,7 +215,7 @@ const MarketView = () => {
                                     >
                                         <input
                                             // className="w-6/12"
-                                            className="h-full w-full bg-transparent border-0 text-blue-4 pl-5 focus:border-none rounded-none "
+                                            className="h-full w-full bg-transparent border-0 text-blue-9 pl-5 focus:border-none rounded-none "
                                             size="large"
                                         />
                                     </AutoComplete>
@@ -227,7 +223,7 @@ const MarketView = () => {
                                 <Col xs={4}>
                                     <button
                                         ref={searchButtonRef}
-                                        className="h-full w-full rounded-r-full bg-transparent border-0 text-blue-4"
+                                        className="h-full w-full rounded-r-full bg-transparent border-0 text-blue-9"
                                         size="large"
                                         // onKeyDown={onKeyDown}
                                         onClick={onClick}
@@ -245,7 +241,7 @@ const MarketView = () => {
                 {/* <div className=" max-w-1800px mx-auto"></div> */}
                 <Tabs
                     tabContainerClassName="max-w-1280px mx-auto px-6 2xl:px-16"
-                    panelContainerClassName="py-16 bg-blue-10 "
+                    panelContainerClassName="py-16 bg-blue-4 "
                 >
                     <TabPane
                         tab="Lands"

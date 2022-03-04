@@ -22,13 +22,14 @@ class GlobeComponent extends Component {
                 {}
             ),
             enableClick: true,
+            scrollPosition: 0,
         }
 
         this.canvasRef = React.createRef()
         this.htmlRef = React.createRef()
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         const { width, height, mode = 'default', disabledRotation } = this.props
         this.clock = new THREE.Clock()
         this.pointer = new THREE.Vector2()
@@ -57,11 +58,40 @@ class GlobeComponent extends Component {
         }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         this.stop()
         this.removeListeners()
         this.removeCameraControlsListeners()
         this.globe.destroy()
+    }
+
+    initListeners = () => {
+        window.addEventListener('scroll', this.listenToScroll)
+        this.canvasRef.current.addEventListener(
+            'mousemove',
+            this.onMouseMove,
+            false
+        )
+        this.canvasRef.current.addEventListener(
+            'click',
+            this.onMouseClick,
+            false
+        )
+    }
+
+    removeListeners = () => {
+        window.removeEventListener('scroll', this.listenToScroll)
+        this.canvasRef.current.removeEventListener(
+            'mousemove',
+            this.onMouseMove
+        )
+        this.canvasRef.current.removeEventListener('click', this.onMouseClick)
+    }
+
+    listenToScroll = () => {
+        this.setState({
+            scrollPosition: scrollY,
+        })
     }
 
     addMarker = () => {
@@ -172,29 +202,6 @@ class GlobeComponent extends Component {
         }, 1000)
     }
 
-    initListeners = () => {
-        window.addEventListener('resize', this.onWindowResize, false)
-        this.canvasRef.current.addEventListener(
-            'mousemove',
-            this.onMouseMove,
-            false
-        )
-        this.canvasRef.current.addEventListener(
-            'click',
-            this.onMouseClick,
-            false
-        )
-    }
-
-    removeListeners = () => {
-        window.removeEventListener('resize', this.onWindowResize)
-        this.canvasRef.current.removeEventListener(
-            'mousemove',
-            this.onMouseMove
-        )
-        this.canvasRef.current.removeEventListener('click', this.onMouseClick)
-    }
-
     onReset = () => {
         this.globe.cameraControls.removeEventListener('rest', this.onReset)
         this.globe.userDragging = false
@@ -300,8 +307,8 @@ class GlobeComponent extends Component {
 
     render() {
         const { width, height } = this.props
-        const { marker, markers } = this.state
-        console.log(width, height)
+        const { marker, markers, scrollPosition } = this.state
+
         return (
             <div className="relative inline-block" style={{ width, height }}>
                 <div ref={this.canvasRef} className="w-full h-full"></div>
@@ -315,7 +322,11 @@ class GlobeComponent extends Component {
                                 }}
                                 // onWheel={(e) => e.preventDefault()}
                                 style={{
-                                    transform: `translate(-50%, -0%) translate(${marker.position.x}px,${marker.position.y}px)`,
+                                    transform: `translate(-50%, -0%) translate(${
+                                        marker.position.x
+                                    }px,${
+                                        marker.position.y - scrollPosition
+                                    }px)`,
                                 }}
                                 initial={{
                                     transform: 'translate(-50%, -0%)',

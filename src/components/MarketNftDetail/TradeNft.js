@@ -18,7 +18,7 @@ const TradeNft = (props) => {
                             Price
                         </div>
                         <Input
-                            className="border-blue-11 bg-blue-8 text-white"
+                            className="border-blue-5 bg-blue-3 text-white"
                             id="price"
                             size="large"
                             {...bind}
@@ -28,8 +28,8 @@ const TradeNft = (props) => {
                         <div htmlFor="total" className="text-white mb-2">
                             Total
                         </div>
-                        <div className="bg-blue-8 w-full grid grid-cols-3 text-lg border border-blue-11  text-white">
-                            <div className="col-span-2 border-r border-blue-11 py-3 px-3 text-right">
+                        <div className="bg-blue-3 w-full grid grid-cols-3 text-lg border border-blue-5  text-white">
+                            <div className="col-span-2 border-r border-blue-5 py-3 px-3 text-right">
                                 0
                             </div>
                             <div className="py-3 px-3 text-center">DDOT</div>
@@ -61,7 +61,7 @@ const TradeNft = (props) => {
                     </div>
                 </div>
             </div>
-            <hr className="border-blue-11" />
+            <hr className="border-blue-5" />
             <div className="pt-8">
                 <ButtonSpinner
                     className="px-8 border"

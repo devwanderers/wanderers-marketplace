@@ -10,7 +10,7 @@ const InfoNft = ({ title, description, detail, locationImg }) => {
             <div>
                 <div className="mb-6 flex flex-row w-full">
                     <div
-                        className="relative h-48 w-48  mr-4 overflow-hidden justify-center items-center border-t border-b border-blue-12"
+                        className="relative h-48 w-48  mr-4 overflow-hidden justify-center items-center border-t border-b border-blue-6"
                         style={{
                             padding: '4px',
                         }}
@@ -20,19 +20,19 @@ const InfoNft = ({ title, description, detail, locationImg }) => {
                             src={locationImg}
                         />
                         <div
-                            className="absolute left-0 top-0 border-l border-blue-12"
+                            className="absolute left-0 top-0 border-l border-blue-6"
                             style={{ height: '20%' }}
                         ></div>
                         <div
-                            className="absolute right-0 top-0 border-r border-blue-12"
+                            className="absolute right-0 top-0 border-r border-blue-6"
                             style={{ height: '20%' }}
                         ></div>
                         <div
-                            className="absolute left-0 bottom-0 border-l border-blue-12"
+                            className="absolute left-0 bottom-0 border-l border-blue-6"
                             style={{ height: '20%' }}
                         ></div>
                         <div
-                            className="absolute right-0 bottom-0 border-r border-blue-12"
+                            className="absolute right-0 bottom-0 border-r border-blue-6"
                             style={{ height: '20%' }}
                         ></div>
                     </div>
@@ -48,7 +48,7 @@ const InfoNft = ({ title, description, detail, locationImg }) => {
                             </div>
                             <hr className="border-blue-4" />
                         </div>
-                        <div className="flex flex-col gap-4 pl-6 pr-6 text-white py-4 w-12/12">
+                        <div className="flex flex-col gap-4 pl-6 pr-6  py-4 w-12/12">
                             <div className="flex flex-row justify-between">
                                 <div>
                                     <div className="text-xs text-info">ROI</div>

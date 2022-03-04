@@ -11,7 +11,7 @@ import DefaultFooter from '../Footers/DefaultFooter'
 import useWindowSize from './../../hooks/useWindowSize'
 import * as routePaths from '../../constants/routerConstants'
 import { BrandLogoSVG } from '../../assets/svg/brand'
-// import DefaultNavbar from './../Navbar/DefaultNavbar'
+import MarketNavbar from '../Navbar/MarketNavbar'
 
 const { Content } = Layout
 
@@ -26,10 +26,11 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
     // const [isOpen, setOpenDrawer] = useState(false)
     return (
         <Layout
-            className="overflow-x-hidden flex flex-col h-screen"
+            className="overflow-x-hidden flex flex-col min-h-screen"
             style={{ minWidth: '425px' }}
         >
-            {width >= 768 ? (
+            <MarketNavbar />
+            {/* {width >= 768 ? (
                 <header className="h-24 relative z-50 lg:px-0 text-white bg-blue-5 2xl:px-8">
                     <div className="max-w-1280px m-auto flex h-full px-6 2xl:px-0">
                         <div className="mr-20 h-full py-5">
@@ -44,7 +45,7 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
                         </div>
                         <div className="flex-1"></div>
                         <div className="flex items-center justify-center space-x-6 h-full py-6">
-                            <div className="text-blue-4 text-xl font-saira-condensed flex flex-row items-center space-x-6">
+                            <div className="text-xl font-saira-condensed flex flex-row items-center space-x-6">
                                 <div>
                                     <a
                                         target="_blank"
@@ -58,21 +59,7 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
                                         Home
                                     </a>
                                 </div>
-                                <div>
-                                    {/* <Link to={routePaths.HomePath}>
-                                        Marketplace
-                                    </Link> */}
-                                </div>
-                                {/* <div>
-                                    <a className="">
-                                        <span className="flex">
-                                            Community
-                                            <div className="flex items-center justify-center relative pl-1">
-                                                <IoIosArrowDown />
-                                            </div>
-                                        </span>
-                                    </a>
-                                </div> */}
+                                <div></div>
                             </div>
                             <button className="font-saira-condensed text-xl h-full px-8 rounded-full border border-green-0 text-green-0">
                                 Connect Wallet
@@ -116,16 +103,6 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
                                         Marketplace
                                     </Link>
                                 </div>
-                                {/* <div>
-                                    <a className="">
-                                        <span className="flex">
-                                            Community
-                                            <div className="flex items-center justify-center relative pl-1">
-                                                <IoIosArrowDown />
-                                            </div>
-                                        </span>
-                                    </a>
-                                </div> */}
                             </div>
                             <div className="flex flex-row space-x-5">
                                 <button className="font-saira-condensed text-xl py-2 px-8 rounded-full border border-green-0 text-green-0">
@@ -158,7 +135,7 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
                         </div>
                     </header>
                 </React.Fragment>
-            )}
+            )} */}
 
             <Content className="bg-white flex flex-1 flex-shrink flex-grow">
                 {children}

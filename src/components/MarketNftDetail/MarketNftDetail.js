@@ -11,8 +11,8 @@ import { lands } from './../../constants/nftsDummy'
 
 const MarketNftDetail = ({ data }) => {
     return (
-        <div className="flex-1 flex xl:flex-row bg-blue-14">
-            <div className="max-w-1280px mx-auto flex bg-blue-10 w-full">
+        <div className="flex-1 flex xl:flex-row bg-blue-7">
+            <div className="max-w-1280px mx-auto flex bg-blue-4 w-full">
                 <div
                     className="flex-1 w-full fancyScrollbar overflow-y-auto pb-16"
                     style={{ height: '100%' }}

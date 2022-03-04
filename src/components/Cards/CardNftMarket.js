@@ -23,7 +23,7 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
             <div className="w-full flex justify-center">
                 <CardUp width="50%" />
             </div>
-            <div className="w-full border-t border-b border-blue-12 relative">
+            <div className="w-full border-t border-b border-blue-6 relative">
                 <div
                     onClick={handleClickNft}
                     className="relative cursor-pointer"
@@ -62,7 +62,7 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
                         <div className="ml-auto">
                             <button
                                 onClick={handleClickNft}
-                                className="bg-blue-12 rounded-md px-2 text-lg font-medium text-blue-11"
+                                className="bg-blue-6 rounded-md px-2 text-lg font-medium text-blue-5"
                             >
                                 {!isProfile ? 'TRADE' : 'SELL'}
                             </button>
@@ -70,11 +70,11 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
                     </div>
                 </div>
                 <div
-                    className="absolute top-0 left-0 border-l border-blue-12"
+                    className="absolute top-0 left-0 border-l border-blue-6"
                     style={{ height: '15%' }}
                 ></div>
                 <div
-                    className="absolute top-0 right-0 border-r border-blue-12"
+                    className="absolute top-0 right-0 border-r border-blue-6"
                     style={{ height: '15%' }}
                 ></div>
                 {/* <div className="relative w-full border border-green-4 rounded-t-md cursor-pointer">

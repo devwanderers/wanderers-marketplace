@@ -11,7 +11,7 @@ const SvgComponent = (props, ref) => (
     >
         <path
             style={{
-                fill: '#09a2d2',
+                fill: '#00ace0',
             }}
             d="M4.03 3.51h61.59L68.64 0H0l4.03 3.51z"
         />

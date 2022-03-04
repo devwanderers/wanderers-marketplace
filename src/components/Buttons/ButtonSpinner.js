@@ -14,7 +14,7 @@ const classes = {
     },
     variant: {
         primary:
-            'bg-primary hover:bg-blue-green-2 focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-white',
+            'bg-primary hover:bg-blue-green-2 focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-black-1',
         secondary:
             'bg-gray-200 hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-gray-900 hover:text-white',
         danger: 'bg-red-500 hover:bg-red-800 focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-white',
