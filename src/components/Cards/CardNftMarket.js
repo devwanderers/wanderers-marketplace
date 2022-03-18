@@ -35,7 +35,7 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
                             className="w-full h-full object-cover"
                         />
                     </div>
-                    <div className="w-full flex justify-center my-5 relative">
+                    <div className="w-full flex justify-center my-3 relative">
                         <Banner width="80%" />
                         <div className="absolute inset-0 flex justify-center items-center">
                             <span className=" font-semibold text-lg lg:text-xl text-light-0">
@@ -44,7 +44,7 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
                         </div>
                     </div>
                     <div
-                        className="w-full flex flex-row py-3 px-2 items-center"
+                        className="w-full flex flex-row py-2 px-2 items-center"
                         style={{
                             backgroundImage:
                                 'linear-gradient(to top, rgba(0,162,210,0.13), transparent)',
@@ -64,7 +64,7 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
                                 onClick={handleClickNft}
                                 className="bg-blue-6 rounded-md px-2 text-lg font-medium text-blue-5"
                             >
-                                {!isProfile ? 'TRADE' : 'SELL'}
+                                TRADE
                             </button>
                         </div>
                     </div>
@@ -77,44 +77,6 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
                     className="absolute top-0 right-0 border-r border-blue-6"
                     style={{ height: '15%' }}
                 ></div>
-                {/* <div className="relative w-full border border-green-4 rounded-t-md cursor-pointer">
-                <div
-                    className="absolute left-0 right-0 w-20 m-auto"
-                    style={{ top: topFrame }}
-                >
-                    <FrameTopSVG />
-                </div>
-                <div className="relative overflow-hidden py-2 lg:py-4">
-                    <div className="w-36 lg:w-56 mx-auto pb-1">
-                        <img
-                            src={image}
-                            alt={image}
-                            className="w-full h-auto"
-                        />
-                    </div>
-                    <div
-                        className=""
-                        style={{
-                            paddingLeft: '8%',
-                            paddingRight: '8%',
-                        }}
-                    >
-                        <div className="w-full relative">
-                            <FrameLandNameSVG width={'100%'} />
-                            <div className="absolute inset-0 flex justify-center items-center">
-                                <span className=" font-semibold text-xl lg:text-3xl text-white">
-                                    {limitStringLengthTo(12, title)}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-                {/* <div className="w-full text-center py-3 bg-green-4 rounded-b-md hover:bg-aqua-1 cursor-pointer">
-                <span className="text-xl  font-russo-one text-white">
-                    TRADE
-                </span>
-            </div> */}
             </div>
             <div className="w-full flex justify-center">
                 <CardDown width="50%" />

@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'
 
 import globalTypes from './globalTypes'
 import scInteractionReducer from './scInteractionReducer/scInteractionReducer'
+import siteInteractionReducer from './siteInteraction/siteInteractionReducer'
 
 const persistConfig = {
     key: 'root',
@@ -13,6 +14,7 @@ const persistConfig = {
 
 const appReducer = combineReducers({
     scInteraction: scInteractionReducer,
+    siteInteraction: siteInteractionReducer,
 })
 
 const rootReducer = (state, action) => {

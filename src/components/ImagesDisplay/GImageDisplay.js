@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ImageDisplay = ({ img }) => {
+const GImageDisplay = ({ img }) => {
     return (
         <div
             className="relative h-48 w-48  mr-4 overflow-hidden justify-center items-center border-t border-b border-blue-6"
@@ -29,4 +29,4 @@ const ImageDisplay = ({ img }) => {
     )
 }
 
-export default ImageDisplay
+export default GImageDisplay

@@ -18,6 +18,7 @@ module.exports = {
         spacing: {
             ...theme.spacing,
             '20rem': '20rem',
+            '24px': '24px',
         },
         backgroundSize: {
             auto: 'auto',

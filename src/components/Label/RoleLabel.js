@@ -3,13 +3,8 @@ import ElementContainer from './../Container/ElementContainer'
 
 const RoleLabel = ({ title }) => {
     return (
-        <ElementContainer className="px-3" rounded="sm" variant="secondary">
-            <div
-                className="text-sm text-blue-10"
-                style={{ lineHeight: '14px' }}
-            >
-                {title}
-            </div>
+        <ElementContainer className="px-3" rounded="md" variant="secondary">
+            <span className="text-sm text-blue-10">{title}</span>
         </ElementContainer>
     )
 }

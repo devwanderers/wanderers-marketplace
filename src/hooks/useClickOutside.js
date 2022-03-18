@@ -1,6 +1,6 @@
 import useEventListener from './useEventListener'
 
-export default function useClickOutside(ref, cb) {
+const useClickOutside = (ref, cb) => {
     useEventListener(
         'click',
         (e) => {
@@ -10,3 +10,5 @@ export default function useClickOutside(ref, cb) {
         document
     )
 }
+
+export default useClickOutside

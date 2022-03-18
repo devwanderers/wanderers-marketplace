@@ -1,7 +1,7 @@
 import React from 'react'
-import CardUp from './../../assets/svg/frames/CardUp'
-import CardDown from './../../assets/svg/frames/CardDown'
-import { cls } from './../../services/helpers'
+import CardUp from '../../assets/svg/frames/CardUp'
+import CardDown from '../../assets/svg/frames/CardDown'
+import { cls } from '../../services/helpers'
 
 const NFTDisplay = ({ title, nft, className }) => {
     return (

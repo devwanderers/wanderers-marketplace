@@ -12,6 +12,7 @@ import useWindowSize from './../../hooks/useWindowSize'
 import * as routePaths from '../../constants/routerConstants'
 import { BrandLogoSVG } from '../../assets/svg/brand'
 import MarketNavbar from '../Navbar/MarketNavbar'
+import WalletDrawer from '../Wallet/WalletDrawer'
 
 const { Content } = Layout
 
@@ -137,7 +138,8 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
                 </React.Fragment>
             )} */}
 
-            <Content className="bg-white flex flex-1 flex-shrink flex-grow">
+            <WalletDrawer />
+            <Content className="bg-white flex flex-1 flex-shrink flex-grow relative">
                 {children}
             </Content>
             {/* {!hideFooter && (
