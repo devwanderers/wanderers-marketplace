@@ -4,7 +4,6 @@ import { Switch } from 'react-router'
 import { connect } from 'react-redux'
 import loadable from '@loadable/component'
 import routes from './routes'
-import withLayout from './../HOCS/withLayout'
 import PageLoading from './../components/PageLoadings/PageLoading'
 
 class AppRouter extends Component {
@@ -18,7 +17,7 @@ class AppRouter extends Component {
                                 key={`route-${route.name}`}
                                 path={route.path}
                                 exact={route.exact}
-                                component={withLayout((props) => {
+                                component={(props) => {
                                     const Component = loadable(
                                         () => import(`../views/${route.name}`),
                                         {
@@ -44,7 +43,7 @@ class AppRouter extends Component {
                                             {...route?.componentProps}
                                         />
                                     )
-                                })}
+                                }}
                             />
                         )
                     })}

@@ -1,0 +1,6 @@
+export const NFT_SET_IDS_PENDING = 'nftavatars/setIds/pending'
+export const NFT_SET_IDS_FULFILLED = 'nftavatars/setIds/fulfilled'
+export const NFT_SET_IDS_REJECTED = 'nftavatars/setIds/rejected'
+export const NFT_SET_PENDING = 'nftavatars/set/pending'
+export const NFT_SET_FULFILLED = 'nftavatars/set/fulfilled'
+export const NFT_SET_REJECTED = 'nftavatars/set/rejected'

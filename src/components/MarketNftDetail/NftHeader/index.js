@@ -1,7 +1,7 @@
 import React from 'react'
 import NftSaleCountDown from './../NftSaleCountDown'
 import EthIcon from './../../../assets/svg/icons/EthIcon'
-import SellButton from '../SellButton'
+import BuyButton from '../SellButton'
 
 const NftHeader = ({ ...props }) => {
     return (
@@ -16,7 +16,7 @@ const NftHeader = ({ ...props }) => {
             <div className="ml-auto flex flex-col justify-end">
                 <NftSaleCountDown />
                 <div className="ml-auto flex flex-row mt-4 gap-8">
-                    <div className="flex-1 flex flex-row items-end gap-4">
+                    <div className="flex-1 flex flex-row items-center gap-1">
                         <div
                             className="relative flex items-center"
                             style={{ top: '-1px' }}
@@ -24,10 +24,10 @@ const NftHeader = ({ ...props }) => {
                             <EthIcon size="1.5em" />
                         </div>
                         <div className="text-white text-xl leading-none font-medium">
-                            0.5372
+                            0.3
                         </div>
                     </div>
-                    <SellButton />
+                    <BuyButton />
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Route } from 'react-router-dom'
-// import PrivateRoute from "./CustomRoutes/PrivateRoute"
+import PrivateRoute from './CustomRoutes/PrivateRoute'
 // import PublicRoute from './CustomRoutes/PublicRoute'
 import * as paths from '../constants/routerConstants'
 import DefaultLayout from './../components/Layouts/DefaultLayout'
@@ -33,7 +33,7 @@ const routes = [
     {
         name: 'Profile',
         path: paths.ProfilePath,
-        route: Route,
+        route: PrivateRoute,
         componentProps: { routes: [] },
         layout: DefaultLayout,
         exact: true,

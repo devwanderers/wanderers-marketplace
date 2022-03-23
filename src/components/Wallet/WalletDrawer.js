@@ -3,16 +3,20 @@ import { Drawer } from 'antd'
 import { BsPerson } from 'react-icons/bs'
 import useWalletDrawer from './../../store/reducers/siteInteraction/hooks/useWalletDrawer'
 import { useLocation } from 'react-router-dom'
+import useAuth from './../../hooks/useAuth'
+import { useWeb3React } from '@web3-react/core'
+import { cls } from './../../services/helpers'
+import { formatAddress } from './../../services/address-services'
 
 const WalletDrawer = (props) => {
     const { visibleWalletDrawer, closeWalletDrawer } = useWalletDrawer()
     const location = useLocation()
-    console.log({ location })
+    const { account } = useWeb3React()
+    const { login, logout } = useAuth()
 
     useEffect(() => {
         closeWalletDrawer()
     }, [location])
-
     return (
         <Drawer
             visible={visibleWalletDrawer}
@@ -24,8 +28,27 @@ const WalletDrawer = (props) => {
                     <div className="text-white text-3xl mr-3">
                         <BsPerson />
                     </div>
-                    <div className="flex items-center">
-                        <span className="text-white text-xl">My Wallet</span>
+                    <div
+                        className={cls(
+                            `flex items-center w-full ${
+                                account && 'justify-between'
+                            }`
+                        )}
+                    >
+                        {account ? (
+                            <React.Fragment>
+                                <span className="text-white text-xl">
+                                    My Wallet
+                                </span>
+                                <span className="text-white text-xl">
+                                    {formatAddress(account)}
+                                </span>
+                            </React.Fragment>
+                        ) : (
+                            <span className="text-white text-xl">
+                                Connect your wallet
+                            </span>
+                        )}
                     </div>
                 </div>
             }
@@ -38,15 +61,21 @@ const WalletDrawer = (props) => {
             </p>
 
             <div className="space-y-2 mt-8 flex flex-col">
-                <button className="text-center border border-blue-9 hover:border-white py-1">
-                    <span className="text-white">Metamask</span>
-                </button>
-                {/* <button className="text-center border border-blue-9 hover:border-white py-1">
-                    <span className="text-white">Coinbase Wallet</span>
-                </button>
-                <button className="text-center border border-blue-9 hover:border-white py-1">
-                    <span className="text-white"> WalletConnect</span>
-                </button> */}
+                {!account ? (
+                    <button
+                        onClick={() => login()}
+                        className="text-center border border-blue-9 hover:border-white py-1"
+                    >
+                        <span className="text-white">Metamask</span>
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => logout()}
+                        className="text-center border border-blue-9 hover:border-white py-1"
+                    >
+                        <span className="text-white">Disconnect</span>
+                    </button>
+                )}
             </div>
         </Drawer>
     )

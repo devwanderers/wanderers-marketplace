@@ -12,9 +12,6 @@ const useConnect = () => {
         if (walletAuth) {
             login()
         }
-        // if (!account && !active && !walletAuth) {
-        //     setWalletAuth(true)
-        // }
     }, [login])
 
     useEffect(() => {
@@ -22,13 +19,18 @@ const useConnect = () => {
             const handleDeactivate = () => {
                 setWalletAuth(false)
             }
+            const reload = () => {
+                window.location.reload()
+            }
 
             connector.on('Web3ReactDeactivate', handleDeactivate)
+            window.ethereum.on('chainChanged', reload)
             return () => {
                 connector.removeListener(
                     'Web3ReactDeactivate',
                     handleDeactivate
                 )
+                window.ethereum.removeListener('chainChanged', reload)
             }
         }
         return undefined

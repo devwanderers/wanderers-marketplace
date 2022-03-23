@@ -1,13 +1,27 @@
 import React from 'react'
 
-import queen2 from '../assets/images/utilities/nfts/queen 2.png'
+import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'
+
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
 import CardNftMarket from './../components/Cards/CardNftMarket'
 import { lands, roles } from './../constants/nftsDummy'
 import NftProfileDisplay from '../components/Profile/NftProfileDisplay'
 import UserInfo from '../components/Profile/UserInfo'
+import {
+    useFetchNftAvatars,
+    useNftAvatarReducer,
+} from '../store/reducers/nftAvatars/hooks'
+import {
+    useFetchProfile,
+    useSelectedAvatar,
+} from './../store/reducers/profile/hook'
 
 const Profile = () => {
+    useFetchNftAvatars()
+    useFetchProfile()
+    const { fetch } = useNftAvatarReducer()
+    const avatar = useSelectedAvatar()
+    console.log({ avatar })
     return (
         <div className="flex-1 flex bg-blue-7">
             <div className="max-w-1280px flex-1 mx-auto flex flex-row bg-blue-4">
@@ -18,8 +32,29 @@ const Profile = () => {
                             // style={{ height: '450px' }}
                         >
                             <div className="w-80 lg:w-56 xl:w-72 2xl:w-20rem">
-                                <NftProfileDisplay image={queen2} />
+                                <NftProfileDisplay
+                                    loading={!fetch}
+                                    image={avatar?.image}
+                                />
                                 <UserInfo className="mt-5" />
+                                <div className="flex flex-row items-center justify-center h-full mt-5">
+                                    <div className="flex-1 flex justify-center">
+                                        <button
+                                            onClick={() => {}}
+                                            className="text-3xl text-primary disabled:opacity-70 transform active:scale-75"
+                                        >
+                                            <FaArrowCircleLeft />
+                                        </button>
+                                    </div>
+                                    <div className="flex-1 flex justify-center text-primary">
+                                        <button
+                                            onClick={() => {}}
+                                            className="text-3xl disabled:opacity-70 transform active:scale-75"
+                                        >
+                                            <FaArrowCircleRight />
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

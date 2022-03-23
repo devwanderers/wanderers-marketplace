@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { injected } from './../wallet/connectors'
 import { setupNetwork } from './../services/wallet'
 import { useLocalStorage } from './useStorage'
+import * as actions from '../store/reducers/globalActions'
 
 const useAuth = () => {
     const { chainId, activate, deactivate } = useWeb3React()
@@ -43,6 +44,7 @@ const useAuth = () => {
     const logout = useCallback(() => {
         deactivate()
         setWalletAuth(false)
+        dispatch(actions.logout())
     }, [deactivate, dispatch, chainId])
 
     return { login, logout }

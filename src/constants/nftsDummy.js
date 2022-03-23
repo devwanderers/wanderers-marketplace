@@ -5,7 +5,7 @@ export const lands = [
     {
         id: 'usa',
         title: 'USA',
-        nft: nfts.usa,
+        nft: nfts.houston,
         locationImg: places.usa,
         country: 'USA',
         description:
@@ -20,7 +20,7 @@ export const lands = [
     {
         id: 'chicago',
         title: 'Chicago',
-        nft: nfts.chicago,
+        nft: nfts.madrid,
         locationImg: places.chicago,
         country: 'USA',
         description:
@@ -35,7 +35,7 @@ export const lands = [
     {
         id: 'france',
         title: 'France',
-        nft: nfts.france,
+        nft: nfts.houston,
         country: 'France',
         locationImg: places.france,
         description:
@@ -50,7 +50,7 @@ export const lands = [
     {
         id: 'paris',
         title: 'Paris',
-        nft: nfts.paris,
+        nft: nfts.dubai,
         locationImg: places.paris,
         country: 'France',
         description:

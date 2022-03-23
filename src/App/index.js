@@ -1,4 +1,5 @@
 import React from 'react'
+import useConnect from '../hooks/useConnect'
 import Router from '../Router'
 // import useConnect from '../hooks/useConnect'
 import '../styles/App.less'
@@ -22,9 +23,7 @@ import '../styles/App.less'
 // })
 
 const App = () => {
-    // useConnect()
-    // useDeactivateListener()
-    // useEffectOnce(() => widget.create())
+    useConnect()
 
     return <Router />
 }

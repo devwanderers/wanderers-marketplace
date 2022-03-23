@@ -1,8 +1,12 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { useWeb3React } from '@web3-react/core'
+import { HomePath } from '../../constants/routerConstants'
 
 const PrivateRoute = ({ component, ...restProps }) => {
+    const { account } = useWeb3React()
+
     return (
         <Route
             {...restProps}
@@ -10,6 +14,7 @@ const PrivateRoute = ({ component, ...restProps }) => {
                 const _props = {}
                 const Component = component
                 // Add Logic here
+                if (!account) return <Redirect to={HomePath} />
                 return <Component {..._props} />
             }}
         />

@@ -6,6 +6,7 @@ import { navbarMenu } from '../../../constants/navbarMenu'
 import { BsPerson } from 'react-icons/bs'
 import WalletButton from '../../Wallet/WalletButton'
 import useWalletDrawer from './../../../store/reducers/siteInteraction/hooks/useWalletDrawer'
+import { useWeb3React } from '@web3-react/core'
 
 const MenuOption = ({ selected, onClick, children }) => {
     return (
@@ -25,6 +26,7 @@ const MarketNavbar = (props) => {
     const history = useHistory()
     const { visibleWalletDrawer } = useWalletDrawer()
     const location = useLocation()
+    const { account } = useWeb3React()
 
     const isSelected = (path) => {
         if (typeof path !== 'string' || visibleWalletDrawer) return false
@@ -62,17 +64,22 @@ const MarketNavbar = (props) => {
                             })}
                         </div>
                         <div className="h-full flex flex-row items-end gap-6">
-                            <div className="relative text-white h-12 pb-3 px-4">
-                                {isSelected(ProfilePath) && (
-                                    <div className="absolute h-1 bg-blue-6 bottom-0 left-0 w-full"></div>
-                                )}
-                                <button
-                                    className="h-full"
-                                    onClick={() => history.push(ProfilePath)}
-                                >
-                                    <BsPerson size={'100%'} />
-                                </button>
-                            </div>
+                            {account && (
+                                <div className="relative text-white h-12 pb-3 px-4">
+                                    {isSelected(ProfilePath) && (
+                                        <div className="absolute h-1 bg-blue-6 bottom-0 left-0 w-full"></div>
+                                    )}
+
+                                    <button
+                                        className="h-full"
+                                        onClick={() =>
+                                            history.push(ProfilePath)
+                                        }
+                                    >
+                                        <BsPerson size={'100%'} />
+                                    </button>
+                                </div>
+                            )}
                             <div className="relative text-white h-12 pb-3 px-4">
                                 {visibleWalletDrawer && (
                                     <div className="absolute h-1 bg-blue-6 bottom-0 left-0 w-full"></div>

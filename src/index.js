@@ -15,17 +15,16 @@ const store = configureStore()
 function getLibrary(provider) {
     return new Web3(provider)
 }
+
 ReactDOM.render(
     <React.StrictMode>
-        <Web3ReactProvider getLibrary={getLibrary}>
-            <Provider store={store.store}>
+        <Provider store={store.store}>
+            <Web3ReactProvider getLibrary={getLibrary}>
                 <PersistGate loading={null} persistor={store.persistor}>
-                    {/* <ThemeSwitcherProvider themeMap={themes} defaultTheme="light"> */}
                     <App />
-                    {/* </ThemeSwitcherProvider> */}
                 </PersistGate>
-            </Provider>
-        </Web3ReactProvider>
+            </Web3ReactProvider>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 )

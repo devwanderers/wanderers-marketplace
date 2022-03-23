@@ -5,6 +5,8 @@ import storage from 'redux-persist/lib/storage'
 import globalTypes from './globalTypes'
 import scInteractionReducer from './scInteractionReducer/scInteractionReducer'
 import siteInteractionReducer from './siteInteraction/siteInteractionReducer'
+import nftAvatars from './nftAvatars/nftAvatarsReducer'
+import profile from './profile/profileReducer'
 
 const persistConfig = {
     key: 'root',
@@ -15,6 +17,8 @@ const persistConfig = {
 const appReducer = combineReducers({
     scInteraction: scInteractionReducer,
     siteInteraction: siteInteractionReducer,
+    nftAvatars,
+    profile,
 })
 
 const rootReducer = (state, action) => {

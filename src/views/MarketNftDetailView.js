@@ -4,7 +4,6 @@ import NFTDisplay from '../components/MarketNftDetail/NftDisplay'
 import NftDetails from '../components/MarketNftDetail/NftDetails'
 import BackButton from '../components/Buttons/BackButton'
 import NftProperties from '../components/MarketNftDetail/NftProperties'
-import NftOffers from '../components/MarketNftDetail/NftOffers'
 import RoleLabel from '../components/Label/RoleLabel'
 import NftDetailsInfo from '../components/MarketNftDetail/NftDetailsInfo'
 import NftHeader from '../components/MarketNftDetail/NftHeader'
@@ -38,7 +37,6 @@ const MarketNftDetailView = (props) => {
                     <NftHeader />
                     <NftDetailsInfo detail={detail} />
                     <NftProperties />
-                    <NftOffers />
                 </div>
             </div>
         </div>
