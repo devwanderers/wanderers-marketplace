@@ -9,6 +9,9 @@ const initialState = {
 
 const profileReducer = createReducer(initialState, (builder) => {
     builder
+        .addCase(actions.setAvatar, (state, { payload }) => {
+            state.avatar = payload
+        })
         .addCase(actions.getProfile.fulfilled, (state, { payload }) => ({
             ...state,
             ...payload.profile,

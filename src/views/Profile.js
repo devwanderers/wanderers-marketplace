@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'
 
@@ -12,6 +12,7 @@ import {
     useNftAvatarReducer,
 } from '../store/reducers/nftAvatars/hooks'
 import {
+    useSetAvatar,
     useFetchProfile,
     useSelectedAvatar,
 } from './../store/reducers/profile/hook'
@@ -19,9 +20,21 @@ import {
 const Profile = () => {
     useFetchNftAvatars()
     useFetchProfile()
-    const { fetch } = useNftAvatarReducer()
-    const avatar = useSelectedAvatar()
-    console.log({ avatar })
+    const { fetch, nfts } = useNftAvatarReducer()
+    const { index, avatar } = useSelectedAvatar()
+    const setAvatar = useSetAvatar()
+
+    const handleNextAvatar = useCallback(() => {
+        if (index === nfts.length - 1) setAvatar(nfts[0].edition.toString())
+        if (index !== nfts.length - 1)
+            setAvatar(nfts[index + 1].edition.toString())
+    }, [nfts, index])
+
+    const handlePreAvatar = useCallback(() => {
+        if (index === 0) setAvatar(nfts[nfts.length - 1].edition.toString())
+        if (index !== 0) setAvatar(nfts[index - 1].edition.toString())
+    }, [nfts, index])
+
     return (
         <div className="flex-1 flex bg-blue-7">
             <div className="max-w-1280px flex-1 mx-auto flex flex-row bg-blue-4">
@@ -40,7 +53,11 @@ const Profile = () => {
                                 <div className="flex flex-row items-center justify-center h-full mt-5">
                                     <div className="flex-1 flex justify-center">
                                         <button
-                                            onClick={() => {}}
+                                            disabled={
+                                                nfts.length === 0 ||
+                                                nfts.length === 1
+                                            }
+                                            onClick={() => handlePreAvatar()}
                                             className="text-3xl text-primary disabled:opacity-70 transform active:scale-75"
                                         >
                                             <FaArrowCircleLeft />
@@ -48,7 +65,11 @@ const Profile = () => {
                                     </div>
                                     <div className="flex-1 flex justify-center text-primary">
                                         <button
-                                            onClick={() => {}}
+                                            disabled={
+                                                nfts.length === 0 ||
+                                                nfts.length === 1
+                                            }
+                                            onClick={() => handleNextAvatar()}
                                             className="text-3xl disabled:opacity-70 transform active:scale-75"
                                         >
                                             <FaArrowCircleRight />

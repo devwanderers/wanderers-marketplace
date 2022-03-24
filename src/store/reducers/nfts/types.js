@@ -1,0 +1,6 @@
+export const NFTS_SET_IDS_PENDING = 'nfts/setIds/pending'
+export const NFTS_SET_IDS_FULFILLED = 'nfts/setIds/fulfilled'
+export const NFTS_SET_IDS_REJECTED = 'nfts/setIds/rejected'
+export const NFTS_SET_PENDING = 'nfts/set/pending'
+export const NFTS_SET_FULFILLED = 'nfts/set/fulfilled'
+export const NFTS_SET_REJECTED = 'nfts/set/rejected'

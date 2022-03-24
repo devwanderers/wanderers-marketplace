@@ -1,6 +1,8 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createAsyncThunk, createAction } from '@reduxjs/toolkit'
 import * as types from './types'
 import axiosInstance from './../../services/axiosConfig'
+
+export const setAvatar = createAction(types.SET_AVATAR)
 
 export const setProfile = createAsyncThunk(
     types.SET_PROFILE,

@@ -6,6 +6,7 @@ import globalTypes from './globalTypes'
 import scInteractionReducer from './scInteractionReducer/scInteractionReducer'
 import siteInteractionReducer from './siteInteraction/siteInteractionReducer'
 import nftAvatars from './nftAvatars/nftAvatarsReducer'
+import nfts from './nfts/nftsReducer'
 import profile from './profile/profileReducer'
 
 const persistConfig = {
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
     scInteraction: scInteractionReducer,
     siteInteraction: siteInteractionReducer,
     nftAvatars,
+    nfts,
     profile,
 })
 
