@@ -10,6 +10,10 @@ export const useNftsReducer = () => {
     return useSelector(nftReducerSelector)
 }
 
+export const useLandNfts = () => {
+    return useSelector(nftsSelector)
+}
+
 export const useFetchNftLandId = () => {
     const { account, library } = useWeb3React()
     const dispatch = useDispatch()
@@ -44,7 +48,7 @@ export const useFetchNftLands = () => {
     const nftIds = useFetchNftLandId()
     const { account, library } = useWeb3React()
     const dispatch = useDispatch()
-    const nfts = useSelector(nftsSelector)
+    const nfts = useLandNfts()
 
     const fetchNftLandsData = useCallback(async () => {
         const contract = new library.eth.Contract(

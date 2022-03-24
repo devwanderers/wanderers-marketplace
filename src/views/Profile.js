@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useCallback } from 'react'
 
 import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'

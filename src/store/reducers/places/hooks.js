@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useLandNfts } from '../nfts/hooks'
 import * as actions from './actions'
 import { countriesSelector, placesReducerSelector } from './selectors'
 
@@ -8,25 +10,31 @@ export const usePlaceReducer = () => {
 }
 
 export const useFetchCountries = () => {
-    const dummyIds = ['Spain', 'France', 'United State of America']
+    const nfts = useLandNfts()
+
     const dispatch = useDispatch()
     const { countries, countriesArray } = useSelector(countriesSelector)
 
     const fetchCountries = useCallback(async () => {
-        dispatch(actions.fetchCountries.pending())
-        const promises = dummyIds.reduce((acc, name) => {
-            return [...acc, dispatch(actions.getContry(name))]
-        }, [])
-        Promise.all(promises)
-            .then(() => {
-                dispatch(actions.fetchCountries.fulfilled())
-            })
-            .catch((err) => dispatch(actions.fetchCountries.rejected(err)))
-    }, [dispatch])
+        console.log({ nfts })
+        const nftPlacesNames = nfts.reduce(
+            (acc, n) => [...acc, n.attributes[0].value],
+            []
+        )
+        console.log({ nftPlacesNames })
+        // dispatch(actions.fetchCountries.pending())
+        dispatch(actions.getContry(nftPlacesNames))
+
+        // Promise.all(promises)
+        //     .then(() => {
+        //         dispatch(actions.fetchCountries.fulfilled())
+        //     })
+        //     .catch((err) => dispatch(actions.fetchCountries.rejected(err)))
+    }, [nfts, dispatch])
 
     useEffect(() => {
         fetchCountries()
-    }, [])
+    }, [nfts])
 
     return { countries, countriesArray }
 }

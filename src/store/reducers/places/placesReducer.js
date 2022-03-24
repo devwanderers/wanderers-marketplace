@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createReducer } from '@reduxjs/toolkit'
 import * as actions from './actions'
 import { transformContryData } from './services'
@@ -15,13 +16,9 @@ const initialState = {
 const placesReducer = createReducer(initialState, (builder) => {
     builder
         .addCase(actions.getContry.fulfilled, (state, { payload }) => {
-            const country = transformContryData(payload.country)
+            // const country = transformContryData(payload.country)
             return {
                 ...state,
-                countries: {
-                    ...state.countries,
-                    [country.name]: country,
-                },
             }
         })
         .addCase(actions.fetchCountries.pending, (state) => {

@@ -24,6 +24,7 @@ import {
     useFetchPlaces,
     usePlaceReducer,
 } from './../store/reducers/places/hooks'
+import { useFetchNftLands } from '../store/reducers/nfts/hooks'
 
 // const { TabPane } = Tabs
 
@@ -70,6 +71,8 @@ const MarketView = () => {
     const globeContainerRef = useRef(null)
     const globeRef = useRef(null)
     const searchButtonRef = useRef(null)
+
+    useFetchNftLands()
     const { countries, countriesArray } = useFetchCountries()
     const { fetch } = usePlaceReducer()
     const [markers, setMarkers] = useState([])

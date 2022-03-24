@@ -4,9 +4,11 @@ import axiosInstance from './../../services/axiosConfig'
 
 export const getContry = createAsyncThunk(
     types.GET_COUNTRY,
-    async (name, { rejectWithValue }) => {
+    async (places, { rejectWithValue }) => {
         try {
-            const res = await axiosInstance.get(`country/getbyname/${name}`)
+            const res = await axiosInstance.post(`country/getbyplace`, {
+                places,
+            })
             return res?.data
         } catch (error) {
             if (!error.response) {
