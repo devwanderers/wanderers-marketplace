@@ -45,7 +45,7 @@ export const useSetAvatar = () => {
                 saveAvatar(avatar, () => setInitialAvatar(avatar))
             }
         },
-        500,
+        2000,
         [avatar, initialAvatar]
     )
 

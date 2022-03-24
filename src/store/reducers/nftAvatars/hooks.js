@@ -55,8 +55,8 @@ export const useFetchNftAvatars = () => {
             AvatarDestinareAbi,
             process.env.REACT_APP_AVATAR_DESTINARE_CONTRACT_ADDRESS
         )
-        const dummy = ['2', '3']
-        const promises = dummy.reduce((acc, v) => {
+        // const dummys = ['1', '2', '3']
+        const promises = nftIds.reduce((acc, v) => {
             return [...acc, contract.methods.tokenURI(v).call()]
         }, [])
         dispatch(actions.setNftAvatar.pending())

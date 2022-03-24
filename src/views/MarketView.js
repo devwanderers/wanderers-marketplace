@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-loss-of-precision */
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import GlobeComponent from './../components/GlobeComponent/index'
 // import useResponsive from './../hooks/useResponsive'
 import useEventListener from './../hooks/useEventListener'
@@ -19,6 +19,11 @@ import places from './../assets/images/places'
 import nfts from '../assets/images/nfts'
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
 import { lands, roles } from './../constants/nftsDummy'
+import {
+    useFetchCountries,
+    useFetchPlaces,
+    usePlaceReducer,
+} from './../store/reducers/places/hooks'
 
 // const { TabPane } = Tabs
 
@@ -65,11 +70,31 @@ const MarketView = () => {
     const globeContainerRef = useRef(null)
     const globeRef = useRef(null)
     const searchButtonRef = useRef(null)
-    const [markers, setMarkers] = useState(data)
+    const { countries, countriesArray } = useFetchCountries()
+    const { fetch } = usePlaceReducer()
+    const [markers, setMarkers] = useState([])
     const [globeSizes, setGlobalSizes] = useState({ width: 0, height: 0 })
     const [searchText, setSearchText] = useState()
     const [selectedText, setSelected] = useState()
     const [marker, setMarker] = useState()
+
+    useEffect(() => {
+        const _markers = countriesArray.reduce((acc, { name, xyz, image }) => {
+            return [
+                ...acc,
+                {
+                    coordinates: {
+                        x: xyz[0],
+                        y: xyz[1],
+                        z: xyz[2],
+                    },
+                    label: name,
+                    image,
+                },
+            ]
+        }, [])
+        setMarkers(_markers)
+    }, [countriesArray])
 
     useEffectOnce(() => {
         setGlobalSizes({
@@ -89,7 +114,6 @@ const MarketView = () => {
         const marker = markers.filter((m) => m.label === val)[0]
         setSelected(marker.label)
         setSearchText(marker.label)
-        console.log('entro')
         globeRef.current.goToMarkerSelected(marker.label)
     }
 
@@ -114,17 +138,6 @@ const MarketView = () => {
             searchButtonRef.current.focus()
         }
     }
-
-    // const onKeyUp = (e) => {
-    //     if (e.code === 'Enter') {
-    //         // if (searchText === '') {
-    //         //     setSelected(undefined)
-    //         //     globeRef.current.moveCameraToOriginalOrbit()
-    //         //     // setMarkerSelected(undefined)
-    //         // } else if (selectedText)
-    //         //     globeRef.current.goToMarkerSelected(selectedText)
-    //     }
-    // }
 
     const onClick = () => {
         if (selectedText) globeRef.current.goToMarkerSelected(selectedText)
@@ -159,19 +172,23 @@ const MarketView = () => {
                 className="w-full m-auto relative overflow-hidden"
                 style={{ height: '650px' }}
             >
-                <GlobeComponent
-                    ref={globeRef}
-                    data={markers}
-                    width={window.innerWidth}
-                    height={650}
-                    // disabledRotation
-                    // mode={"addMarker"}
-                    onAddMarker={(marker) => {
-                        console.log({ marker })
-                        setMarkers([...markers, { ...marker, label: '' }])
-                    }}
-                    onClickMarker={handleOnClickMarker}
-                />
+                {fetch.requestCountries && markers.length > 0 ? (
+                    <GlobeComponent
+                        ref={globeRef}
+                        data={markers}
+                        width={window.innerWidth}
+                        height={650}
+                        // disabledRotation
+                        // mode={'addMarker'}
+                        // onAddMarker={(marker) => {
+                        //     console.log({ marker })
+                        //     setMarkers([...markers, { ...marker, label: '' }])
+                        // }}
+                        onClickMarker={handleOnClickMarker}
+                    />
+                ) : (
+                    <div>Hi</div>
+                )}
                 <div className="absolute bottom-0 w-full mb-5">
                     <div
                         className="relative flex justify-center items-center m-auto w-10/12 md:w-8/12 lg:w-6/12 2xl:w-4/12"

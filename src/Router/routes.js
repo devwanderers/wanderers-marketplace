@@ -24,7 +24,7 @@ const routes = [
     {
         name: 'MarketNftDetailView',
         path: `${paths.MarketDetailPath}/:id`,
-        route: Route,
+        route: PrivateRoute,
         layoutProps: { hideFooter: true },
         componentProps: { routes: [] },
         layout: DefaultLayout,

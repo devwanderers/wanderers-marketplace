@@ -10,14 +10,14 @@ export const useNftsReducer = () => {
     return useSelector(nftReducerSelector)
 }
 
-export const useFetchNftAvatarId = () => {
+export const useFetchNftLandId = () => {
     const { account, library } = useWeb3React()
     const dispatch = useDispatch()
     const nftsIds = useSelector(nftIdSelector)
     const fetcNftIDS = useCallback(async () => {
         const contract = new library.eth.Contract(
             AvatarDestinareAbi,
-            process.env.REACT_APP_AVATAR_DESTINARE_CONTRACT_ADDRESS
+            process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
         )
         dispatch(actions.setNftIDs.pending())
         contract.methods
@@ -40,19 +40,19 @@ export const useFetchNftAvatarId = () => {
     return nftsIds
 }
 
-export const useFetchNftAvatars = () => {
-    const nftIds = useFetchNftAvatarId()
+export const useFetchNftLands = () => {
+    const nftIds = useFetchNftLandId()
     const { account, library } = useWeb3React()
     const dispatch = useDispatch()
     const nfts = useSelector(nftsSelector)
 
-    const fetchNftAvatarsData = useCallback(async () => {
+    const fetchNftLandsData = useCallback(async () => {
         const contract = new library.eth.Contract(
             AvatarDestinareAbi,
-            process.env.REACT_APP_AVATAR_DESTINARE_CONTRACT_ADDRESS
+            process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
         )
-        const dummy = ['2', '3']
-        const promises = dummy.reduce((acc, v) => {
+
+        const promises = nftIds.reduce((acc, v) => {
             return [...acc, contract.methods.tokenURI(v).call()]
         }, [])
         dispatch(actions.setNft.pending())
@@ -83,7 +83,7 @@ export const useFetchNftAvatars = () => {
     }, [nftIds, library, dispatch])
 
     useEffect(() => {
-        if (account && nftIds.length > 0) fetchNftAvatarsData()
+        if (account && nftIds.length > 0) fetchNftLandsData()
     }, [account, nftIds])
 
     return nfts

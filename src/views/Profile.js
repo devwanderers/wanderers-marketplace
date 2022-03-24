@@ -4,13 +4,17 @@ import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'
 
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
 import CardNftMarket from './../components/Cards/CardNftMarket'
-import { lands, roles } from './../constants/nftsDummy'
+import { lands } from './../constants/nftsDummy'
 import NftProfileDisplay from '../components/Profile/NftProfileDisplay'
 import UserInfo from '../components/Profile/UserInfo'
 import {
     useFetchNftAvatars,
     useNftAvatarReducer,
 } from '../store/reducers/nftAvatars/hooks'
+import {
+    useFetchNftLands,
+    useNftsReducer,
+} from './../store/reducers/nfts/hooks'
 import {
     useSetAvatar,
     useFetchProfile,
@@ -20,8 +24,11 @@ import {
 const Profile = () => {
     useFetchNftAvatars()
     useFetchProfile()
+    useFetchNftLands()
+
     const { fetch, nfts } = useNftAvatarReducer()
     const { index, avatar } = useSelectedAvatar()
+    const { fetch: fetchLands, nfts: nftLands } = useNftsReducer()
     const setAvatar = useSetAvatar()
 
     const handleNextAvatar = useCallback(() => {
@@ -47,35 +54,48 @@ const Profile = () => {
                             <div className="w-80 lg:w-56 xl:w-72 2xl:w-20rem">
                                 <NftProfileDisplay
                                     loading={!fetch}
+                                    nftsLength={nfts?.length}
                                     image={avatar?.image}
                                 />
-                                <UserInfo className="mt-5" />
-                                <div className="flex flex-row items-center justify-center h-full mt-5">
-                                    <div className="flex-1 flex justify-center">
-                                        <button
-                                            disabled={
-                                                nfts.length === 0 ||
-                                                nfts.length === 1
-                                            }
-                                            onClick={() => handlePreAvatar()}
-                                            className="text-3xl text-primary disabled:opacity-70 transform active:scale-75"
-                                        >
-                                            <FaArrowCircleLeft />
-                                        </button>
+                                {avatar?.dna && (
+                                    <UserInfo
+                                        className="mt-5"
+                                        nftDNA={avatar?.dna}
+                                        nftId={avatar?.name}
+                                    />
+                                )}
+                                {nfts.length > 1 && (
+                                    <div className="flex flex-row items-center justify-center h-full mt-5">
+                                        <div className="flex-1 flex justify-center">
+                                            <button
+                                                disabled={
+                                                    nfts.length === 0 ||
+                                                    nfts.length === 1
+                                                }
+                                                onClick={() =>
+                                                    handlePreAvatar()
+                                                }
+                                                className="text-3xl text-primary disabled:opacity-70 transform active:scale-75"
+                                            >
+                                                <FaArrowCircleLeft />
+                                            </button>
+                                        </div>
+                                        <div className="flex-1 flex justify-center text-primary">
+                                            <button
+                                                disabled={
+                                                    nfts.length === 0 ||
+                                                    nfts.length === 1
+                                                }
+                                                onClick={() =>
+                                                    handleNextAvatar()
+                                                }
+                                                className="text-3xl disabled:opacity-70 transform active:scale-75"
+                                            >
+                                                <FaArrowCircleRight />
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className="flex-1 flex justify-center text-primary">
-                                        <button
-                                            disabled={
-                                                nfts.length === 0 ||
-                                                nfts.length === 1
-                                            }
-                                            onClick={() => handleNextAvatar()}
-                                            className="text-3xl disabled:opacity-70 transform active:scale-75"
-                                        >
-                                            <FaArrowCircleRight />
-                                        </button>
-                                    </div>
-                                </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -87,27 +107,6 @@ const Profile = () => {
                             <TabPane tab="Lands" className="px-6 2xl:px-10">
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-4 gap-4">
                                     {lands.map((f) => {
-                                        return (
-                                            <div
-                                                key={`${f.country}-${f.title}`}
-                                            >
-                                                <CardNftMarket
-                                                    id={f.id}
-                                                    nft={f.nft}
-                                                    title={f.title}
-                                                    isProfile
-                                                />
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </TabPane>
-                            <TabPane
-                                tab="Ambassador"
-                                className="px-6 2xl:px-16"
-                            >
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 gap-4">
-                                    {roles.map((f) => {
                                         return (
                                             <div
                                                 key={`${f.country}-${f.title}`}

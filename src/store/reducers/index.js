@@ -8,6 +8,7 @@ import siteInteractionReducer from './siteInteraction/siteInteractionReducer'
 import nftAvatars from './nftAvatars/nftAvatarsReducer'
 import nfts from './nfts/nftsReducer'
 import profile from './profile/profileReducer'
+import places from './places/placesReducer'
 
 const persistConfig = {
     key: 'root',
@@ -21,6 +22,7 @@ const appReducer = combineReducers({
     nftAvatars,
     nfts,
     profile,
+    places,
 })
 
 const rootReducer = (state, action) => {

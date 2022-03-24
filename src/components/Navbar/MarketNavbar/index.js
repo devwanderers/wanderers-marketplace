@@ -36,16 +36,16 @@ const MarketNavbar = (props) => {
 
     return (
         <header className="h-20 bg-blue-8 border-b border-aqua-3">
-            <div className="max-w-1800px mx-auto flex flex-row h-full">
+            <div className="max-w-1800px mx-auto flex flex-row h-full pl-4">
                 <button
                     onClick={() => history.push(HomePath)}
-                    className="h-12 w-12 my-auto"
+                    className="h-12 w-12 my-auto mr-4 lg:mr-0"
                 >
                     <BrandLogoSVG height={'100%'} width="100%" />
                 </button>
                 <div className="ml-auto h-full ">
-                    <div className="flex flex-row h-full gap-12">
-                        <div className=" flex flex-row space-x-4 h-full">
+                    <div className="flex flex-row h-full gap-4 lg:gap-12">
+                        <div className=" flex flex-row space-x-2 lg:space-x-4 h-full">
                             {navbarMenu.map((menu) => {
                                 const handleOnClick = () =>
                                     typeof menu.path === 'function'
