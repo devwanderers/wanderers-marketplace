@@ -13,13 +13,14 @@ import * as actions from '../store/reducers/globalActions'
 
 const useAuth = () => {
     const { chainId, activate, deactivate } = useWeb3React()
-    const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth', false)
+    const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth1', false)
     const dispatch = useDispatch()
 
     const login = useCallback(
         (msg) => {
             activate(injected, async (error) => {
                 if (error instanceof UnsupportedChainIdError) {
+                    console.log(error)
                     const hasSetup = await setupNetwork()
                     if (hasSetup) {
                         activate(injected).then(() => {
@@ -41,6 +42,7 @@ const useAuth = () => {
         },
         [activate]
     )
+
     const logout = useCallback(() => {
         deactivate()
         setWalletAuth(false)

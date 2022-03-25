@@ -1,10 +1,12 @@
 import React from 'react'
 import LeftArrowIcon from './../../assets/svg/icons/LeftArrowIcon'
+import { useHistory } from 'react-router-dom'
 
-const BackButton = ({ onClick }) => {
+const BackButton = () => {
+    const history = useHistory()
     return (
         <button
-            onClick={onClick}
+            onClick={() => history.goBack()}
             className="flex flex-row items-center gap-2 transform hover:scale-110"
         >
             <div className="relative" style={{ top: '-1px' }}>

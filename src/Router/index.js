@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Switch } from 'react-router'
-import { connect } from 'react-redux'
 import loadable from '@loadable/component'
 import routes from './routes'
 import PageLoading from './../components/PageLoadings/PageLoading'
@@ -53,4 +52,4 @@ class AppRouter extends Component {
     }
 }
 
-export default connect((state) => ({}), null)(AppRouter)
+export default AppRouter

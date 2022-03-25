@@ -18,86 +18,20 @@ import { landsImages } from './../assets/images/lands/'
 import places from './../assets/images/places'
 import nfts from '../assets/images/nfts'
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
-import { lands, roles } from './../constants/nftsDummy'
+// import { lands, roles } from './../constants/nftsDummy'
 import {
     useFetchCountries,
     useFetchPlaces,
     usePlaceReducer,
 } from './../store/reducers/places/hooks'
 import { useFetchNftLands } from '../store/reducers/nfts/hooks'
-
-// const { TabPane } = Tabs
-
-const data = [
-    {
-        coordinates: {
-            x: -99.23808626927799,
-            y: -6.655961618955434,
-            z: -178.0902142475668,
-        },
-        label: 'Brasil',
-        image: landColors.redLand,
-    },
-    {
-        coordinates: {
-            x: 38.27658558648708,
-            y: 82.55040660119347,
-            z: -182.5701668425229,
-        },
-        label: 'Mexico',
-        image: landColors.yellowLand,
-    },
-    {
-        coordinates: {
-            x: 21.508677345677214,
-            y: 134.96997691390598,
-            z: -151.4402925276393,
-        },
-        label: 'USA',
-        image: places.houston,
-    },
-    {
-        coordinates: {
-            x: -138.98259027183832,
-            y: 149.14810446550766,
-            z: 6.93358832079753,
-        },
-        label: 'France',
-        image: places.paris,
-    },
-]
+import utilitiesImages from './../assets/images/utilities/index'
 
 const MarketView = () => {
     const globeContainerRef = useRef(null)
     const globeRef = useRef(null)
     const searchButtonRef = useRef(null)
-
-    useFetchNftLands()
-    const { countries, countriesArray } = useFetchCountries()
-    const { fetch } = usePlaceReducer()
-    const [markers, setMarkers] = useState([])
     const [globeSizes, setGlobalSizes] = useState({ width: 0, height: 0 })
-    const [searchText, setSearchText] = useState()
-    const [selectedText, setSelected] = useState()
-    const [marker, setMarker] = useState()
-
-    useEffect(() => {
-        const _markers = countriesArray.reduce((acc, { name, xyz, image }) => {
-            return [
-                ...acc,
-                {
-                    coordinates: {
-                        x: xyz[0],
-                        y: xyz[1],
-                        z: xyz[2],
-                    },
-                    label: name,
-                    image,
-                },
-            ]
-        }, [])
-        setMarkers(_markers)
-    }, [countriesArray])
 
     useEffectOnce(() => {
         setGlobalSizes({
@@ -112,6 +46,56 @@ const MarketView = () => {
             height: globeContainerRef.current.clientHeight,
         })
     })
+
+    const nfts = useFetchNftLands()
+    const { countries, countriesArray, places } = useFetchCountries()
+    const {
+        fetch: { requestCountries },
+    } = usePlaceReducer()
+    const [markers, setMarkers] = useState([])
+    const [lands, setLands] = useState([])
+    const [marker, setMarker] = useState()
+    const [searchText, setSearchText] = useState()
+    const [selectedText, setSelected] = useState()
+
+    useEffect(() => {
+        const _markers = countriesArray.reduce(
+            (acc, { name, xyz, image }) => [
+                ...acc,
+                {
+                    coordinates: {
+                        x: xyz[0],
+                        y: xyz[1],
+                        z: xyz[2],
+                    },
+                    label: name,
+                    image,
+                },
+            ],
+            []
+        )
+        setMarkers(_markers)
+    }, [countriesArray])
+
+    useEffect(() => {
+        if (requestCountries) {
+            const l = nfts.reduce((acc, n) => {
+                const place = n.attributes[0].value
+
+                return [
+                    ...acc,
+                    {
+                        id: place,
+                        title: place,
+                        nft: n.image,
+                        country: places[place].country,
+                    },
+                ]
+            }, [])
+            console.log({ l })
+            setLands(l)
+        }
+    }, [requestCountries])
 
     const handleOnChangeSelect = (val) => {
         const marker = markers.filter((m) => m.label === val)[0]
@@ -136,7 +120,6 @@ const MarketView = () => {
     }
 
     const onKeyDown = (e) => {
-        // console.log(object)
         if (e.code === 'Enter' && selectedText) {
             searchButtonRef.current.focus()
         }
@@ -159,9 +142,9 @@ const MarketView = () => {
         ? lands.filter((l) => l.country === selectedText)
         : lands
 
-    const filterRoles = selectedText
-        ? roles.filter((l) => l.country === selectedText)
-        : roles
+    // const filterRoles = selectedText
+    //     ? roles.filter((l) => l.country === selectedText)
+    //     : roles
 
     const options = markers.reduce(
         (acc, m, key) => [...acc, { label: m.label, value: m.label }],
@@ -175,7 +158,7 @@ const MarketView = () => {
                 className="w-full m-auto relative overflow-hidden"
                 style={{ height: '650px' }}
             >
-                {fetch.requestCountries && markers.length > 0 ? (
+                {requestCountries && markers.length > 0 ? (
                     <GlobeComponent
                         ref={globeRef}
                         data={markers}
@@ -190,7 +173,16 @@ const MarketView = () => {
                         onClickMarker={handleOnClickMarker}
                     />
                 ) : (
-                    <div>Hi</div>
+                    <div
+                        className="w-full h-full "
+                        style={{ backgroundColor: '#070f21' }}
+                    >
+                        <img
+                            className="w-auto h-full mx-auto"
+                            src={utilitiesImages.eLoading}
+                            alt={utilitiesImages.eLoading}
+                        />
+                    </div>
                 )}
                 <div className="absolute bottom-0 w-full mb-5">
                     <div
@@ -264,29 +256,11 @@ const MarketView = () => {
                     panelContainerClassName="py-16 bg-blue-4 "
                 >
                     <TabPane
-                        tab="Lands"
+                        tab="Destinations"
                         className="max-w-1280px px-6 2xl:px-16"
                     >
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
                             {filter.map((f, index) => {
-                                return (
-                                    <div key={`${f.country}-${f.title}`}>
-                                        <CardNftMarket
-                                            id={f.id}
-                                            nft={f.nft}
-                                            title={f.title}
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </TabPane>
-                    <TabPane
-                        tab="Ambassadors"
-                        className="max-w-1280px  px-6 2xl:px-16"
-                    >
-                        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
-                            {filterRoles.map((f, index) => {
                                 return (
                                     <div key={`${f.country}-${f.title}`}>
                                         <CardNftMarket

@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'
 
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
 import CardNftMarket from './../components/Cards/CardNftMarket'
-import { lands } from './../constants/nftsDummy'
+// import { lands } from './../constants/nftsDummy'
 import NftProfileDisplay from '../components/Profile/NftProfileDisplay'
 import UserInfo from '../components/Profile/UserInfo'
 import {
@@ -25,12 +25,14 @@ import {
 const Profile = () => {
     useFetchNftAvatars()
     useFetchProfile()
-    useFetchNftLands()
+
+    const nftsLands = useFetchNftLands()
 
     const { fetch, nfts } = useNftAvatarReducer()
     const { index, avatar } = useSelectedAvatar()
     const { fetch: fetchLands, nfts: nftLands } = useNftsReducer()
     const setAvatar = useSetAvatar()
+    const [lands, setLands] = useState([])
 
     const handleNextAvatar = useCallback(() => {
         if (index === nfts.length - 1) setAvatar(nfts[0].edition.toString())
@@ -42,6 +44,24 @@ const Profile = () => {
         if (index === 0) setAvatar(nfts[nfts.length - 1].edition.toString())
         if (index !== 0) setAvatar(nfts[index - 1].edition.toString())
     }, [nfts, index])
+
+    useEffect(() => {
+        if (nftsLands.length > 0) {
+            const l = nftsLands.reduce((acc, n) => {
+                const place = n.attributes[0].value
+
+                return [
+                    ...acc,
+                    {
+                        id: place,
+                        title: place,
+                        nft: n.image,
+                    },
+                ]
+            }, [])
+            setLands(l)
+        }
+    }, [nftsLands])
 
     return (
         <div className="flex-1 flex bg-blue-7">
@@ -105,7 +125,10 @@ const Profile = () => {
                             tabContainerClassName=" px-6 2xl:px-10"
                             panelContainerClassName="py-16 bg-blue-4 "
                         >
-                            <TabPane tab="Lands" className="px-6 2xl:px-10">
+                            <TabPane
+                                tab="Destinations"
+                                className="px-6 2xl:px-10"
+                            >
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-4 gap-4">
                                     {lands.map((f) => {
                                         return (

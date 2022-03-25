@@ -19,11 +19,11 @@ function getLibrary(provider) {
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store.store}>
-            <Web3ReactProvider getLibrary={getLibrary}>
-                <PersistGate loading={null} persistor={store.persistor}>
+            <PersistGate loading={null} persistor={store.persistor}>
+                <Web3ReactProvider getLibrary={getLibrary}>
                     <App />
-                </PersistGate>
-            </Web3ReactProvider>
+                </Web3ReactProvider>
+            </PersistGate>
         </Provider>
     </React.StrictMode>,
     document.getElementById('root')

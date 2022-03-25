@@ -38,6 +38,10 @@ const routes = [
         layout: DefaultLayout,
         exact: true,
     },
+    {
+        name: 'Error404View',
+        route: Route,
+    },
 ]
 
 export default routes

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createAction } from '@reduxjs/toolkit'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import * as types from './types'
 import axiosInstance from './../../services/axiosConfig'
 
@@ -19,8 +19,17 @@ export const getContry = createAsyncThunk(
     }
 )
 
-export const fetchCountries = {
-    pending: createAction(types.FETCH_COUNTRIES_PENDING),
-    rejected: createAction(types.FETCH_COUNTRIES_REJECTED),
-    fulfilled: createAction(types.FETCH_COUNTRIES_FULFILLED),
-}
+export const getPlace = createAsyncThunk(
+    types.GET_PLACE,
+    async (place, { rejectWithValue }) => {
+        try {
+            const res = await axiosInstance.get(`place/get/${place}`)
+            return res?.data
+        } catch (error) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)

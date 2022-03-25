@@ -64,7 +64,7 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
                                 onClick={handleClickNft}
                                 className="bg-blue-6 rounded-md px-2 text-lg font-medium text-blue-5"
                             >
-                                TRADE
+                                DETAIL
                             </button>
                         </div>
                     </div>

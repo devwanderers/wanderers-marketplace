@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react'
 import { Drawer } from 'antd'
 import { BsPerson } from 'react-icons/bs'
 import useWalletDrawer from './../../store/reducers/siteInteraction/hooks/useWalletDrawer'
@@ -8,15 +9,20 @@ import { useWeb3React } from '@web3-react/core'
 import { cls } from './../../services/helpers'
 import { formatAddress } from './../../services/address-services'
 
-const WalletDrawer = (props) => {
+const WalletDrawer = ({ login, logout }) => {
     const { visibleWalletDrawer, closeWalletDrawer } = useWalletDrawer()
+    // const [visible, setState] = useState(false)
     const location = useLocation()
     const { account } = useWeb3React()
-    const { login, logout } = useAuth()
 
-    useEffect(() => {
-        closeWalletDrawer()
-    }, [location])
+    // useEffect(() => {
+    //     closeWalletDrawer()
+    // }, [location])
+
+    // useEffect(() => {
+    //     setState(visibleWalletDrawer)
+    // }, [visibleWalletDrawer])
+
     return (
         <Drawer
             visible={visibleWalletDrawer}

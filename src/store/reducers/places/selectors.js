@@ -9,9 +9,10 @@ export const countriesSelector = createSelector(
     placesReducerSelector,
     (places) => {
         const countries = places.countries
+        const _places = places.places
         const countriesArray = Object.keys(countries).reduce((acc, c) => {
             return [...acc, { key: c, ...countries[c] }]
         }, [])
-        return { countries, countriesArray }
+        return { countries, countriesArray, places: _places }
     }
 )

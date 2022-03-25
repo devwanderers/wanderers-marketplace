@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { nftIdSelector, nftsSelector, nftReducerSelector } from './selectors'
@@ -93,4 +93,20 @@ export const useFetchNftLands = () => {
     return nfts
 }
 
+export const useNftDetail = (place) => {
+    const nfts = useFetchNftLands()
+    const [detail, setDetail] = useState(undefined)
+
+    useEffect(() => {
+        if (nfts.length > 0) {
+            const index = nfts.findIndex((n) => n.attributes[0].value === place)
+            if (index !== -1) {
+                const nftDetail = nfts[index]
+                setDetail(nftDetail)
+            }
+        }
+    }, [nfts, place])
+
+    return detail
+}
 // 1.

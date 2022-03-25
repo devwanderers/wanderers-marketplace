@@ -11,11 +11,10 @@ const PrivateRoute = ({ component, ...restProps }) => {
         <Route
             {...restProps}
             render={(props) => {
-                const _props = {}
                 const Component = component
                 // Add Logic here
                 if (!account) return <Redirect to={HomePath} />
-                return <Component {..._props} />
+                return <Component {...props} />
             }}
         />
     )

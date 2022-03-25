@@ -13,17 +13,17 @@ import * as routePaths from '../../constants/routerConstants'
 import { BrandLogoSVG } from '../../assets/svg/brand'
 import MarketNavbar from '../Navbar/MarketNavbar'
 import WalletDrawer from '../Wallet/WalletDrawer'
+import useAuth from './../../hooks/useAuth'
+import useDebugInformation from './../../hooks/useDebugInformation'
 
 const { Content } = Layout
 
 const DefaultLayout = ({ hideFooter, children, ...rest }) => {
     const history = useHistory()
-    const [showDrawer, setShowDrawer] = useState(false)
+    const { login, logout } = useAuth()
     const { width } = useWindowSize()
+    useDebugInformation('DefaultLayout', { width, login, logout, history })
 
-    const handleOnClickBurger = () => {
-        setShowDrawer(!showDrawer)
-    }
     // const [isOpen, setOpenDrawer] = useState(false)
     return (
         <Layout
@@ -32,7 +32,7 @@ const DefaultLayout = ({ hideFooter, children, ...rest }) => {
         >
             <MarketNavbar />
 
-            <WalletDrawer />
+            <WalletDrawer login={login} logout={logout} />
             <Content className="bg-white flex flex-1 flex-shrink flex-grow relative">
                 {children}
             </Content>

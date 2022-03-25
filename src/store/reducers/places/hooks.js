@@ -13,28 +13,29 @@ export const useFetchCountries = () => {
     const nfts = useLandNfts()
 
     const dispatch = useDispatch()
-    const { countries, countriesArray } = useSelector(countriesSelector)
+    const { countries, countriesArray, places } = useSelector(countriesSelector)
 
     const fetchCountries = useCallback(async () => {
-        console.log({ nfts })
         const nftPlacesNames = nfts.reduce(
             (acc, n) => [...acc, n.attributes[0].value],
             []
         )
-        console.log({ nftPlacesNames })
-        // dispatch(actions.fetchCountries.pending())
         dispatch(actions.getContry(nftPlacesNames))
-
-        // Promise.all(promises)
-        //     .then(() => {
-        //         dispatch(actions.fetchCountries.fulfilled())
-        //     })
-        //     .catch((err) => dispatch(actions.fetchCountries.rejected(err)))
     }, [nfts, dispatch])
 
     useEffect(() => {
-        fetchCountries()
+        if (nfts.length > 0) fetchCountries()
     }, [nfts])
 
-    return { countries, countriesArray }
+    return { countries, countriesArray, places }
+}
+
+export const useFetchPlaceSelected = (place) => {
+    const { selectedPlace } = usePlaceReducer()
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if (place) dispatch(actions.getPlace(place))
+    }, [place])
+    return selectedPlace
 }

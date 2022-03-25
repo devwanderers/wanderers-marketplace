@@ -9,5 +9,5 @@ export const navbarMenu = [
             window.location.replace('https://thewanderers.io/')
         },
     },
-    { id: 'market', title: 'Marketplace', path: HomePath },
+    { id: 'market', title: 'Collection', path: HomePath },
 ]

@@ -6,7 +6,7 @@ import { useWeb3React } from '@web3-react/core'
 const useConnect = () => {
     const { login } = useAuth()
     const { connector, account } = useWeb3React()
-    const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth', false)
+    const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth1', false)
 
     useEffect(() => {
         if (walletAuth) {

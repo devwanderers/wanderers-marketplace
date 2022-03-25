@@ -11,6 +11,7 @@ import nft8 from './nfts/1111.jpeg'
 import nft9 from './nfts/1112.jpeg'
 import isla from './isla.png'
 import island from './piedras-fondo.gif'
+import eLoading from './earth-loading.gif'
 import wttCoin from './wtt-coin.png'
 
 const utilitiesImages = {
@@ -28,6 +29,7 @@ const utilitiesImages = {
     isla,
     wttCoin,
     island,
+    eLoading,
 }
 
 export default utilitiesImages

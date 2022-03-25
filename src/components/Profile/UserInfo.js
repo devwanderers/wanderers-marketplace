@@ -2,6 +2,7 @@ import React from 'react'
 import BannerProfile from './../../assets/svg/frames/BannerProfile'
 import { cls } from './../../services/helpers'
 import { formatAddress } from './../../services/address-services'
+import { Tooltip } from 'antd'
 
 const UserInfo = ({ className, nftId, nftDNA }) => {
     return (
@@ -12,7 +13,9 @@ const UserInfo = ({ className, nftId, nftDNA }) => {
                         <strong>ID:</strong> {nftId}
                     </p>
                     <p className="text-light-0 text-xl gap-2">
-                        <strong>DNA:</strong> {formatAddress(nftDNA)}
+                        <Tooltip title={nftDNA}>
+                            <strong>DNA:</strong> {formatAddress(nftDNA)}
+                        </Tooltip>
                     </p>
                 </div>
             </div>
