@@ -5,8 +5,7 @@ import { HomePath, ProfilePath } from '../../../constants/routerConstants'
 import { navbarMenu } from '../../../constants/navbarMenu'
 import { BsPerson } from 'react-icons/bs'
 import WalletButton from '../../Wallet/WalletButton'
-import useWalletDrawer from './../../../store/reducers/siteInteraction/hooks/useWalletDrawer'
-import { useWeb3React } from '@web3-react/core'
+import useActiveWeb3React from './../../../hooks/useActiveWeb3React'
 
 const MenuOption = ({ selected, onClick, children }) => {
     return (
@@ -22,14 +21,14 @@ const MenuOption = ({ selected, onClick, children }) => {
     )
 }
 
-const MarketNavbar = (props) => {
+const MarketNavbar = ({ onOpenDrawer, visibleDrawer }) => {
     const history = useHistory()
-    const { visibleWalletDrawer } = useWalletDrawer()
+    // const { visibleWalletDrawer } = useWalletDrawer()
     const location = useLocation()
-    const { account } = useWeb3React()
+    const { account } = useActiveWeb3React()
 
     const isSelected = (path) => {
-        if (typeof path !== 'string' || visibleWalletDrawer) return false
+        if (typeof path !== 'string' || visibleDrawer) return false
 
         return !!matchPath(location.pathname, { path, exact: true })
     }
@@ -81,10 +80,13 @@ const MarketNavbar = (props) => {
                                 </div>
                             )}
                             <div className="relative text-white h-12 pb-3 px-4">
-                                {visibleWalletDrawer && (
+                                {visibleDrawer && (
                                     <div className="absolute h-1 bg-blue-6 bottom-0 left-0 w-full"></div>
                                 )}
-                                <WalletButton />
+                                <WalletButton
+                                    visibleDrawer={visibleDrawer}
+                                    onOpenDrawer={onOpenDrawer}
+                                />
                             </div>
                         </div>
                     </div>

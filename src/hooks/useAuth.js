@@ -10,10 +10,11 @@ import { injected } from './../wallet/connectors'
 import { setupNetwork } from './../services/wallet'
 import { useLocalStorage } from './useStorage'
 import * as actions from '../store/reducers/globalActions'
+import useActiveWeb3React from './useActiveWeb3React'
 
 const useAuth = () => {
-    const { chainId, activate, deactivate } = useWeb3React()
-    const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth1', false)
+    const { chainId, activate, deactivate } = useActiveWeb3React()
+    // const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth', 'false')
     const dispatch = useDispatch()
 
     const login = useCallback(
@@ -24,7 +25,8 @@ const useAuth = () => {
                     const hasSetup = await setupNetwork()
                     if (hasSetup) {
                         activate(injected).then(() => {
-                            setWalletAuth(true)
+                            window.localStorage.setItem('walletAuth', 'true')
+                            // setWalletAuth(true)
                         })
                     }
                 } else {
@@ -37,7 +39,8 @@ const useAuth = () => {
                     }
                 }
             }).then(() => {
-                setWalletAuth(true)
+                window.localStorage.setItem('walletAuth', 'true')
+                // setWalletAuth(true)
             })
         },
         [activate]
@@ -45,7 +48,7 @@ const useAuth = () => {
 
     const logout = useCallback(() => {
         deactivate()
-        setWalletAuth(false)
+        window.localStorage.setItem('walletAuth', 'false')
         dispatch(actions.logout())
     }, [deactivate, dispatch, chainId])
 

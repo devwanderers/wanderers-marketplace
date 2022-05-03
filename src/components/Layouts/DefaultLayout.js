@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-target-blank */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { PropTypes } from 'prop-types'
 import { Link, useHistory } from 'react-router-dom'
 import { Layout, Drawer } from 'antd'
@@ -18,21 +18,34 @@ import useDebugInformation from './../../hooks/useDebugInformation'
 
 const { Content } = Layout
 
-const DefaultLayout = ({ hideFooter, children, ...rest }) => {
-    const history = useHistory()
+const DefaultLayout = ({ children, ...rest }) => {
+    const [visibleDrawer, setVisibleDrawer] = useState(false)
     const { login, logout } = useAuth()
     const { width } = useWindowSize()
-    useDebugInformation('DefaultLayout', { width, login, logout, history })
 
-    // const [isOpen, setOpenDrawer] = useState(false)
+    useEffect(() => {
+        if (visibleDrawer) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'auto'
+        }
+    }, [visibleDrawer])
+
     return (
         <Layout
             className="overflow-x-hidden flex flex-col min-h-screen"
             style={{ minWidth: '425px' }}
         >
-            <MarketNavbar />
-
-            <WalletDrawer login={login} logout={logout} />
+            <MarketNavbar
+                visibleDrawer={visibleDrawer}
+                onOpenDrawer={setVisibleDrawer}
+            />
+            <WalletDrawer
+                login={login}
+                logout={logout}
+                visibleDrawer={visibleDrawer}
+                onOpenDrawer={setVisibleDrawer}
+            />
             <Content className="bg-white flex flex-1 flex-shrink flex-grow relative">
                 {children}
             </Content>

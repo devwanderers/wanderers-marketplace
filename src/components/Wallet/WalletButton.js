@@ -1,17 +1,13 @@
 import React from 'react'
 import { BiWalletAlt } from 'react-icons/bi'
-import useWalletDrawer from './../../store/reducers/siteInteraction/hooks/useWalletDrawer'
 
-const WalletButton = () => {
-    const { openWalletDrawer, closeWalletDrawer, visibleWalletDrawer } =
-        useWalletDrawer()
-
+const WalletButton = ({ onOpenDrawer, visibleDrawer }) => {
     return (
         <button
             className="h-full"
             onClick={() => {
-                if (visibleWalletDrawer) closeWalletDrawer()
-                else openWalletDrawer()
+                if (visibleDrawer) onOpenDrawer(false)
+                else onOpenDrawer(true)
             }}
         >
             <BiWalletAlt size={'100%'} />

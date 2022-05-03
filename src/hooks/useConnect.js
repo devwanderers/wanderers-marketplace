@@ -1,28 +1,29 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from 'react'
 import { useLocalStorage } from './useStorage'
 import useAuth from './useAuth'
 import { useWeb3React } from '@web3-react/core'
 
 const useConnect = () => {
+    const { chainId, activate, deactivate } = useWeb3React()
     const { login } = useAuth()
-    const { connector, account } = useWeb3React()
-    const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth1', false)
+    const { connector, account, library } = useWeb3React()
+    // const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth', false)
 
     useEffect(() => {
-        if (walletAuth) {
+        const walletAuth = window.localStorage.getItem('walletAuth')
+        if (walletAuth === 'true') {
             login()
         }
     }, [login])
-
     useEffect(() => {
         if (account && connector) {
             const handleDeactivate = () => {
-                setWalletAuth(false)
+                // setWalletAuth(false)
             }
             const reload = () => {
                 window.location.reload()
             }
-
             connector.on('Web3ReactDeactivate', handleDeactivate)
             window.ethereum.on('chainChanged', reload)
             return () => {

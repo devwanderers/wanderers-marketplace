@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useCallback, useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     nftIdSelector,
@@ -9,13 +8,14 @@ import {
 } from './selectors'
 import * as actions from './actions'
 import AvatarDestinareAbi from '../../../abi/AvatarDestinare.json'
+import useActiveWeb3React from './../../../hooks/useActiveWeb3React'
 
 export const useNftAvatarReducer = () => {
     return useSelector(nftAvatarsReducerSelector)
 }
 
 export const useFetchNftAvatarId = () => {
-    const { account, library } = useWeb3React()
+    const { account, library } = useActiveWeb3React()
     const dispatch = useDispatch()
     const nftsIds = useSelector(nftIdSelector)
     const fetcNftIDS = useCallback(async () => {
@@ -46,7 +46,7 @@ export const useFetchNftAvatarId = () => {
 
 export const useFetchNftAvatars = () => {
     const nftIds = useFetchNftAvatarId()
-    const { account, library } = useWeb3React()
+    const { account, library } = useActiveWeb3React()
     const dispatch = useDispatch()
     const nfts = useSelector(nftsSelector)
 
@@ -60,14 +60,15 @@ export const useFetchNftAvatars = () => {
             return [...acc, contract.methods.tokenURI(v).call()]
         }, [])
         dispatch(actions.setNftAvatar.pending())
+        console.log({ promises })
         Promise.all(promises)
             .then((uris) => {
-                console.log({ uris })
                 const urisPromises = uris.reduce((acc, uri) => {
                     const newUri = uri.replace(
                         /^ipfs?:\/\//,
-                        'https://wanderers.mypinata.cloud/ipfs/'
+                        'https://nomadzland.mypinata.cloud/ipfs/'
                     )
+                    console.log({ newUri })
                     return [...acc, fetch(newUri).then((res) => res.json())]
                 }, [])
                 Promise.all(urisPromises)

@@ -14,13 +14,10 @@ const MarketNftDetailView = (props) => {
     const id = match?.params?.id
     const detail = useNftDetail(id)
     const placeInfo = useFetchPlaceSelected(id)
+    console.log({ placeInfo })
 
     if (!id) console.log('No data')
 
-    // useEffect(() => {
-    //     const _id = lands.findIndex((l) => l.id === id)
-    //     if (id !== -1) setDetail(lands[_id])
-    // }, [id])
     return (
         <div className="flex-1 flex bg-blue-7">
             <div className="max-w-1280px flex-1 mx-auto flex flex-col lg:flex-row bg-blue-4">

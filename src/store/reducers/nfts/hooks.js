@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { useCallback, useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { nftIdSelector, nftsSelector, nftReducerSelector } from './selectors'
 import * as actions from './actions'
 import AvatarDestinareAbi from '../../../abi/AvatarDestinare.json'
+import useActiveWeb3React from './../../../hooks/useActiveWeb3React'
+import { useMoralis } from 'react-moralis'
 
 export const useNftsReducer = () => {
     return useSelector(nftReducerSelector)
@@ -15,7 +16,7 @@ export const useLandNfts = () => {
 }
 
 export const useFetchNftLandId = () => {
-    const { account, library } = useWeb3React()
+    const { account, library } = useActiveWeb3React()
     const dispatch = useDispatch()
     const nftsIds = useSelector(nftIdSelector)
     const fetcNftIDS = useCallback(async () => {
@@ -46,7 +47,7 @@ export const useFetchNftLandId = () => {
 
 export const useFetchNftLands = () => {
     const nftIds = useFetchNftLandId()
-    const { account, library } = useWeb3React()
+    const { account, library } = useActiveWeb3React()
     const dispatch = useDispatch()
     const nfts = useLandNfts()
 
@@ -65,7 +66,7 @@ export const useFetchNftLands = () => {
                 const urisPromises = uris.reduce((acc, uri) => {
                     const newUri = uri.replace(
                         /^ipfs?:\/\//,
-                        'https://wanderers.mypinata.cloud/ipfs/'
+                        'https://nomadzland.mypinata.cloud/ipfs/'
                     )
                     return [...acc, fetch(newUri).then((res) => res.json())]
                 }, [])

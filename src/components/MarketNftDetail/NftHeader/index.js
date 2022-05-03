@@ -15,7 +15,7 @@ const NftHeader = ({ title, ...props }) => {
             </div>
             <div className="ml-auto flex flex-col justify-end">
                 {/* <NftSaleCountDown /> */}
-                <div className="ml-auto flex flex-row gap-8">
+                <div className="ml-auto flex flex-col items-end md:items-start md:flex-row gap-2 lg:gap-8">
                     <div className="flex-1 flex flex-row items-center gap-1">
                         <div
                             className="relative flex items-center"

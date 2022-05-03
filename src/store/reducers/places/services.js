@@ -8,7 +8,7 @@ export const transformContryData = (data) => {
             ...country,
             [name]: {
                 name,
-                image: `http://localhost:8080/images/${image}`,
+                image: `https://terramint.fra1.digitaloceanspaces.com/${image}`,
                 ...rest,
             },
         }
@@ -19,7 +19,7 @@ export const transformContryData = (data) => {
                 [place.place]: {
                     ...place,
                     country: name,
-                    image: `http://localhost:8080/images/${place.image}`,
+                    image: `https://terramint.fra1.digitaloceanspaces.com/${place.image}`,
                 },
             }
         }
@@ -30,5 +30,8 @@ export const transformContryData = (data) => {
 
 export const transformPlaceData = (data) => {
     console.log({ data })
-    return { ...data, image: `http://localhost:8080/images/${data.image}` }
+    return {
+        ...data,
+        image: `https://terramint.fra1.digitaloceanspaces.com/${data.image}`,
+    }
 }

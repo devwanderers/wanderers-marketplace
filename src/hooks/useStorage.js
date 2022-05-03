@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect } from 'react'
 
 export function useLocalStorage(key, defaultValue) {
+    console.log({ localStorage: window.localStorage })
     return useStorage(key, defaultValue, window.localStorage)
 }
 

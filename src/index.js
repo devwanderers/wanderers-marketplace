@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
+// import { MoralisProvider } from 'react-moralis'
 import { Web3ReactProvider } from '@web3-react/core'
 import Web3 from 'web3'
 
@@ -16,13 +17,18 @@ function getLibrary(provider) {
     return new Web3(provider)
 }
 
+// const MORALIS_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID
+// const MORALIS_URL = process.env.REACT_APP_MORALIS_SERVER_URL
+
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store.store}>
             <PersistGate loading={null} persistor={store.persistor}>
+                {/* <MoralisProvider serverUrl={MORALIS_URL} appId={MORALIS_ID}> */}
                 <Web3ReactProvider getLibrary={getLibrary}>
                     <App />
                 </Web3ReactProvider>
+                {/* </MoralisProvider> */}
             </PersistGate>
         </Provider>
     </React.StrictMode>,

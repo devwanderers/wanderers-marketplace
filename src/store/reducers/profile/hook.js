@@ -2,9 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { nftsSelector } from './../nftAvatars/selectors'
 import * as actions from './actions'
-import { useWeb3React } from '@web3-react/core'
+
 import { profileReducerSelector } from './selectors'
 import useDebounce from './../../../hooks/useDebounce'
+import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
 
 export const useSelectedAvatar = () => {
     const nfts = useSelector(nftsSelector)
@@ -17,7 +18,7 @@ export const useSelectedAvatar = () => {
 }
 
 export const useSaveAvatar = () => {
-    const { account } = useWeb3React()
+    const { account } = useActiveWeb3React()
     const dispatch = useDispatch()
 
     return useCallback(
@@ -58,7 +59,7 @@ export const useSetAvatar = () => {
 }
 
 export const useFetchProfile = () => {
-    const { account } = useWeb3React()
+    const { account } = useActiveWeb3React()
     const nfts = useSelector(nftsSelector)
     const dispatch = useDispatch()
 

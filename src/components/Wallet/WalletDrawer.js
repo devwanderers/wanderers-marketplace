@@ -4,31 +4,23 @@ import { Drawer } from 'antd'
 import { BsPerson } from 'react-icons/bs'
 import useWalletDrawer from './../../store/reducers/siteInteraction/hooks/useWalletDrawer'
 import { useLocation } from 'react-router-dom'
-import useAuth from './../../hooks/useAuth'
-import { useWeb3React } from '@web3-react/core'
 import { cls } from './../../services/helpers'
 import { formatAddress } from './../../services/address-services'
+import useActiveWeb3React from './../../hooks/useActiveWeb3React'
+import { useWeb3React } from '@web3-react/core'
+import { useMoralis } from 'react-moralis'
 
-const WalletDrawer = ({ login, logout }) => {
-    const { visibleWalletDrawer, closeWalletDrawer } = useWalletDrawer()
-    // const [visible, setState] = useState(false)
+const WalletDrawer = ({ login, logout, visibleDrawer, onOpenDrawer }) => {
     const location = useLocation()
     const { account } = useWeb3React()
-
-    // useEffect(() => {
-    //     closeWalletDrawer()
-    // }, [location])
-
-    // useEffect(() => {
-    //     setState(visibleWalletDrawer)
-    // }, [visibleWalletDrawer])
+    // const { isAuthenticated, account } = useMoralis()
 
     return (
         <Drawer
-            visible={visibleWalletDrawer}
+            visible={visibleDrawer}
             placement="right"
             getContainer={false}
-            onClose={closeWalletDrawer}
+            onClose={() => onOpenDrawer(false)}
             title={
                 <div className="flex">
                     <div className="text-white text-3xl mr-3">
@@ -47,7 +39,7 @@ const WalletDrawer = ({ login, logout }) => {
                                     My Wallet
                                 </span>
                                 <span className="text-white text-xl">
-                                    {formatAddress(account)}
+                                    {account && formatAddress(account)}
                                 </span>
                             </React.Fragment>
                         ) : (

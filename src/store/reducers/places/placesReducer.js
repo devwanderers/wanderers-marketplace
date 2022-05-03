@@ -36,8 +36,10 @@ const placesReducer = createReducer(initialState, (builder) => {
             }
         })
         .addCase(actions.getPlace.fulfilled, (state, { payload }) => {
-            console.log({ payload })
             state.selectedPlace = transformPlaceData(payload.place)
+        })
+        .addCase(actions.getPlace.rejected, (state, { payload }) => {
+            state.selectedPlace = null
         })
 })
 

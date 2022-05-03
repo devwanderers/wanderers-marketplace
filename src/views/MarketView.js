@@ -88,11 +88,10 @@ const MarketView = () => {
                         id: place,
                         title: place,
                         nft: n.image,
-                        country: places[place].country,
+                        country: places[place]?.country,
                     },
                 ]
             }, [])
-            console.log({ l })
             setLands(l)
         }
     }, [requestCountries])
@@ -151,6 +150,7 @@ const MarketView = () => {
         []
     )
     const optionsFilter = filterSearch(searchText, options)
+
     return (
         <div className="w-full bg-blue-4 relative">
             <div
