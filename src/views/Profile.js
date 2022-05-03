@@ -16,6 +16,7 @@ import {
     useFetchNftLands,
     useNftsReducer,
 } from './../store/reducers/nfts/hooks'
+import { useFirst500MIntedNft } from './../hooks/web3Hooks/useNftTransferEvent'
 import {
     useSetAvatar,
     useFetchProfile,
@@ -27,7 +28,7 @@ const Profile = () => {
     useFetchProfile()
 
     const nftsLands = useFetchNftLands()
-
+    useFirst500MIntedNft()
     const { fetch, nfts } = useNftAvatarReducer()
     const { index, avatar } = useSelectedAvatar()
     const { fetch: fetchLands, nfts: nftLands } = useNftsReducer()
