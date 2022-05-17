@@ -3,45 +3,34 @@ import { useState, useCallback } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import AvatarDestinareAbi from '../../abi/AvatarDestinare.json'
 import { useEffect } from 'react/cjs/react.development'
+import { Moralis } from 'moralis'
+import { useMoralisQuery } from 'react-moralis'
 
-export const useFirst500MIntedNft = (tokenId) => {
+export const useFirst500MIntedNft = () => {
     const [data, setData] = useState([])
-    const { library } = useWeb3React()
+    const {
+        data: moralisData,
+        isLoading,
+        error,
+    } = useMoralisQuery(
+        'Mints',
+        (query) => query.ascending('block_number').limit(500),
+        []
+    )
 
-    const fetchEventsData = useCallback(() => {
-        const contract = new library.eth.Contract(
-            AvatarDestinareAbi,
-            process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
-        )
-        contract
-            .getPastEvents(
-                'Transfer',
-                {
-                    filter: {
-                        from: '0x0000000000000000000000000000000000000000',
-                    },
-                    fromBlock: 'earliest',
-                    toBlock: '',
-                },
-                (err, events) => console.log('err', err, 'events', events)
-            )
-            .then((events) => {
-                const newArr = events.slice(0, 500).map((v) => {
-                    return {
-                        from: v.returnValues.from,
-                        to: v.returnValues.to,
-                        tokenId: v.returnValues.tokenId,
-                        blockNumber: v.blockNumber,
-                        blockHash: v.blockHash,
-                    }
-                })
-
-                setData(newArr)
-            })
-            .catch((err) => console.log(err))
-    }, [library])
-    console.log({ data })
     useEffect(() => {
-        fetchEventsData()
-    }, [])
+        const _data = moralisData.map((v) => {
+            return {
+                blockNumber: v.get('block_number'),
+                from: v.get('from'),
+                to: v.get('to'),
+                tokenId: v.get('tokenId'),
+                timeStamp: v.get('block_timestamp'),
+            }
+        })
+        setData(_data)
+        // fetchEventsData()
+    }, [moralisData])
+
+    return { data, isLoading, error }
 }

@@ -64,9 +64,15 @@ export const useFetchNftAvatars = () => {
         Promise.all(promises)
             .then((uris) => {
                 const urisPromises = uris.reduce((acc, uri) => {
-                    const newUri = uri.replace(
+                    let newUri = uri.replace(
                         /^ipfs?:\/\//,
                         'https://nomadzland.mypinata.cloud/ipfs/'
+                    )
+                    console.log({ newUri })
+                    // Se debe eliminar
+                    newUri = newUri.replace(
+                        'Qme3xnUh9NmPa9EMcAUwyRM67x3JGJoB1yTnp5Bk3Pmh8Q',
+                        'QmU1t74BcGEEqNX438VnE3M2WiLdAUswYquSgQBo258Nvb'
                     )
                     console.log({ newUri })
                     return [...acc, fetch(newUri).then((res) => res.json())]
