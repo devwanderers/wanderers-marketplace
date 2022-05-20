@@ -9,6 +9,9 @@ import {
 import * as actions from './actions'
 import AvatarDestinareAbi from '../../../abi/AvatarDestinare.json'
 import useActiveWeb3React from './../../../hooks/useActiveWeb3React'
+import { ethers } from 'ethers'
+import { useERC721Contract } from '../../../hooks/web3Hooks/useContract'
+import { ipfsReplaceUri } from './../../../services/ipfs'
 
 export const useNftAvatarReducer = () => {
     return useSelector(nftAvatarsReducerSelector)
@@ -18,22 +21,21 @@ export const useFetchNftAvatarId = () => {
     const { account, library } = useActiveWeb3React()
     const dispatch = useDispatch()
     const nftsIds = useSelector(nftIdSelector)
+    const erc721Contract = useERC721Contract(
+        process.env.REACT_APP_AVATAR_DESTINARE_CONTRACT_ADDRESS
+    )
+
     const fetcNftIDS = useCallback(async () => {
-        const contract = new library.eth.Contract(
-            AvatarDestinareAbi,
-            process.env.REACT_APP_AVATAR_DESTINARE_CONTRACT_ADDRESS
-        )
+        console.log({ erc721Contract })
         dispatch(actions.setNftIDsAvatar.pending())
-        contract.methods
+        erc721Contract
             .walletOfOwner(account)
-            .call()
             .then((res) => dispatch(actions.setNftIDsAvatar.fulfilled(res)))
             .catch((err) => {
                 console.log('Failed to get nft ids', err)
                 dispatch(actions.setNftIDsAvatar.rejected(err))
-                throw err
             })
-    }, [library, dispatch])
+    }, [erc721Contract, dispatch])
 
     useEffect(() => {
         if (account) {
@@ -50,32 +52,28 @@ export const useFetchNftAvatars = () => {
     const dispatch = useDispatch()
     const nfts = useSelector(nftsSelector)
 
+    const erc721Contract = useERC721Contract(
+        process.env.REACT_APP_AVATAR_DESTINARE_CONTRACT_ADDRESS
+    )
+
     const fetchNftAvatarsData = useCallback(async () => {
-        const contract = new library.eth.Contract(
-            AvatarDestinareAbi,
-            process.env.REACT_APP_AVATAR_DESTINARE_CONTRACT_ADDRESS
-        )
-        // const dummys = ['1', '2', '3']
         const promises = nftIds.reduce((acc, v) => {
-            return [...acc, contract.methods.tokenURI(v).call()]
+            return [...acc, erc721Contract.tokenURI(v)]
         }, [])
+
         dispatch(actions.setNftAvatar.pending())
-        console.log({ promises })
+
         Promise.all(promises)
             .then((uris) => {
-                const urisPromises = uris.reduce((acc, uri) => {
-                    let newUri = uri.replace(
-                        /^ipfs?:\/\//,
-                        'https://nomadzland.mypinata.cloud/ipfs/'
-                    )
-                    console.log({ newUri })
+                const urisPromises = uris.map((uri) => {
+                    let newUri = ipfsReplaceUri(uri)
                     // Se debe eliminar
                     newUri = newUri.replace(
                         'Qme3xnUh9NmPa9EMcAUwyRM67x3JGJoB1yTnp5Bk3Pmh8Q',
                         'QmU1t74BcGEEqNX438VnE3M2WiLdAUswYquSgQBo258Nvb'
                     )
-                    console.log({ newUri })
-                    return [...acc, fetch(newUri).then((res) => res.json())]
+
+                    return fetch(newUri).then((res) => res.json())
                 }, [])
                 Promise.all(urisPromises)
                     .then((nfts) => {
@@ -92,7 +90,7 @@ export const useFetchNftAvatars = () => {
                 dispatch(actions.setNftAvatar.rejected(err))
                 throw err
             })
-    }, [nftIds, library, dispatch])
+    }, [nftIds, erc721Contract, dispatch])
 
     useEffect(() => {
         if (account && nftIds.length > 0) fetchNftAvatarsData()

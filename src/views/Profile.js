@@ -1,22 +1,20 @@
 /* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useMemo } from 'react'
 
 import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'
 
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
 import CardNftMarket from './../components/Cards/CardNftMarket'
-// import { lands } from './../constants/nftsDummy'
 import NftProfileDisplay from '../components/Profile/NftProfileDisplay'
 import UserInfo from '../components/Profile/UserInfo'
 import {
     useFetchNftAvatars,
     useNftAvatarReducer,
 } from '../store/reducers/nftAvatars/hooks'
-import {
-    useFetchNftLands,
-    useNftsReducer,
-} from './../store/reducers/nfts/hooks'
-import { useFirst500MIntedNft } from './../hooks/web3Hooks/useNftTransferEvent'
+import { useGetLands, useNftsReducer } from './../store/reducers/nfts/hooks'
+
+import { useMint } from './../hooks/web3Hooks/useNFTs'
+import ButtonMint from './../components/Profile/ButtonMint'
 import {
     useSetAvatar,
     useFetchProfile,
@@ -27,13 +25,13 @@ const Profile = () => {
     useFetchNftAvatars()
     useFetchProfile()
 
-    const nftsLands = useFetchNftLands()
-    useFirst500MIntedNft()
+    const { fetch: mint } = useMint()
+
     const { fetch, nfts } = useNftAvatarReducer()
     const { index, avatar } = useSelectedAvatar()
-    const { fetch: fetchLands, nfts: nftLands } = useNftsReducer()
+    const { data: nftsLands, reload } = useGetLands()
+
     const setAvatar = useSetAvatar()
-    const [lands, setLands] = useState([])
 
     const handleNextAvatar = useCallback(() => {
         if (index === nfts.length - 1) setAvatar(nfts[0].edition.toString())
@@ -46,33 +44,23 @@ const Profile = () => {
         if (index !== 0) setAvatar(nfts[index - 1].edition.toString())
     }, [nfts, index])
 
-    useEffect(() => {
-        if (nftsLands.length > 0) {
-            const l = nftsLands.reduce((acc, n) => {
-                const place = n.attributes[0].value
-
-                return [
-                    ...acc,
-                    {
-                        id: place,
-                        title: place,
-                        nft: n.image,
-                    },
-                ]
-            }, [])
-            setLands(l)
-        }
+    const lands = useMemo(() => {
+        if (nftsLands.length === 0) return []
+        return nftsLands.map((land, index) => {
+            return {
+                id: land.tokenId,
+                title: land.attributes[0].value,
+                nft: land.image,
+            }
+        })
     }, [nftsLands])
 
     return (
         <div className="flex-1 flex bg-blue-7">
-            <div className="max-w-1280px flex-1 mx-auto flex flex-row bg-blue-4">
-                <div className="flex flex-col lg:flex-row h-full">
+            <div className="w-full max-w-1280px flex-1 mx-auto flex flex-row bg-blue-4">
+                <div className="flex flex-col lg:flex-row h-full w-full">
                     <div className="w-full lg:w-3/12 2xl:w-96  border-b-2 lg:border-r-2 border-blue-5 h-full pt-8 lg:pt-16 pb-4">
-                        <div
-                            className="w-full flex flex-col justify-center items-center "
-                            // style={{ height: '450px' }}
-                        >
+                        <div className="w-full flex flex-col justify-center items-center">
                             <div className="w-80 lg:w-56 xl:w-72 2xl:w-20rem">
                                 <NftProfileDisplay
                                     loading={!fetch}
@@ -86,6 +74,7 @@ const Profile = () => {
                                         nftId={avatar?.name}
                                     />
                                 )}
+
                                 {nfts.length > 1 && (
                                     <div className="flex flex-row items-center justify-center h-full mt-5">
                                         <div className="flex-1 flex justify-center">
@@ -118,10 +107,18 @@ const Profile = () => {
                                         </div>
                                     </div>
                                 )}
+                                <div className="w-full flex justify-center mt-4">
+                                    <ButtonMint
+                                        onMintEnd={() => {
+                                            console.log('Minted')
+                                            reload()
+                                        }}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 w-full">
                         <Tabs
                             tabContainerClassName=" px-6 2xl:px-10"
                             panelContainerClassName="py-16 bg-blue-4 "
@@ -133,9 +130,7 @@ const Profile = () => {
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-4 gap-4">
                                     {lands.map((f) => {
                                         return (
-                                            <div
-                                                key={`${f.country}-${f.title}`}
-                                            >
+                                            <div key={`${f.id}-${f.title}`}>
                                                 <CardNftMarket
                                                     id={f.id}
                                                     nft={f.nft}

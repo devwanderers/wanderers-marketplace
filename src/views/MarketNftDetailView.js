@@ -13,8 +13,7 @@ const MarketNftDetailView = (props) => {
     const { match } = props
     const id = match?.params?.id
     const detail = useNftDetail(id)
-    const placeInfo = useFetchPlaceSelected(id)
-    console.log({ placeInfo })
+    const placeInfo = useFetchPlaceSelected(detail?.attributes[0].value)
 
     if (!id) console.log('No data')
 
@@ -36,7 +35,9 @@ const MarketNftDetailView = (props) => {
                 </div>
                 <div className="flex-1 pt-6 pl-4 pb-20 lg:pb-0">
                     <NftHeader title={placeInfo?.place} />
-                    <NftDetailsInfo detail={placeInfo} />
+                    {detail && detail.attributes[0].value !== 'Unrevealed' && (
+                        <NftDetailsInfo detail={placeInfo} />
+                    )}
                     <NftProperties attributes={detail?.attributes} />
                 </div>
             </div>

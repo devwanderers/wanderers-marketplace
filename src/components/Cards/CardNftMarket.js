@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { FrameTopSVG, FrameLandNameSVG } from '../../assets/svg/frames'
 import useResponsive from '../../hooks/useResponsive'
-import { limitStringLengthTo } from './../../services/stringServices'
+import { limitStringLengthTo } from './../../services/text'
 import CardDown from './../../assets/svg/frames/CardDown'
 import CardUp from './../../assets/svg/frames/CardUp'
 import Banner from '../../assets/svg/frames/Banner'
 import EthIcon from '../../assets/svg/icons/EthIcon'
-import { useHistory } from 'react-router-dom'
 import { MarketDetailPath } from '../../constants/routerConstants'
 
 const CardNftMarket = ({ nft, title, id, isProfile }) => {
@@ -18,6 +18,7 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
     const handleClickNft = () => {
         history.push(`${MarketDetailPath}/${id}`)
     }
+
     return (
         <div className="w-full">
             <div className="w-full flex justify-center">
@@ -57,14 +58,14 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
                             >
                                 <EthIcon />
                             </div>
-                            <div className="">0.3</div>
+                            <div className="">0.25</div>
                         </div>
                         <div className="ml-auto">
                             <button
                                 onClick={handleClickNft}
                                 className="bg-blue-6 rounded-md px-2 text-lg font-medium text-blue-5"
                             >
-                                DETAIL
+                                Claim
                             </button>
                         </div>
                     </div>

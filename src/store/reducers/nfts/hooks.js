@@ -1,11 +1,15 @@
 /* eslint-disable no-unused-vars */
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { nftIdSelector, nftsSelector, nftReducerSelector } from './selectors'
 import * as actions from './actions'
 import AvatarDestinareAbi from '../../../abi/AvatarDestinare.json'
 import useActiveWeb3React from './../../../hooks/useActiveWeb3React'
-import { useMoralis } from 'react-moralis'
+
+import { ethers } from 'ethers'
+import { useERC721Contract } from './../../../hooks/web3Hooks/useContract'
+import { ipfsReplaceUri } from '../../../services/ipfs'
+import useRefresh from './../../../hooks/useRefresh'
 
 export const useNftsReducer = () => {
     return useSelector(nftReducerSelector)
@@ -16,63 +20,69 @@ export const useLandNfts = () => {
 }
 
 export const useFetchNftLandId = () => {
+    const { slowRefresh } = useRefresh()
     const { account, library } = useActiveWeb3React()
     const dispatch = useDispatch()
-    const nftsIds = useSelector(nftIdSelector)
+    const nftIds = useSelector(nftIdSelector)
+    const erc721Contract = useERC721Contract(
+        process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
+    )
+
     const fetcNftIDS = useCallback(async () => {
-        const contract = new library.eth.Contract(
-            AvatarDestinareAbi,
-            process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
-        )
+        if (!account) return
         dispatch(actions.setNftIDs.pending())
-        contract.methods
+
+        erc721Contract
             .walletOfOwner(account)
-            .call()
             .then((res) => dispatch(actions.setNftIDs.fulfilled(res)))
             .catch((err) => {
                 console.log('Failed to get nft ids', err)
                 dispatch(actions.setNftIDs.rejected(err))
                 throw err
             })
-    }, [library, dispatch])
+    }, [erc721Contract, dispatch, account])
 
     useEffect(() => {
-        if (account) {
-            fetcNftIDS()
-        }
-    }, [account])
-
-    return nftsIds
+        fetcNftIDS()
+    }, [account, slowRefresh])
+    return { nftIds, fetcNftIDS }
 }
 
-export const useFetchNftLands = () => {
-    const nftIds = useFetchNftLandId()
+export const useFetchNftLands = (nftIds = []) => {
     const { account, library } = useActiveWeb3React()
     const dispatch = useDispatch()
+
     const nfts = useLandNfts()
+    const erc721Contract = useERC721Contract(
+        process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
+    )
 
     const fetchNftLandsData = useCallback(async () => {
-        const contract = new library.eth.Contract(
-            AvatarDestinareAbi,
-            process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
-        )
+        if (nftIds.length === 0) return
+        const contractsCalls = nftIds.map((v) => erc721Contract.tokenURI(v))
 
-        const promises = nftIds.reduce((acc, v) => {
-            return [...acc, contract.methods.tokenURI(v).call()]
-        }, [])
         dispatch(actions.setNft.pending())
-        Promise.all(promises)
+        Promise.all(contractsCalls)
             .then((uris) => {
-                const urisPromises = uris.reduce((acc, uri) => {
-                    const newUri = uri.replace(
-                        /^ipfs?:\/\//,
-                        'https://nomadzland.mypinata.cloud/ipfs/'
-                    )
-                    return [...acc, fetch(newUri).then((res) => res.json())]
-                }, [])
-                Promise.all(urisPromises)
+                const fetchUris = uris.map((v) => {
+                    return fetch(ipfsReplaceUri(v)).then((res) => res.json())
+                })
+
+                Promise.all(fetchUris)
                     .then((nfts) => {
-                        dispatch(actions.setNft.fulfilled(nfts))
+                        dispatch(
+                            actions.setNft.fulfilled(
+                                nfts.map((v, index) => {
+                                    return {
+                                        ...v,
+                                        tokenId: parseInt(
+                                            Number(nftIds[index]._hex)
+                                        ),
+                                        image: ipfsReplaceUri(v.image),
+                                    }
+                                })
+                            )
+                        )
                     })
                     .catch((err) => {
                         console.log('Failed to get nfts', err)
@@ -85,29 +95,36 @@ export const useFetchNftLands = () => {
                 dispatch(actions.setNft.rejected(err))
                 throw err
             })
-    }, [nftIds, library, dispatch])
+    }, [nftIds, erc721Contract, account, dispatch])
 
     useEffect(() => {
-        if (account && nftIds.length > 0) fetchNftLandsData()
+        if (account) {
+            fetchNftLandsData()
+        }
     }, [account, nftIds])
 
     return nfts
 }
 
-export const useNftDetail = (place) => {
-    const nfts = useFetchNftLands()
-    const [detail, setDetail] = useState(undefined)
+export const useGetLands = () => {
+    const { nftIds, fetcNftIDS } = useFetchNftLandId()
+    const lands = useFetchNftLands(nftIds)
 
-    useEffect(() => {
+    return { data: lands, reload: fetcNftIDS }
+}
+
+export const useNftDetail = (id) => {
+    const { data: nfts } = useGetLands()
+
+    return useMemo(() => {
         if (nfts.length > 0) {
-            const index = nfts.findIndex((n) => n.attributes[0].value === place)
+            const index = nfts.findIndex((n) => n.tokenId === parseInt(id))
+
             if (index !== -1) {
                 const nftDetail = nfts[index]
-                setDetail(nftDetail)
+                return nftDetail
             }
         }
-    }, [nfts, place])
-
-    return detail
+        return undefined
+    }, [nfts, id])
 }
-// 1.

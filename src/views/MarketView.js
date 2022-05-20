@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-loss-of-precision */
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useMemo } from 'react'
 import GlobeComponent from './../components/GlobeComponent/index'
 // import useResponsive from './../hooks/useResponsive'
 import useEventListener from './../hooks/useEventListener'
@@ -24,7 +24,7 @@ import {
     useFetchPlaces,
     usePlaceReducer,
 } from './../store/reducers/places/hooks'
-import { useFetchNftLands } from '../store/reducers/nfts/hooks'
+import { useGetLands } from '../store/reducers/nfts/hooks'
 import utilitiesImages from './../assets/images/utilities/index'
 
 const MarketView = () => {
@@ -47,54 +47,44 @@ const MarketView = () => {
         })
     })
 
-    const nfts = useFetchNftLands()
+    const { data: nfts } = useGetLands()
     const { countries, countriesArray, places } = useFetchCountries()
     const {
         fetch: { requestCountries },
     } = usePlaceReducer()
-    const [markers, setMarkers] = useState([])
-    const [lands, setLands] = useState([])
+    // const [lands, setLands] = useState([])
     const [marker, setMarker] = useState()
     const [searchText, setSearchText] = useState()
     const [selectedText, setSelected] = useState()
 
-    useEffect(() => {
-        const _markers = countriesArray.reduce(
-            (acc, { name, xyz, image }) => [
-                ...acc,
-                {
-                    coordinates: {
-                        x: xyz[0],
-                        y: xyz[1],
-                        z: xyz[2],
-                    },
-                    label: name,
-                    image,
-                },
-            ],
-            []
-        )
-        setMarkers(_markers)
+    const lands = useMemo(() => {
+        if (!requestCountries && nfts.length === 0) return []
+
+        return nfts.map((v) => {
+            const place = v.attributes[0].value
+            return {
+                id: v.tokenId,
+                title: v.attributes[0].value,
+                nft: v.image,
+                country:
+                    !requestCountries && nfts.length > 0
+                        ? ''
+                        : places[place]?.country,
+            }
+        })
+    }, [requestCountries, places, nfts])
+
+    const markers = useMemo(() => {
+        return countriesArray.map(({ name, xyz, image }) => ({
+            coordinates: {
+                x: xyz[0],
+                y: xyz[1],
+                z: xyz[2],
+            },
+            label: name,
+            image,
+        }))
     }, [countriesArray])
-
-    useEffect(() => {
-        if (requestCountries) {
-            const l = nfts.reduce((acc, n) => {
-                const place = n.attributes[0].value
-
-                return [
-                    ...acc,
-                    {
-                        id: place,
-                        title: place,
-                        nft: n.image,
-                        country: places[place]?.country,
-                    },
-                ]
-            }, [])
-            setLands(l)
-        }
-    }, [requestCountries])
 
     const handleOnChangeSelect = (val) => {
         const marker = markers.filter((m) => m.label === val)[0]
@@ -141,10 +131,6 @@ const MarketView = () => {
         ? lands.filter((l) => l.country === selectedText)
         : lands
 
-    // const filterRoles = selectedText
-    //     ? roles.filter((l) => l.country === selectedText)
-    //     : roles
-
     const options = markers.reduce(
         (acc, m, key) => [...acc, { label: m.label, value: m.label }],
         []
@@ -158,7 +144,7 @@ const MarketView = () => {
                 className="w-full m-auto relative overflow-hidden"
                 style={{ height: '650px' }}
             >
-                {requestCountries && markers.length > 0 ? (
+                {lands.length > 0 ? (
                     <GlobeComponent
                         ref={globeRef}
                         data={markers}
@@ -262,7 +248,7 @@ const MarketView = () => {
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
                             {filter.map((f, index) => {
                                 return (
-                                    <div key={`${f.country}-${f.title}`}>
+                                    <div key={`${f.id}-${f.title}`}>
                                         <CardNftMarket
                                             id={f.id}
                                             nft={f.nft}

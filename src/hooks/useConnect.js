@@ -16,6 +16,7 @@ const useConnect = () => {
             login()
         }
     }, [login])
+
     useEffect(() => {
         if (account && connector) {
             const handleDeactivate = () => {

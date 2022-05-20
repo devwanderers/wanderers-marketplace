@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { nftsSelector } from './../nftAvatars/selectors'
 import * as actions from './actions'
@@ -10,11 +10,13 @@ import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
 export const useSelectedAvatar = () => {
     const nfts = useSelector(nftsSelector)
     const { avatar } = useSelector(profileReducerSelector)
-    const nftIndex = nfts.findIndex((n) => n.edition.toString() === avatar)
 
-    return nftIndex !== -1
-        ? { index: nftIndex, avatar: nfts[nftIndex] }
-        : { index: null, avatar: null }
+    return useMemo(() => {
+        const nftIndex = nfts.findIndex((n) => n.edition.toString() === avatar)
+        return nftIndex !== -1
+            ? { index: nftIndex, avatar: nfts[nftIndex] }
+            : { index: null, avatar: null }
+    }, [nfts, avatar])
 }
 
 export const useSaveAvatar = () => {
@@ -72,7 +74,8 @@ export const useFetchProfile = () => {
                 dispatch(
                     actions.setProfile({
                         address: account,
-                        avatar: nfts[0].edition.toString(),
+                        avatar:
+                            nfts.length > 0 ? nfts[0].edition.toString() : '',
                     })
                 )
             }
@@ -81,7 +84,7 @@ export const useFetchProfile = () => {
                 const nftIndex = nfts.findIndex(
                     (n) => n.edition.toString() === avatar
                 )
-                if (nftIndex === -1) {
+                if (nftIndex === -1 && nfts.length > 0) {
                     // Updating Selected NFT
                     dispatch(
                         actions.setProfile({

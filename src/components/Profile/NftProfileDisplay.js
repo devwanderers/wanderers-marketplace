@@ -6,11 +6,13 @@ import { IoPersonCircle } from 'react-icons/io5'
 const NftProfileDisplay = ({ image, nftsLength, loading }) => {
     let renderImage = null
 
+    console.log({ image })
     if (!loading && image) {
         const uri = image.replace(
             'QmdULeStJNouNGenv3ohiPJR818xCxY5U3P7iAaZiSMiRk',
             'QmPCyVuiP54PzuY94gaSspHjnTZcVbPoC7mLM4PY7vnhDe'
         )
+
         renderImage = (
             <img src={uri} alt={uri} className="w-full h-full object-fill" />
         )

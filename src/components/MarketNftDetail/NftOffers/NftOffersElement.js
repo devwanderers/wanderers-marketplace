@@ -1,7 +1,7 @@
 import React from 'react'
 import ElementContainer from '../../Container/ElementContainer'
 import EthIcon from './../../../assets/svg/icons/EthIcon'
-import { formatAddress } from './../../../services/address-services'
+import { formatAddress } from './../../../services/address'
 
 const NftOfferElement = (props) => {
     return (

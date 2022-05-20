@@ -2,33 +2,32 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import { MoralisProvider } from 'react-moralis'
 import { Web3ReactProvider } from '@web3-react/core'
-import Web3 from 'web3'
+import { ethers } from 'ethers'
 
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import configureStore from './store/config/index'
+import { RefreshContextProvider } from './context/RefreshContext'
 
 const store = configureStore()
 
 function getLibrary(provider) {
-    return new Web3(provider)
-}
+    const library = new ethers.providers.Web3Provider(provider)
+    library.pollingInterval = 12000
 
-const MORALIS_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID
-const MORALIS_URL = process.env.REACT_APP_MORALIS_SERVER_URL
-// const MORALIS_MASTER_KEY = process.env.REACT_APP_MORALIS_MASTER_KEY
+    return library
+}
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store.store}>
             <PersistGate loading={null} persistor={store.persistor}>
-                <MoralisProvider serverUrl={MORALIS_URL} appId={MORALIS_ID}>
-                    <Web3ReactProvider getLibrary={getLibrary}>
+                <Web3ReactProvider getLibrary={getLibrary}>
+                    <RefreshContextProvider>
                         <App />
-                    </Web3ReactProvider>
-                </MoralisProvider>
+                    </RefreshContextProvider>
+                </Web3ReactProvider>
             </PersistGate>
         </Provider>
     </React.StrictMode>,

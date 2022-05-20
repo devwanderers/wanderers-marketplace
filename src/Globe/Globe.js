@@ -323,9 +323,8 @@ function Globe(width, height, opts = {}) {
         }
     }
 
-    this.renderer = new THREE.WebGL1Renderer({ antialias: true })
+    this.renderer = new THREE.WebGL1Renderer({ antialias: true, alpha: true })
 
-    // this.renderer.setClearColorHex(0xffffff, 1)
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setSize(this.width, this.height)
     this.renderer.sortObjects = false
@@ -336,8 +335,15 @@ function Globe(width, height, opts = {}) {
 Globe.prototype.init = function (cb) {
     this.scene = new THREE.Scene()
     this.scene.background = new THREE.Color(0x070f21)
-    // this.ambientLight = new THREE.AmbientLight()
 
+    const video = document.getElementById('video')
+
+    const bgTexture = new THREE.VideoTexture(video)
+    bgTexture.minFilter = THREE.LinearFilter
+    bgTexture.magFilter = THREE.LinearFilter
+    bgTexture.format = THREE.RGBFormat
+    // this.ambientLight = new THREE.AmbientLight()
+    this.scene.background = bgTexture
     this.scene.add(this.ambientLight)
 
     // this.scene.fog = new THREE.Fog(0x535ef3, 400, 2000)

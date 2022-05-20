@@ -55,3 +55,21 @@ export const setupNetwork = async () => {
         return false
     }
 }
+
+export const registerToken = async () => {
+    const tokenAdded = await window.ethereum.request({
+        method: 'wallet_watchAsset',
+        params: {
+            type: 'ERC20',
+            options: {
+                address:
+                    process.env.REACT_APP_AVATAR_DESTINARE_CONTRACT_ADDRESS,
+                symbol: 'NLD',
+                decimals: 0,
+                // image: `${BASE_URL}/images/tokens/${tokenAddress}.png`,
+            },
+        },
+    })
+
+    return tokenAdded
+}

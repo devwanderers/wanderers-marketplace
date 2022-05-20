@@ -5,10 +5,9 @@ import { BsPerson } from 'react-icons/bs'
 import useWalletDrawer from './../../store/reducers/siteInteraction/hooks/useWalletDrawer'
 import { useLocation } from 'react-router-dom'
 import { cls } from './../../services/helpers'
-import { formatAddress } from './../../services/address-services'
+import { formatAddress } from '../../services/address'
 import useActiveWeb3React from './../../hooks/useActiveWeb3React'
 import { useWeb3React } from '@web3-react/core'
-import { useMoralis } from 'react-moralis'
 
 const WalletDrawer = ({ login, logout, visibleDrawer, onOpenDrawer }) => {
     const location = useLocation()

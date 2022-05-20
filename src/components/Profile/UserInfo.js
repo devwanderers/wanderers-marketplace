@@ -1,7 +1,7 @@
 import React from 'react'
 import BannerProfile from './../../assets/svg/frames/BannerProfile'
 import { cls } from './../../services/helpers'
-import { formatAddress } from './../../services/address-services'
+import { formatAddress } from './../../services/address'
 import { Tooltip } from 'antd'
 
 const UserInfo = ({ className, nftId, nftDNA }) => {

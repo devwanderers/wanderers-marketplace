@@ -1,9 +1,9 @@
 import React from 'react'
 import Separator from './../../Separator/Separator'
 import NftDetailElement from './NftDetailElement'
-import { formatAddress } from './../../../services/address-services'
+import { formatAddress } from './../../../services/address'
 
-const NftDetails = ({ name, edition }) => {
+const NftDetails = ({ name, edition, tokenId }) => {
     return (
         <React.Fragment>
             <Separator title="Details" className="mt-4" />
@@ -15,7 +15,7 @@ const NftDetails = ({ name, edition }) => {
                         process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
                     )}
                 />
-                <NftDetailElement title="Token ID" value={edition} />
+                <NftDetailElement title="Token ID" value={tokenId} />
                 <NftDetailElement title="Token Standard" value="ERC-721" />
                 <NftDetailElement title="Blockchain" value="Ethereum" />
             </div>

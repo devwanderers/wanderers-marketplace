@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import Globe from '../../Globe/Globe'
 import * as THREE from 'three'
 import { AnimatePresence, motion } from 'framer-motion'
+import video from '../../assets/video/stars.mp4'
 
 class GlobeComponent extends Component {
     constructor(props) {
@@ -27,6 +28,7 @@ class GlobeComponent extends Component {
 
         this.canvasRef = React.createRef()
         this.htmlRef = React.createRef()
+        this.videoRef = React.createRef()
     }
 
     componentDidMount = () => {
@@ -311,6 +313,19 @@ class GlobeComponent extends Component {
 
         return (
             <div className="relative inline-block" style={{ width, height }}>
+                <video
+                    ref={this.videoRef}
+                    id="video"
+                    className="absolute w-0 h-0"
+                    muted
+                    autoPlay
+                    loop
+                    onCanPlay={() => {
+                        this.videoRef.current.playbackRate = 0.85
+                    }}
+                >
+                    <source src={video} />
+                </video>
                 <div ref={this.canvasRef} className="w-full h-full"></div>
                 <div className="absolute top-0">
                     <AnimatePresence>

@@ -24,7 +24,7 @@ const NftHeader = ({ title, ...props }) => {
                             <EthIcon size="1.5em" />
                         </div>
                         <div className="text-white text-xl leading-none font-medium">
-                            0.3 ETH
+                            0.25 ETH
                         </div>
                     </div>{' '}
                     <div>
