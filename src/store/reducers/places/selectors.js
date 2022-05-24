@@ -5,14 +5,12 @@ export const placesReducerSelector = createSelector(
     (places) => places
 )
 
+export const getAllCountriesSelector = createSelector(
+    placesReducerSelector,
+    (places) => places.allCountries
+)
+
 export const countriesSelector = createSelector(
     placesReducerSelector,
-    (places) => {
-        const countries = places.countries
-        const _places = places.places
-        const countriesArray = Object.keys(countries).reduce((acc, c) => {
-            return [...acc, { key: c, ...countries[c] }]
-        }, [])
-        return { countries, countriesArray, places: _places }
-    }
+    (places) => places
 )

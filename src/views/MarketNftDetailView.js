@@ -8,11 +8,12 @@ import NftDetailsInfo from '../components/MarketNftDetail/NftDetailsInfo'
 import NftHeader from '../components/MarketNftDetail/NftHeader'
 import { useNftDetail } from '../store/reducers/nfts/hooks'
 import { useFetchPlaceSelected } from '../store/reducers/places/hooks'
+import { useParams } from 'react-router-dom'
 
 const MarketNftDetailView = (props) => {
-    const { match } = props
-    const id = match?.params?.id
+    const { id } = useParams()
     const detail = useNftDetail(id)
+    console.log({ detail })
     const placeInfo = useFetchPlaceSelected(detail?.attributes[0].value)
 
     if (!id) console.log('No data')

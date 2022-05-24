@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React, { useState, useEffect } from 'react'
 import { PropTypes } from 'prop-types'
-import { Link, useHistory } from 'react-router-dom'
+import { Outlet, Link } from 'react-router-dom'
 import { Layout, Drawer } from 'antd'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import DefaultFooter from '../Footers/DefaultFooter'
@@ -47,7 +47,7 @@ const DefaultLayout = ({ children, ...rest }) => {
                 onOpenDrawer={setVisibleDrawer}
             />
             <Content className="bg-white flex flex-1 flex-shrink flex-grow relative">
-                {children}
+                <Outlet />
             </Content>
         </Layout>
     )

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { FrameTopSVG, FrameLandNameSVG } from '../../assets/svg/frames'
 import useResponsive from '../../hooks/useResponsive'
 import { limitStringLengthTo } from './../../services/text'
@@ -13,10 +13,10 @@ import { MarketDetailPath } from '../../constants/routerConstants'
 const CardNftMarket = ({ nft, title, id, isProfile }) => {
     const [topFrame] = useResponsive({ base: '-2%', lg: '-1%' })
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const handleClickNft = () => {
-        history.push(`${MarketDetailPath}/${id}`)
+        navigate('/detail/' + id)
     }
 
     return (

@@ -47,6 +47,7 @@ const Profile = () => {
     const lands = useMemo(() => {
         if (nftsLands.length === 0) return []
         return nftsLands.map((land, index) => {
+            console.log(land.tokenId)
             return {
                 id: land.tokenId,
                 title: land.attributes[0].value,

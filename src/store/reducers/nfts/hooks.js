@@ -117,6 +117,8 @@ export const useNftDetail = (id) => {
     const { data: nfts } = useGetLands()
 
     return useMemo(() => {
+        console.log({ id })
+        console.log({ nfts })
         if (nfts.length > 0) {
             const index = nfts.findIndex((n) => n.tokenId === parseInt(id))
 

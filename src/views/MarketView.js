@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-loss-of-precision */
 import React, { useRef, useState, useEffect, useMemo } from 'react'
-import GlobeComponent from './../components/GlobeComponent/index'
+// import GlobeComponent from './../components/GlobeComponent/index'
 // import useResponsive from './../hooks/useResponsive'
 import useEventListener from './../hooks/useEventListener'
 import useEffectOnce from './../hooks/useEffectOnce'
@@ -26,6 +26,8 @@ import {
 } from './../store/reducers/places/hooks'
 import { useGetLands } from '../store/reducers/nfts/hooks'
 import utilitiesImages from './../assets/images/utilities/index'
+import GlobeFiber from '../components/GlobeFiber'
+import useDebounce from '../hooks/useDebounce'
 
 const MarketView = () => {
     const globeContainerRef = useRef(null)
@@ -33,19 +35,21 @@ const MarketView = () => {
     const searchButtonRef = useRef(null)
     const [globeSizes, setGlobalSizes] = useState({ width: 0, height: 0 })
 
-    useEffectOnce(() => {
-        setGlobalSizes({
-            width: globeContainerRef.current.clientWidth,
-            height: globeContainerRef.current.clientHeight,
-        })
-    })
+    const [markers, setMarkers] = useState([])
 
-    useEventListener('resize', () => {
-        setGlobalSizes({
-            width: globeContainerRef.current.clientWidth,
-            height: globeContainerRef.current.clientHeight,
-        })
-    })
+    // useEffectOnce(() => {
+    //     setGlobalSizes({
+    //         width: globeContainerRef.current.clientWidth,
+    //         height: globeContainerRef.current.clientHeight,
+    //     })
+    // })
+
+    // useEventListener('resize', () => {
+    //     setGlobalSizes({
+    //         width: globeContainerRef.current.clientWidth,
+    //         height: globeContainerRef.current.clientHeight,
+    //     })
+    // })
 
     const { data: nfts } = useGetLands()
     const { countries, countriesArray, places } = useFetchCountries()
@@ -74,34 +78,38 @@ const MarketView = () => {
         })
     }, [requestCountries, places, nfts])
 
-    const markers = useMemo(() => {
-        return countriesArray.map(({ name, xyz, image }) => ({
-            coordinates: {
-                x: xyz[0],
-                y: xyz[1],
-                z: xyz[2],
-            },
-            label: name,
-            image,
-        }))
-    }, [countriesArray])
+    // const markers = useMemo(() => {
+    //     return countriesArray.map(({ name, xyz, image }) => ({
+    //         coordinates: {
+    //             x: xyz[0],
+    //             y: xyz[1],
+    //             z: xyz[2],
+    //         },
+    //         label: name,
+    //         image,
+    //     }))
+    // }, [countriesArray])
 
-    const handleOnChangeSelect = (val) => {
-        const marker = markers.filter((m) => m.label === val)[0]
-        setSelected(marker.label)
-        setSearchText(marker.label)
-        globeRef.current.goToMarkerSelected(marker.label)
+    const handleOnChangeSelect = (id) => {
+        console.log({ id })
+        const marker = markers.find((m) => m.id === id)
+        console.log({ marker })
+        setSelected(marker.id)
+        setSearchText(marker.id)
+
+        globeRef.current.startCameraTransitionToMaker(marker)
     }
 
-    const handleOnChangeSelectAuto = (val) => {
-        const marker = markers.filter((m) => m.label === val)[0]
-        setSelected(marker.label)
-        setSearchText(marker.label)
+    const handleOnChangeSelectAuto = (id) => {
+        const marker = markers.find((m) => m.id === id)
+
+        setSelected(marker.id)
+        setSearchText(marker.id)
     }
 
-    const handleOnClickMarker = (label) => {
-        setSelected(label)
-        setSearchText(label)
+    const handleOnClickMarker = (marker) => {
+        setSelected(marker.id)
+        setSearchText(marker.id)
     }
 
     const handleOnSearch = (value) => {
@@ -115,27 +123,49 @@ const MarketView = () => {
     }
 
     const onClick = () => {
-        if (selectedText) globeRef.current.goToMarkerSelected(selectedText)
-        else if (searchText === '') {
-            setSelected(undefined)
-            globeRef.current.moveCameraToOriginalOrbit()
+        if (selectedText) {
+            const marker = markers.find((m) => m.id === selectedText)
+            globeRef.current.startCameraTransitionToMaker(marker)
+        } else if (searchText === '') {
+            setSelected('')
         }
     }
 
     const onClear = () => {
-        setSelected(undefined)
-        globeRef.current.moveCameraToOriginalOrbit()
+        setSelected('')
+        globeRef.current.resetOrbit()
     }
 
-    const filter = selectedText
-        ? lands.filter((l) => l.country === selectedText)
-        : lands
+    // const filter = selectedText
+    //     ? lands.filter((l) => l.country === selectedText)
+    //     : lands
 
-    const options = markers.reduce(
-        (acc, m, key) => [...acc, { label: m.label, value: m.label }],
-        []
+    const filter = useMemo(() => {
+        const marker = markers.find((v) => v.id === selectedText)
+        return selectedText && marker
+            ? lands.filter((l) => l.country === marker.data?.country)
+            : lands
+    }, [markers])
+
+    const options = useMemo(() => {
+        return markers.reduce(
+            (acc, m, key) => [...acc, { label: m.id, value: m.id }],
+            []
+        )
+    }, [markers])
+
+    const optionsFilter = useMemo(
+        () => filterSearch(searchText, options),
+        [searchText, options]
     )
-    const optionsFilter = filterSearch(searchText, options)
+
+    useDebounce(
+        () => {
+            if (setSelected === '') globeRef.current.resetOrbit()
+        },
+        600,
+        [setSelected]
+    )
 
     return (
         <div className="w-full bg-blue-4 relative">
@@ -144,7 +174,15 @@ const MarketView = () => {
                 className="w-full m-auto relative overflow-hidden"
                 style={{ height: '650px' }}
             >
-                {lands.length > 0 ? (
+                <React.Suspense fallback={null}>
+                    <GlobeFiber
+                        ref={globeRef}
+                        initialData={[]}
+                        // enableRotation={false}
+                        onMarkersChange={(markers) => setMarkers(markers)}
+                    />
+                </React.Suspense>
+                {/* {lands.length > 0 ? (
                     <GlobeComponent
                         ref={globeRef}
                         data={markers}
@@ -169,7 +207,7 @@ const MarketView = () => {
                             alt={utilitiesImages.eLoading}
                         />
                     </div>
-                )}
+                )} */}
                 <div className="absolute bottom-0 w-full mb-5">
                     <div
                         className="relative flex justify-center items-center m-auto w-10/12 md:w-8/12 lg:w-6/12 2xl:w-4/12"
@@ -189,8 +227,8 @@ const MarketView = () => {
                                     >
                                         {options.map((d) => (
                                             <Select.Option
-                                                key={d.label}
-                                                value={d.value}
+                                                key={d.value}
+                                                value={d.label}
                                             >
                                                 {d.label}
                                             </Select.Option>
@@ -223,7 +261,7 @@ const MarketView = () => {
                                         ref={searchButtonRef}
                                         className="h-full w-full rounded-r-full bg-transparent border-0 text-blue-9"
                                         size="large"
-                                        // onKeyDown={onKeyDown}
+                                        onKeyDown={onKeyDown}
                                         onClick={onClick}
                                         // onKeyUp={onKeyUp}
                                     >

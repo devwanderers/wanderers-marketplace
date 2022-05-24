@@ -1,5 +1,4 @@
 // /* eslint-disable no-unused-vars */
-import { HomePath } from './routerConstants'
 
 export const navbarMenu = [
     {
@@ -9,5 +8,5 @@ export const navbarMenu = [
             window.location.replace('https://thewanderers.io/')
         },
     },
-    { id: 'market', title: 'Collection', path: HomePath },
+    { id: 'market', title: 'Collection', path: '/' },
 ]

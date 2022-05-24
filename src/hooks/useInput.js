@@ -6,7 +6,7 @@ const useInput = (initialValue, validate) => {
     return {
         value,
         setValue,
-        reset: () => setValue(''),
+        reset: (v) => setValue(v ?? ''),
         bind: {
             value,
             onChange: (e) => {

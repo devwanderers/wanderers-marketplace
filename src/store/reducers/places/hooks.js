@@ -1,12 +1,30 @@
 /* eslint-disable no-unused-vars */
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLandNfts } from '../nfts/hooks'
 import * as actions from './actions'
-import { countriesSelector, placesReducerSelector } from './selectors'
+import {
+    countriesSelector,
+    placesReducerSelector,
+    getAllCountriesSelector,
+} from './selectors'
 
 export const usePlaceReducer = () => {
     return useSelector(placesReducerSelector)
+}
+
+export const useCountrieSelector = () => {
+    const countries = useSelector(countriesSelector)
+
+    return useMemo(() => {
+        const _countries = countries.countries
+        const _places = countries.places
+
+        const countriesArray = Object.keys(countries).reduce((acc, c) => {
+            return [...acc, { key: c, ...countries[c] }]
+        }, [])
+        return { countries: _countries, countriesArray, places: _places }
+    }, [countries])
 }
 
 export const useFetchCountries = () => {
@@ -38,4 +56,19 @@ export const useFetchPlaceSelected = (place) => {
         if (place) dispatch(actions.getPlace(place))
     }, [place])
     return selectedPlace
+}
+
+export const useFetchAllCountries = () => {
+    const countries = useSelector(getAllCountriesSelector)
+    const dispatch = useDispatch()
+
+    const fetchAllCountries = useCallback(() => {
+        dispatch(actions.getAllCountries())
+    }, [])
+
+    useEffect(() => {
+        fetchAllCountries()
+    }, [])
+
+    return countries
 }

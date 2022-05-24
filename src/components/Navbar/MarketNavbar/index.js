@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrandLogoSVG } from '../../../assets/svg/brand'
-import { matchPath, useHistory, useLocation } from 'react-router-dom'
-import { HomePath, ProfilePath } from '../../../constants/routerConstants'
+import { matchPath, useLocation, useNavigate } from 'react-router-dom'
+
 import { navbarMenu } from '../../../constants/navbarMenu'
 import { BsPerson } from 'react-icons/bs'
 import WalletButton from '../../Wallet/WalletButton'
@@ -22,22 +22,22 @@ const MenuOption = ({ selected, onClick, children }) => {
 }
 
 const MarketNavbar = ({ onOpenDrawer, visibleDrawer }) => {
-    const history = useHistory()
+    const navigate = useNavigate()
     // const { visibleWalletDrawer } = useWalletDrawer()
     const location = useLocation()
     const { account } = useActiveWeb3React()
-
+    console.log({ location })
     const isSelected = (path) => {
         if (typeof path !== 'string' || visibleDrawer) return false
 
-        return !!matchPath(location.pathname, { path, exact: true })
+        return !!matchPath({ path, exact: true }, location.pathname)
     }
 
     return (
         <header className="h-20 bg-blue-8 border-b border-aqua-3">
             <div className="max-w-1800px mx-auto flex flex-row h-full pl-4">
                 <button
-                    onClick={() => history.push(HomePath)}
+                    onClick={() => navigate('/')}
                     className="h-12 w-12 my-auto mr-4 lg:mr-0"
                 >
                     <BrandLogoSVG height={'100%'} width="100%" />
@@ -49,7 +49,7 @@ const MarketNavbar = ({ onOpenDrawer, visibleDrawer }) => {
                                 const handleOnClick = () =>
                                     typeof menu.path === 'function'
                                         ? menu.path()
-                                        : history.push(menu.path)
+                                        : navigate(menu.path)
 
                                 return (
                                     <MenuOption
@@ -65,15 +65,13 @@ const MarketNavbar = ({ onOpenDrawer, visibleDrawer }) => {
                         <div className="h-full flex flex-row items-end gap-6">
                             {account && (
                                 <div className="relative text-white h-12 pb-3 px-4">
-                                    {isSelected(ProfilePath) && (
+                                    {isSelected('profile') && (
                                         <div className="absolute h-1 bg-blue-6 bottom-0 left-0 w-full"></div>
                                     )}
 
                                     <button
                                         className="h-full"
-                                        onClick={() =>
-                                            history.push(ProfilePath)
-                                        }
+                                        onClick={() => navigate('profile')}
                                     >
                                         <BsPerson size={'100%'} />
                                     </button>

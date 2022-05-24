@@ -6,7 +6,7 @@ import TradeNft from './TradeNft'
 import OrdersBook from './OrdersBook'
 import NFTSmallDisplay from './NFTSmallDisplay'
 import NFTDisplay from './NftDisplay'
-import { useLocation } from 'react-router-dom'
+
 import { lands } from './../../constants/nftsDummy'
 
 const MarketNftDetail = ({ data }) => {

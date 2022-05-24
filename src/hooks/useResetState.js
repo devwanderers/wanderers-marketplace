@@ -6,6 +6,7 @@ import * as actions from '../store/reducers/globalActions'
 const useResetState = () => {
     const { account } = useWeb3React()
     const dispatch = useDispatch()
+
     useEffect(() => {
         dispatch(actions.logout())
     }, [account])

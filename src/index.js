@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {  BrowserRouter as Router, } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Web3ReactProvider } from '@web3-react/core'
@@ -21,15 +22,17 @@ function getLibrary(provider) {
 
 ReactDOM.render(
     <React.StrictMode>
-        <Provider store={store.store}>
-            <PersistGate loading={null} persistor={store.persistor}>
-                <Web3ReactProvider getLibrary={getLibrary}>
-                    <RefreshContextProvider>
-                        <App />
-                    </RefreshContextProvider>
-                </Web3ReactProvider>
-            </PersistGate>
-        </Provider>
+        <Router>
+            <Provider store={store.store}>
+                <PersistGate loading={null} persistor={store.persistor}>
+                    <Web3ReactProvider getLibrary={getLibrary}>
+                        <RefreshContextProvider>
+                            <App />
+                        </RefreshContextProvider>
+                    </Web3ReactProvider>
+                </PersistGate>
+            </Provider>
+        </Router>
     </React.StrictMode>,
     document.getElementById('root')
 )
