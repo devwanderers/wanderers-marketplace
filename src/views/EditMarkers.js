@@ -2,32 +2,44 @@
 import React, { useCallback, useMemo, useState, useRef, useEffect } from 'react'
 import EditMarker from '../components/EditMarker/EditMarker'
 import GlobeFiber from '../components/GlobeFiber'
-import { useFetchAllCountries } from './../store/reducers/places/hooks'
+import {
+    useFetchAllCountries,
+    useUpdateCountry,
+} from './../store/reducers/places/hooks'
 import useDebounce from './../hooks/useDebounce'
 import { createVector3 } from './../utils/three.utils'
 
 const EditMarkers = (props) => {
     const globe = useRef()
-    const [{ markers, selectedMarker }, setMarkers] = useState({
+    const [{ markers, selectedMarker, indexMarker }, setMarkers] = useState({
         markers: [],
         selectedMarker: null,
+        indexMarker: 0,
     })
 
+    const [initialize, setInitialize] = useState(false)
     const [reload, setReload] = useState(false)
     const countries = useFetchAllCountries()
+    const { updateCountry, data, isLoading, error } = useUpdateCountry()
 
     // Fetch countries
     // Remove countries used by others makers except current marker
 
-    const handleAddMarker = useCallback((marker) => {
-        setReload(true)
-        setMarkers((state) => ({
-            ...state,
-            markers: [...state.markers, marker],
-            selectedMarker: marker,
-        }))
-        globe.current.startCameraTransitionToMaker(marker)
-    }, [])
+    const handleAddMarker = useCallback(
+        (marker) => {
+            if (countries.length === 0) return
+            setReload(true)
+            const newMarker = { ...marker, id: `marker-${indexMarker}` }
+            setMarkers((state) => ({
+                ...state,
+                markers: [...state.markers, newMarker],
+                selectedMarker: newMarker,
+                indexMarker: indexMarker + 1,
+            }))
+            globe.current.startCameraTransitionToMaker(marker)
+        },
+        [indexMarker, countries]
+    )
 
     const handleSelectMarker = useCallback((marker) => {
         console.log('selected', { marker })
@@ -37,53 +49,82 @@ const EditMarkers = (props) => {
     }, [])
 
     const handleSaveCountry = useCallback(
-        (countryId) => {
+        async (countryId) => {
             const index = markers.findIndex((v) => v.id === selectedMarker.id)
             const country = countries.find((v) => v._id === countryId)
 
             const markerUpdated = {
                 ...selectedMarker,
                 data: {
-                    id: country._id,
+                    id: countryId,
                     country: country.name,
                     image: `https://terramint.fra1.digitaloceanspaces.com/${country.image}`,
                 },
             }
+            try {
+                const { x, y, z } = selectedMarker.point
+                if (Object.keys(selectedMarker.data).length > 0) {
+                    await updateCountry({
+                        params: {
+                            countryId: selectedMarker.data.id,
+                            body: { xyz: [] },
+                        },
+                    })
+                }
+                await updateCountry({
+                    params: {
+                        countryId: country._id,
+                        body: { xyz: [x, y, z] },
+                    },
+                })
 
+                setMarkers((s) => {
+                    return {
+                        ...s,
+                        markers: [
+                            ...s.markers.slice(0, index),
+                            markerUpdated,
+                            ...s.markers.slice(index + 1, s.markers.length),
+                        ],
+                        selectedMarker: markerUpdated,
+                    }
+                })
+                setTimeout(() => {
+                    globe.current.reloadInitialState()
+                }, 400)
+            } catch (error) {
+                console.log({ error })
+            }
+        },
+        [selectedMarker, countries, markers]
+    )
+
+    const handleRemove = useCallback(async () => {
+        const index = markers.findIndex((v) => v.id === selectedMarker.id)
+
+        try {
+            await updateCountry({
+                params: {
+                    countryId: selectedMarker.data.id,
+                    body: { xyz: [] },
+                },
+            })
             setMarkers((s) => {
                 return {
                     ...s,
                     markers: [
                         ...s.markers.slice(0, index),
-                        markerUpdated,
                         ...s.markers.slice(index + 1, s.markers.length),
                     ],
-                    selectedMarker: markerUpdated,
+                    selectedMarker: { ...s.selectedMarker, data: {} },
                 }
             })
             setTimeout(() => {
-                globe.current.reloadInitialState()
+                globe.current.loadInitialState()
             }, 400)
-        },
-        [selectedMarker, countries, markers]
-    )
-
-    const handleRemove = useCallback(() => {
-        const index = markers.findIndex((v) => v.id === selectedMarker.id)
-
-        setMarkers((s) => {
-            return {
-                ...s,
-                markers: [
-                    ...s.markers.slice(0, index),
-                    ...s.markers.slice(index + 1, s.markers.length),
-                ],
-                selectedMarker: { ...s.selectedMarker, data: {} },
-            }
-        })
-        setTimeout(() => {
-            globe.current.loadInitialState()
-        }, 400)
+        } catch (error) {
+            console.log({ error })
+        }
     }, [selectedMarker, markers])
 
     useDebounce(
@@ -95,11 +136,16 @@ const EditMarkers = (props) => {
     )
 
     useEffect(() => {
-        if (Array.isArray(countries)) {
-            const dC = countries.reduce((acc, v, index) => {
+        if (Array.isArray(countries) && countries.length > 0 && !initialize) {
+            setInitialize(true)
+            let index = 0
+
+            console.log({ countries })
+            const dC = countries.reduce((acc, v) => {
                 if (!v?.xyz || v?.xyz.length === 0) return acc
                 const [x, y, z] = v.xyz
                 const id = `marker-${index}`
+                index = index + 1
                 return [
                     ...acc,
                     {
@@ -114,14 +160,14 @@ const EditMarkers = (props) => {
                 ]
             }, [])
 
-            console.log({ dC })
             setMarkers((state) => ({
                 ...state,
                 selectedMarker: null,
                 markers: dC,
+                indexMarker: index,
             }))
         }
-    }, [countries])
+    }, [countries, initialize])
 
     const _countries = useMemo(() => {
         if (!countries) return []
@@ -151,8 +197,6 @@ const EditMarkers = (props) => {
         return Object.keys(mixing).map((v) => mixing[v])
     }, [countries, markers, selectedMarker])
 
-    console.log({ selectedMarker, markers, _countries, reload, countries })
-
     return (
         <div className="w-full relative flex flex-row">
             <div className="relative w-8/12 h-full bg-black-1">
@@ -168,6 +212,7 @@ const EditMarkers = (props) => {
             <div className="relative h-full w-4/12">
                 {!reload && countries?.length > 0 && (
                     <EditMarker
+                        isLoading={isLoading}
                         markers={markers}
                         marker={selectedMarker}
                         countries={_countries}

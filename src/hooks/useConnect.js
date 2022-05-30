@@ -9,10 +9,12 @@ const useConnect = () => {
     const { login } = useAuth()
     const { connector, account, library } = useWeb3React()
     // const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth', false)
-
+    console.log('entro')
     useEffect(() => {
         const walletAuth = window.localStorage.getItem('walletAuth')
+        console.log({ walletAuth })
         if (walletAuth === 'true') {
+            console.log('Login')
             login()
         }
     }, [login])

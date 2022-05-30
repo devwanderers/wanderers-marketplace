@@ -9,11 +9,10 @@ const useActiveWeb3React = () => {
 
     useEffect(() => {
         if (library !== refEth.current) {
-            setProvider(library || genericProvider)
+            setProvider(library ?? genericProvider)
             refEth.current = library
         }
     }, [library])
-
     return {
         library: provider,
         chainId: chainId ?? parseInt(process.env.REACT_APP_CHAIN_ID, 10),

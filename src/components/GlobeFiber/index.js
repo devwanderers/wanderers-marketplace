@@ -18,7 +18,7 @@ import Markers from './Markers/Markers'
 import PreviewMarker from './Markers/PreviewMarker'
 import { createVector3, distanceTo } from '../../utils/three.utils'
 import CameraPaths from './CameraPaths'
-// import { AnimatePresence, motion } from 'framer-motion'
+
 import useDebugInformation from './../../hooks/useDebugInformation'
 
 const scaleVectorByCoeff = (vector3, coeff) => {
@@ -120,7 +120,6 @@ const GlobeFiber = React.forwardRef(
                 )
                     return
 
-                console.log({ distance, activeTransition })
                 if (!activeTransition) {
                     cameraControls.current.enableControls(false)
 
@@ -246,7 +245,6 @@ const GlobeFiber = React.forwardRef(
         const handleAddMarker = useCallback(
             (position) => {
                 const marker = {
-                    id: `marker-${markers.length}`,
                     point: scaleVectorByCoeff(position.point, coeff),
                     data: {},
                 }
@@ -349,6 +347,7 @@ const GlobeFiber = React.forwardRef(
                     }}
                 >
                     <color attach={'background'} args={['black']} />
+                    {/* <ambientLight args={[0x8ea8]} /> */}
                     <Stars />
                     <Controls
                         globe={{
@@ -371,15 +370,17 @@ const GlobeFiber = React.forwardRef(
                         loadModels={loadModels}
                     />
 
-                    <React.Suspense fallback={null}>
-                        <Markers
-                            edit={edit}
-                            markers={markers}
-                            onClickMarker={handleClickMarker}
-                            onHoverMarker={handleHoverMarker}
-                            htmlElementHover={htmlElementHover}
-                        />
-                    </React.Suspense>
+                    {loadModels && (
+                        <React.Suspense fallback={null}>
+                            <Markers
+                                edit={edit}
+                                markers={markers}
+                                onClickMarker={handleClickMarker}
+                                onHoverMarker={handleHoverMarker}
+                                htmlElementHover={htmlElementHover}
+                            />
+                        </React.Suspense>
+                    )}
                     <React.Suspense
                         fallback={<Loading onUnMount={onLoadModels} />}
                     >

@@ -1,71 +1,63 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-loss-of-precision */
-import React, { useRef, useState, useEffect, useMemo } from 'react'
-// import GlobeComponent from './../components/GlobeComponent/index'
-// import useResponsive from './../hooks/useResponsive'
-import useEventListener from './../hooks/useEventListener'
-import useEffectOnce from './../hooks/useEffectOnce'
-import { AutoComplete, Input, Select, Button, Row, Col } from 'antd'
+import React, { useRef, useState, useMemo } from 'react'
+import { AutoComplete, Input, Select, Row, Col } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
 import { filterSearch } from './../services/filters'
-import { FrameTopSVG, FrameBottomSVG } from '../assets/svg/frames'
-import { AnimatePresence, motion } from 'framer-motion'
 import CardNftMarket from '../components/Cards/CardNftMarket'
-// import { FrameBottomSVG } from './../assets/svg/frames/index'
-import { landColors } from './../assets/images/lands/colors/index'
-import { landsImages } from './../assets/images/lands/'
-import places from './../assets/images/places'
-import nfts from '../assets/images/nfts'
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
 // import { lands, roles } from './../constants/nftsDummy'
 import {
     useFetchCountries,
-    useFetchPlaces,
     usePlaceReducer,
 } from './../store/reducers/places/hooks'
 import { useGetLands } from '../store/reducers/nfts/hooks'
-import utilitiesImages from './../assets/images/utilities/index'
 import GlobeFiber from '../components/GlobeFiber'
 import useDebounce from '../hooks/useDebounce'
+import { createVector3 } from '../utils/three.utils'
 
 const MarketView = () => {
     const globeContainerRef = useRef(null)
     const globeRef = useRef(null)
     const searchButtonRef = useRef(null)
-    const [globeSizes, setGlobalSizes] = useState({ width: 0, height: 0 })
 
-    const [markers, setMarkers] = useState([])
-
-    // useEffectOnce(() => {
-    //     setGlobalSizes({
-    //         width: globeContainerRef.current.clientWidth,
-    //         height: globeContainerRef.current.clientHeight,
-    //     })
-    // })
-
-    // useEventListener('resize', () => {
-    //     setGlobalSizes({
-    //         width: globeContainerRef.current.clientWidth,
-    //         height: globeContainerRef.current.clientHeight,
-    //     })
-    // })
+    // const [markers, setMarkers] = useState([])
 
     const { data: nfts } = useGetLands()
-    const { countries, countriesArray, places } = useFetchCountries()
+    const { places, countriesArray } = useFetchCountries()
     const {
         fetch: { requestCountries },
     } = usePlaceReducer()
-    // const [lands, setLands] = useState([])
-    const [marker, setMarker] = useState()
     const [searchText, setSearchText] = useState()
     const [selectedText, setSelected] = useState()
+
+    const markers = useMemo(() => {
+        if (!countriesArray) return []
+        return countriesArray.map((v, index) => {
+            const {
+                xyz: [x, y, z],
+                name,
+            } = v
+            const id = `marker-${index}-${name}`
+            return {
+                id,
+                point: createVector3(x, y, z),
+                data: {
+                    id: v._id,
+                    country: name,
+                    image: `https://terramint.fra1.digitaloceanspaces.com/${v.image}`,
+                },
+            }
+        })
+    }, [countriesArray])
 
     const lands = useMemo(() => {
         if (!requestCountries && nfts.length === 0) return []
 
         return nfts.map((v) => {
-            const place = v.attributes[0].value
+            const place = 'Baldwin County '
+            console.log({ places, p: places[place] })
+            // const place = v.attributes[0].value
             return {
                 id: v.tokenId,
                 title: v.attributes[0].value,
@@ -78,38 +70,16 @@ const MarketView = () => {
         })
     }, [requestCountries, places, nfts])
 
-    // const markers = useMemo(() => {
-    //     return countriesArray.map(({ name, xyz, image }) => ({
-    //         coordinates: {
-    //             x: xyz[0],
-    //             y: xyz[1],
-    //             z: xyz[2],
-    //         },
-    //         label: name,
-    //         image,
-    //     }))
-    // }, [countriesArray])
-
     const handleOnChangeSelect = (id) => {
-        console.log({ id })
         const marker = markers.find((m) => m.id === id)
-        console.log({ marker })
         setSelected(marker.id)
-        setSearchText(marker.id)
-
+        setSearchText(marker.data.country)
         globeRef.current.startCameraTransitionToMaker(marker)
-    }
-
-    const handleOnChangeSelectAuto = (id) => {
-        const marker = markers.find((m) => m.id === id)
-
-        setSelected(marker.id)
-        setSearchText(marker.id)
     }
 
     const handleOnClickMarker = (marker) => {
         setSelected(marker.id)
-        setSearchText(marker.id)
+        setSearchText(marker.data.country)
     }
 
     const handleOnSearch = (value) => {
@@ -117,8 +87,21 @@ const MarketView = () => {
     }
 
     const onKeyDown = (e) => {
-        if (e.code === 'Enter' && selectedText) {
+        if (e.keyCode === 13 && selectedText) {
             searchButtonRef.current.focus()
+        }
+    }
+
+    const onKeyUp = (e) => {
+        if (e.code === 'Enter') {
+            if (searchText === '') {
+                setSelected(undefined)
+
+                globeRef.current.resetOrbit()
+            } else if (selectedText) {
+                const marker = markers.find((m) => m.id === selectedText)
+                globeRef.current.startCameraTransitionToMaker(marker)
+            }
         }
     }
 
@@ -136,20 +119,16 @@ const MarketView = () => {
         globeRef.current.resetOrbit()
     }
 
-    // const filter = selectedText
-    //     ? lands.filter((l) => l.country === selectedText)
-    //     : lands
-
     const filter = useMemo(() => {
         const marker = markers.find((v) => v.id === selectedText)
         return selectedText && marker
             ? lands.filter((l) => l.country === marker.data?.country)
             : lands
-    }, [markers])
+    }, [markers, lands, selectedText])
 
     const options = useMemo(() => {
         return markers.reduce(
-            (acc, m, key) => [...acc, { label: m.id, value: m.id }],
+            (acc, m, key) => [...acc, { id: m.id, label: m?.data.country }],
             []
         )
     }, [markers])
@@ -158,7 +137,6 @@ const MarketView = () => {
         () => filterSearch(searchText, options),
         [searchText, options]
     )
-
     useDebounce(
         () => {
             if (setSelected === '') globeRef.current.resetOrbit()
@@ -177,38 +155,12 @@ const MarketView = () => {
                 <React.Suspense fallback={null}>
                     <GlobeFiber
                         ref={globeRef}
-                        initialData={[]}
-                        // enableRotation={false}
-                        onMarkersChange={(markers) => setMarkers(markers)}
+                        markers={markers}
+                        onSelectMarker={handleOnClickMarker}
                     />
                 </React.Suspense>
-                {/* {lands.length > 0 ? (
-                    <GlobeComponent
-                        ref={globeRef}
-                        data={markers}
-                        width={window.innerWidth}
-                        height={650}
-                        // disabledRotation
-                        // mode={'addMarker'}
-                        // onAddMarker={(marker) => {
-                        //     console.log({ marker })
-                        //     setMarkers([...markers, { ...marker, label: '' }])
-                        // }}
-                        onClickMarker={handleOnClickMarker}
-                    />
-                ) : (
-                    <div
-                        className="w-full h-full "
-                        style={{ backgroundColor: '#070f21' }}
-                    >
-                        <img
-                            className="w-auto h-full mx-auto"
-                            src={utilitiesImages.eLoading}
-                            alt={utilitiesImages.eLoading}
-                        />
-                    </div>
-                )} */}
-                <div className="absolute bottom-0 w-full mb-5">
+
+                <div className="absolute bottom-0 w-full mb-5 z-50">
                     <div
                         className="relative flex justify-center items-center m-auto w-10/12 md:w-8/12 lg:w-6/12 2xl:w-4/12"
                         // style={{ maxWidth: '750px' }}
@@ -227,8 +179,8 @@ const MarketView = () => {
                                     >
                                         {options.map((d) => (
                                             <Select.Option
-                                                key={d.value}
-                                                value={d.label}
+                                                key={d.id}
+                                                value={d.id}
                                             >
                                                 {d.label}
                                             </Select.Option>
@@ -241,10 +193,10 @@ const MarketView = () => {
                                         className="auto-complete-custom absolute h-full ant-select-h-full"
                                         dropdownClassName=""
                                         onSearch={handleOnSearch}
-                                        onSelect={handleOnChangeSelectAuto}
+                                        onSelect={handleOnChangeSelect}
                                         style={{ width: '100%' }}
                                         onKeyDown={onKeyDown}
-                                        // onKeyUp={onKeyUpAuto}
+                                        // // onKeyUp={onKeyUpAuto}
                                         value={searchText}
                                         onClear={onClear}
                                         allowClear
@@ -263,7 +215,7 @@ const MarketView = () => {
                                         size="large"
                                         onKeyDown={onKeyDown}
                                         onClick={onClick}
-                                        // onKeyUp={onKeyUp}
+                                        onKeyUp={onKeyUp}
                                     >
                                         <SearchOutlined />
                                     </button>

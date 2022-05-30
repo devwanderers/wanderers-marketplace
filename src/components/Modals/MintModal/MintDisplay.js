@@ -109,7 +109,7 @@ const MintDisplay = ({ data = example }) => {
     }
 
     const imageUri = data[index]?.nftData.image
-
+    console.log({ d: data[index] })
     return (
         <React.Fragment>
             <Row gutter={[20, 10]} className="my-5 ">
@@ -168,7 +168,7 @@ const MintDisplay = ({ data = example }) => {
                                     Nomad ID
                                 </h3>
                                 <p className="text-base lg:text-lg">
-                                    {data[index] && data[index].tokenId}
+                                    {data[index] ? data[index].tokenId : ''}
                                 </p>
                             </div>
                         </div>

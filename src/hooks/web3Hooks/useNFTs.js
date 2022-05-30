@@ -5,6 +5,7 @@ import { _useResolveCall } from './../utils/_useResolveCall'
 import { useERC721Contract } from './useContract'
 import { ipfsReplaceUri } from './../../services/ipfs'
 import { LAND_ADDRESS } from '../../constants/addressConstants'
+import useRefresh from './../useRefresh'
 
 export const useMint = () => {
     const { account } = useActiveWeb3React()
@@ -16,7 +17,7 @@ export const useMint = () => {
             try {
                 const tx = await erc721Contract.mint(account, 1, {
                     from: account,
-                    value: ethers.utils.parseEther('0'),
+                    value: ethers.utils.parseEther('0.09'),
                 })
 
                 const tokenId = await tx.wait().then((v) => {
@@ -34,16 +35,109 @@ export const useMint = () => {
     return _useResolveCall(mint, null, {})
 }
 
+export const useGetTotalSupply = () => {
+    const { account } = useActiveWeb3React()
+    const { fastRefresh } = useRefresh()
+
+    const erc721Contract = useERC721Contract(LAND_ADDRESS)
+
+    const fetchTotalSupply = useCallback(async () => {
+        if (account) {
+            try {
+                const totalSupply = await erc721Contract.totalSupply()
+
+                return parseInt(Number(totalSupply))
+            } catch (error) {
+                console.log(error)
+                throw error
+            }
+        }
+    }, [erc721Contract, account])
+
+    const { fetch, ...rest } = _useResolveCall(fetchTotalSupply, null, {})
+
+    useEffect(() => {
+        fetch()
+    }, [fetch, fastRefresh])
+
+    return { reload: fetch, ...rest }
+}
+
+export const useGetMaxSupply = () => {
+    const { account } = useActiveWeb3React()
+
+    const erc721Contract = useERC721Contract(LAND_ADDRESS)
+
+    const fetchMaxSupply = useCallback(async () => {
+        if (account) {
+            try {
+                const maxSupply = await erc721Contract.maxSupply()
+
+                return parseInt(Number(maxSupply))
+            } catch (error) {
+                console.log(error)
+                throw error
+            }
+        }
+    }, [erc721Contract, account])
+
+    const { fetch, ...rest } = _useResolveCall(fetchMaxSupply, null, {})
+
+    useEffect(() => {
+        fetch()
+    }, [fetch])
+
+    return { reload: fetch, ...rest }
+}
+
+export const useDisableMint = () => {
+    const { account } = useActiveWeb3React()
+    const { fastRefresh } = useRefresh()
+
+    const erc721Contract = useERC721Contract(LAND_ADDRESS)
+
+    const fetchData = useCallback(async () => {
+        if (account) {
+            try {
+                const [totalSupply, maxSupply] = await Promise.all([
+                    erc721Contract.totalSupply(),
+                    erc721Contract.maxSupply(),
+                ])
+
+                return (
+                    parseInt(Number(totalSupply)) ===
+                    parseInt(Number(maxSupply))
+                )
+            } catch (error) {
+                console.log('disableMint', error)
+                throw error
+            }
+        }
+    }, [erc721Contract, account])
+
+    const { fetch, data, ...rest } = _useResolveCall(fetchData, null, {})
+
+    useEffect(() => {
+        if (!data) fetch()
+    }, [fetch, fastRefresh])
+
+    return { reload: fetchData, data, ...rest }
+}
+
 export const useFetchNft = (tokenId) => {
     const erc721Contract = useERC721Contract(LAND_ADDRESS)
 
     const fetchNft = useCallback(async () => {
-        const tokenUri = await erc721Contract.tokenURI(tokenId)
+        try {
+            const tokenUri = await erc721Contract.tokenURI(tokenId)
 
-        const uri = ipfsReplaceUri(tokenUri)
+            const uri = ipfsReplaceUri(tokenUri)
 
-        const nft = await fetch(uri).then((res) => res.json())
-        return { ...nft, image: ipfsReplaceUri(nft.image) }
+            const nft = await fetch(uri).then((res) => res.json())
+            return { ...nft, image: ipfsReplaceUri(nft.image) }
+        } catch (error) {
+            console.log('Fetching Nft failed with error: ', error)
+        }
     }, [erc721Contract, tokenId])
 
     return _useResolveCall(fetchNft, null, {})
@@ -54,7 +148,7 @@ export const useGetNft = (tokenId) => {
     const { fetch, ...rest } = useFetchNft(tokenId)
 
     useEffect(() => {
-        if (account) {
+        if (account && tokenId) {
             fetch()
         }
     }, [tokenId, account])

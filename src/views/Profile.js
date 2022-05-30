@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect, useState, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'
 
@@ -11,21 +10,23 @@ import {
     useFetchNftAvatars,
     useNftAvatarReducer,
 } from '../store/reducers/nftAvatars/hooks'
-import { useGetLands, useNftsReducer } from './../store/reducers/nfts/hooks'
+import { useGetLands } from './../store/reducers/nfts/hooks'
 
-import { useMint } from './../hooks/web3Hooks/useNFTs'
 import ButtonMint from './../components/Profile/ButtonMint'
 import {
     useSetAvatar,
     useFetchProfile,
     useSelectedAvatar,
 } from './../store/reducers/profile/hook'
+import { useWeb3React } from '@web3-react/core'
+import { Navigate } from 'react-router-dom'
 
 const Profile = () => {
+    const { account } = useWeb3React()
+    if (!account) return <Navigate to={'/'} replace />
+
     useFetchNftAvatars()
     useFetchProfile()
-
-    const { fetch: mint } = useMint()
 
     const { fetch, nfts } = useNftAvatarReducer()
     const { index, avatar } = useSelectedAvatar()
@@ -47,7 +48,6 @@ const Profile = () => {
     const lands = useMemo(() => {
         if (nftsLands.length === 0) return []
         return nftsLands.map((land, index) => {
-            console.log(land.tokenId)
             return {
                 id: land.tokenId,
                 title: land.attributes[0].value,

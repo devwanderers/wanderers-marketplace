@@ -3,25 +3,22 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLandNfts } from '../nfts/hooks'
 import * as actions from './actions'
-import {
-    countriesSelector,
-    placesReducerSelector,
-    getAllCountriesSelector,
-} from './selectors'
+import { _useResolveCall } from './../../../hooks/utils/_useResolveCall'
+import { placesReducerSelector, getAllCountriesSelector } from './selectors'
 
 export const usePlaceReducer = () => {
     return useSelector(placesReducerSelector)
 }
 
 export const useCountrieSelector = () => {
-    const countries = useSelector(countriesSelector)
+    const countries = useSelector(placesReducerSelector)
 
     return useMemo(() => {
         const _countries = countries.countries
         const _places = countries.places
 
-        const countriesArray = Object.keys(countries).reduce((acc, c) => {
-            return [...acc, { key: c, ...countries[c] }]
+        const countriesArray = Object.keys(_countries).reduce((acc, c) => {
+            return [...acc, { key: c, ..._countries[c] }]
         }, [])
         return { countries: _countries, countriesArray, places: _places }
     }, [countries])
@@ -31,11 +28,12 @@ export const useFetchCountries = () => {
     const nfts = useLandNfts()
 
     const dispatch = useDispatch()
-    const { countries, countriesArray, places } = useSelector(countriesSelector)
+    const { countries, countriesArray, places } = useCountrieSelector()
 
     const fetchCountries = useCallback(async () => {
         const nftPlacesNames = nfts.reduce(
-            (acc, n) => [...acc, n.attributes[0].value],
+            // (acc, n) => [...acc, n.attributes[0].value],
+            (acc, n) => [...acc, 'Venice'],
             []
         )
         dispatch(actions.getContry(nftPlacesNames))
@@ -64,11 +62,35 @@ export const useFetchAllCountries = () => {
 
     const fetchAllCountries = useCallback(() => {
         dispatch(actions.getAllCountries())
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         fetchAllCountries()
     }, [])
 
     return countries
+}
+
+export const useUpdateCountry = () => {
+    const dispatch = useDispatch()
+
+    const updateCountry = useCallback(
+        async (countryId) => {
+            try {
+                return await dispatch(actions.updateCountry(countryId))
+                    .unwrap()
+                    .then((r) => {
+                        console.log({ r })
+                    })
+            } catch (error) {
+                console.log({ error })
+                throw error
+            }
+        },
+        [dispatch]
+    )
+
+    const { fetch, ...rest } = _useResolveCall(updateCountry)
+
+    return { updateCountry: fetch, ...rest }
 }

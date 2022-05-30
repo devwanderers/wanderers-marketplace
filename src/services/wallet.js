@@ -62,8 +62,7 @@ export const registerToken = async () => {
         params: {
             type: 'ERC20',
             options: {
-                address:
-                    process.env.REACT_APP_AVATAR_DESTINARE_CONTRACT_ADDRESS,
+                address: process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS,
                 symbol: 'NLD',
                 decimals: 0,
                 // image: `${BASE_URL}/images/tokens/${tokenAddress}.png`,

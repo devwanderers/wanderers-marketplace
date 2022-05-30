@@ -6,17 +6,20 @@ import NftProperties from '../components/MarketNftDetail/NftProperties'
 import RoleLabel from '../components/Label/RoleLabel'
 import NftDetailsInfo from '../components/MarketNftDetail/NftDetailsInfo'
 import NftHeader from '../components/MarketNftDetail/NftHeader'
-import { useNftDetail } from '../store/reducers/nfts/hooks'
+import { useGetLands, useNftDetail } from '../store/reducers/nfts/hooks'
 import { useFetchPlaceSelected } from '../store/reducers/places/hooks'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
+import { useWeb3React } from '@web3-react/core'
 
 const MarketNftDetailView = (props) => {
     const { id } = useParams()
+    const { account } = useWeb3React()
+
+    useGetLands()
     const detail = useNftDetail(id)
-    console.log({ detail })
     const placeInfo = useFetchPlaceSelected(detail?.attributes[0].value)
 
-    if (!id) console.log('No data')
+    if (!id || !account) return <Navigate to={'/'} replace />
 
     return (
         <div className="flex-1 flex bg-blue-7">

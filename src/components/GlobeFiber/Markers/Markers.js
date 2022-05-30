@@ -84,7 +84,7 @@ const Markers = ({
     return markers.map((v, i) => (
         <Marker
             ref={setMarkersRef(v.id)}
-            key={i}
+            key={v.id}
             hover={markerHover?.id === v.id}
             position={v.point}
             normal={v.normal}

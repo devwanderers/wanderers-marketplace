@@ -1,10 +1,15 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { useGetNft, useMint } from '../../hooks/web3Hooks/useNFTs'
+import {
+    useDisableMint,
+    useGetNft,
+    useMint,
+} from '../../hooks/web3Hooks/useNFTs'
 import MintModal from '../Modals/MintModal'
 
 const ButtonMint = ({ onMintEnd }) => {
     const [visible, setVisible] = useState(false)
     const { fetch: mint, data: tokenId, isLoading: isMinting } = useMint()
+    const { data: disableMint } = useDisableMint()
 
     const handleMint = useCallback(async () => {
         setVisible(true)
@@ -19,8 +24,8 @@ const ButtonMint = ({ onMintEnd }) => {
     }, [onMintEnd, mint])
 
     const handleVisible = () => setVisible((state) => !state)
-    const _tokenId = 1
-    const { data, isLoading: isLoadingNft } = useGetNft(_tokenId)
+
+    const { data, isLoading: isLoadingNft } = useGetNft(tokenId)
 
     const minting = useMemo(() => {
         return isMinting || isLoadingNft
@@ -35,7 +40,7 @@ const ButtonMint = ({ onMintEnd }) => {
                 },
             ]
         return []
-    }, [data])
+    }, [data, tokenId])
 
     return (
         <React.Fragment>
@@ -46,8 +51,9 @@ const ButtonMint = ({ onMintEnd }) => {
                 onCloseModal={() => handleVisible()}
             />
             <button
+                disabled={disableMint}
                 onClick={() => handleMint()}
-                className="bg-blue-6 rounded-md w-full  text-xl font-medium text-blue-5"
+                className="bg-blue-6 rounded-md w-full  text-xl font-medium text-blue-5 disabled:opacity-40"
             >
                 Claim
             </button>

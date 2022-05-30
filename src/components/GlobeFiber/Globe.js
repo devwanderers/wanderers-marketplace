@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { useTexture } from '@react-three/drei'
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import * as THREE from 'three'
 
 const intersectPostion = (intersections) => {
@@ -17,6 +17,7 @@ const intersectPostion = (intersections) => {
 
 const Globe = React.forwardRef(
     ({ radius, onPoinertDown, onPointerMove, onPointerOut, edit }, ref) => {
+        const globe = useRef()
         const handlePointerMove = useCallback(
             (e) => {
                 const { intersections } = e
@@ -55,11 +56,13 @@ const Globe = React.forwardRef(
               }
             : {}
 
-        const map = useTexture('img/global-dot3.png')
+        const map = useTexture(
+            edit ? 'img/map-line.png' : 'img/global-dot3.png'
+        )
 
         return (
             <React.Suspense fallback={null}>
-                <mesh ref={ref} {...events}>
+                <mesh ref={mergeRefs(globe, ref)} {...events}>
                     <icosahedronBufferGeometry args={[radius, 10]} />
                     <meshBasicMaterial
                         side={THREE.DoubleSide}
@@ -74,3 +77,15 @@ const Globe = React.forwardRef(
 )
 
 export default Globe
+
+function mergeRefs(...refs: []) {
+    return (instance) => {
+        for (const ref of refs) {
+            if (typeof ref === 'function') {
+                ref(instance)
+            } else if (ref) {
+                ref.current = instance
+            }
+        }
+    }
+}

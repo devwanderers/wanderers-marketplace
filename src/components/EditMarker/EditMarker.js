@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { Spin } from 'antd'
 import React, { useEffect, useRef, useCallback } from 'react'
 import useInput from '../../hooks/useInput'
 
@@ -9,6 +10,7 @@ const EditMarker = ({
     onHandleSelectMaker,
     onSave,
     onRemove,
+    isLoading,
 }) => {
     const prevMarkerSelected = useRef()
     const {
@@ -59,7 +61,7 @@ const EditMarker = ({
                 {markers.map((v, i) => {
                     return (
                         <option key={i} value={v.id}>
-                            {v.id}
+                            {v.id}-{v?.data?.country}
                         </option>
                     )
                 })}
@@ -74,20 +76,24 @@ const EditMarker = ({
             </div>
             <div className="flex flex-row space-x-4 mt-4">
                 <button
-                    className="py-1 px-4 bg-blue-1 rounded-md text-white"
+                    className="py-1 px-3  bg-blue-1 rounded-md text-white"
+                    style={{ minWidth: '90px' }}
                     onClick={() => {
                         if (onSave) onSave(valueCountry)
                     }}
+                    disabled={isLoading}
                 >
-                    Save Country
+                    {!isLoading ? 'Save Country' : <Spin />}
                 </button>
                 <button
                     onClick={() => {
                         if (onRemove) onRemove()
                     }}
-                    className="py-1 px-3 bg-red-400 rounded-md text-white"
+                    className="py-1 px-3 bg-red-400 rounded-md text-white flex justify-center items-center"
+                    style={{ minWidth: '90px' }}
+                    disabled={isLoading}
                 >
-                    Remove Country
+                    {!isLoading ? 'Remove Country' : <Spin />}
                 </button>
             </div>
         </div>

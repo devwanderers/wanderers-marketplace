@@ -10,7 +10,7 @@ const initialState = {
     fetch: {
         requestCountries: false,
     },
-    allCountries: null,
+    allCountries: [],
     loading: false,
     error: null,
 }
@@ -34,6 +34,25 @@ const placesReducer = createReducer(initialState, (builder) => {
                 error: null,
                 loading: false,
                 fetch: { ...fetch, requestCountries: true },
+            }
+        })
+        .addCase(actions.updateCountry.fulfilled, (state, { payload }) => {
+            const { country } = payload
+            const index = state.allCountries.findIndex(
+                (c) => c._id === country._id
+            )
+            const newAllCountries = [
+                ...state.allCountries.slice(0, index),
+                country,
+                ...state.allCountries.slice(
+                    index + 1,
+                    state.allCountries.length
+                ),
+            ]
+
+            return {
+                ...state,
+                allCountries: newAllCountries,
             }
         })
         .addCase(actions.getAllCountries.fulfilled, (state, { payload }) => {

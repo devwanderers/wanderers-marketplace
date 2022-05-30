@@ -48,3 +48,21 @@ export const getPlace = createAsyncThunk(
         }
     }
 )
+
+export const updateCountry = createAsyncThunk(
+    types.UPDATE_COUNTRY,
+    async ({ countryId, body }, { rejectWithValue }) => {
+        try {
+            const res = await axiosInstance.put(
+                `country/update/${countryId}`,
+                body
+            )
+            return res?.data
+        } catch (error) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)

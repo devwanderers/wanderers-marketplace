@@ -10,8 +10,10 @@ import nfts from './nfts/nftsReducer'
 import profile from './profile/profileReducer'
 import places from './places/placesReducer'
 
+const persistKey = 'rootNM'
+
 const persistConfig = {
-    key: 'root',
+    key: persistKey,
     storage,
     whitelist: [],
 }
@@ -27,7 +29,7 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
     if (action.type === globalTypes.LOG_OUT) {
-        storage.removeItem('persist:root')
+        storage.removeItem(`persist:${persistKey}`)
         return appReducer(undefined, action)
     }
 

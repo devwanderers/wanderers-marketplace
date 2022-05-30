@@ -7,7 +7,7 @@ const Circle = React.forwardRef(
         {
             color = 0xf09000,
             transparent = false,
-            circleRadious = 1,
+            circleRadious = 0.7,
             circleSegments = 16,
             wireframe = false,
             ...restProps
