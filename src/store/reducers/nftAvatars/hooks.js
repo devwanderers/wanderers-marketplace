@@ -23,6 +23,8 @@ export const useFetchNftAvatarId = () => {
     )
 
     const fetcNftIDS = useCallback(async () => {
+        if (!account) return
+        console.log({ account })
         dispatch(actions.setNftIDsAvatar.pending())
         erc721Contract
             .walletOfOwner(account)
@@ -33,13 +35,11 @@ export const useFetchNftAvatarId = () => {
                 console.log('Failed to get nft ids', err)
                 dispatch(actions.setNftIDsAvatar.rejected(err))
             })
-    }, [erc721Contract, dispatch])
+    }, [erc721Contract, account, dispatch])
 
     useEffect(() => {
-        if (account) {
-            fetcNftIDS()
-        }
-    }, [account, library])
+        fetcNftIDS()
+    }, [library, account])
 
     return nftsIds
 }
@@ -55,6 +55,9 @@ export const useFetchNftAvatars = () => {
     )
 
     const fetchNftAvatarsData = useCallback(async () => {
+        console.log({ nftIds })
+        if (!account || nftIds.length === 0)
+            return dispatch(actions.setNftAvatar.fulfilled([]))
         const promises = nftIds.reduce((acc, v) => {
             return [...acc, erc721Contract.tokenURI(v)]
         }, [])
@@ -81,11 +84,12 @@ export const useFetchNftAvatars = () => {
             dispatch(actions.setNftAvatar.rejected(error))
             throw error
         }
-    }, [nftIds, erc721Contract, dispatch])
+    }, [nftIds, account, erc721Contract, dispatch])
 
     useEffect(() => {
-        if (account && nftIds.length > 0) fetchNftAvatarsData()
-    }, [account, nftIds, library])
+        console.log('Avatar', nftIds)
+        fetchNftAvatarsData()
+    }, [nftIds, library])
 
     return nfts
 }

@@ -14,9 +14,9 @@ const getERC721Contract = (address, signer) => {
 }
 
 export const useERC721Contract = (address) => {
-    const { library } = useActiveWeb3React()
+    const { library, account } = useActiveWeb3React()
     return useMemo(
         () => getERC721Contract(address, library.getSigner()),
-        [address, library]
+        [address, library, account]
     )
 }

@@ -16,6 +16,8 @@ const initialState = {
 const nftAvatarsReducer = createReducer(initialState, (builder) => {
     builder
         .addCase(actions.setNftIDsAvatar.pending, (state, { payload }) => {
+            state.nftIds = []
+            state.nfts = []
             state.loading.requestNftIds = true
             state.error = null
         })

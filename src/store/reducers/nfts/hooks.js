@@ -27,7 +27,6 @@ export const useFetchNftLandId = () => {
 
     const fetcNftIDS = useCallback(async () => {
         if (!account) return
-        console.log({ account })
         dispatch(actions.setNftIDs.pending())
 
         console.log({ erc721Contract })
@@ -43,7 +42,7 @@ export const useFetchNftLandId = () => {
 
     useEffect(() => {
         fetcNftIDS()
-    }, [account, library, slowRefresh])
+    }, [library, account, slowRefresh])
     return { nftIds, fetcNftIDS }
 }
 
@@ -57,7 +56,7 @@ export const useFetchNftLands = (nftIds = []) => {
     )
 
     const fetchNftLandsData = useCallback(async () => {
-        if (nftIds.length === 0 || !account) return
+        if (nftIds.length === 0 || !account) actions.setNft.fulfilled([])
         const contractsCalls = nftIds.map((v) => erc721Contract.tokenURI(v))
         try {
             dispatch(actions.setNft.pending())
@@ -86,8 +85,9 @@ export const useFetchNftLands = (nftIds = []) => {
     }, [nftIds, erc721Contract, account, dispatch])
 
     useEffect(() => {
+        console.log('Lands', nftIds)
         fetchNftLandsData()
-    }, [account, nftIds, library])
+    }, [nftIds, library])
 
     return nfts
 }

@@ -6,8 +6,8 @@ import '../styles/App.less'
 // import useResetState from './../hooks/useResetState'
 
 const App = (props) => {
-    useConnect()
     // useResetState()
+    useConnect()
 
     return <Router />
 }

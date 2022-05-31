@@ -9,10 +9,9 @@ const useConnect = () => {
     const { login } = useAuth()
     const { connector, account, library } = useWeb3React()
     // const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth', false)
-    console.log('entro')
+
     useEffect(() => {
         const walletAuth = window.localStorage.getItem('walletAuth')
-        console.log({ walletAuth })
         if (walletAuth === 'true') {
             console.log('Login')
             login()
@@ -29,12 +28,15 @@ const useConnect = () => {
             }
             connector.on('Web3ReactDeactivate', handleDeactivate)
             window.ethereum.on('chainChanged', reload)
+            // window.ethereum.on('accountsChanged', reload)
+
             return () => {
                 connector.removeListener(
                     'Web3ReactDeactivate',
                     handleDeactivate
                 )
                 window.ethereum.removeListener('chainChanged', reload)
+                // window.ethereum.removeListener('accountsChanged', reload)
             }
         }
         return undefined
