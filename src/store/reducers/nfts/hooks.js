@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { nftIdSelector, nftsSelector, nftReducerSelector } from './selectors'
+import { nftsSelector, nftReducerSelector } from './selectors'
 import * as actions from './actions'
 import useActiveWeb3React from './../../../hooks/useActiveWeb3React'
 
@@ -16,50 +16,26 @@ export const useLandNfts = () => {
     return useSelector(nftsSelector)
 }
 
-export const useFetchNftLandId = () => {
-    const { slowRefresh } = useRefresh()
-    const { account, library } = useActiveWeb3React()
-    const dispatch = useDispatch()
-    const nftIds = useSelector(nftIdSelector)
-    const erc721Contract = useERC721Contract(
-        process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
-    )
-
-    const fetcNftIDS = useCallback(async () => {
-        if (!account) return
-        dispatch(actions.setNftIDs.pending())
-
-        console.log({ erc721Contract })
-        erc721Contract
-            .walletOfOwner(account)
-            .then((res) => dispatch(actions.setNftIDs.fulfilled(res)))
-            .catch((err) => {
-                console.log('Failed to get nft ids', err)
-                dispatch(actions.setNftIDs.rejected(err))
-                throw err
-            })
-    }, [erc721Contract, dispatch, account])
-
-    useEffect(() => {
-        fetcNftIDS()
-    }, [library, account, slowRefresh])
-    return { nftIds, fetcNftIDS }
-}
-
 export const useFetchNftLands = (nftIds = []) => {
     const { account, library } = useActiveWeb3React()
     const dispatch = useDispatch()
 
     const nfts = useLandNfts()
+    const { slowRefresh } = useRefresh()
     const erc721Contract = useERC721Contract(
         process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
     )
 
     const fetchNftLandsData = useCallback(async () => {
-        if (nftIds.length === 0 || !account) actions.setNft.fulfilled([])
-        const contractsCalls = nftIds.map((v) => erc721Contract.tokenURI(v))
         try {
+            if (!account) return
             dispatch(actions.setNft.pending())
+
+            const nftIds = await erc721Contract.walletOfOwner(account)
+            if (nftIds?.length === 0 || !Array.isArray(nftIds))
+                actions.setNft.fulfilled({ nftIds: [], nfts: [] })
+
+            const contractsCalls = nftIds.map((v) => erc721Contract.tokenURI(v))
             const uris = await Promise.all(contractsCalls)
             const fetchUris = uris.map((v) => {
                 return fetch(ipfsReplaceUri(v)).then((res) => res.json())
@@ -67,15 +43,16 @@ export const useFetchNftLands = (nftIds = []) => {
             const nfts = await Promise.all(fetchUris)
 
             dispatch(
-                actions.setNft.fulfilled(
-                    nfts.map((v, index) => {
+                actions.setNft.fulfilled({
+                    nftIds: nftIds,
+                    nfts: nfts.map((v, index) => {
                         return {
                             ...v,
                             tokenId: parseInt(Number(nftIds[index]._hex)),
                             image: ipfsReplaceUri(v.image),
                         }
-                    })
-                )
+                    }),
+                })
             )
         } catch (error) {
             console.log('Failed to get nfts', error)
@@ -85,22 +62,14 @@ export const useFetchNftLands = (nftIds = []) => {
     }, [nftIds, erc721Contract, account, dispatch])
 
     useEffect(() => {
-        console.log('Lands', nftIds)
         fetchNftLandsData()
-    }, [nftIds, library])
+    }, [library, account, slowRefresh])
 
-    return nfts
-}
-
-export const useGetLands = () => {
-    const { nftIds, fetcNftIDS } = useFetchNftLandId()
-    const lands = useFetchNftLands(nftIds)
-
-    return { data: lands, reload: fetcNftIDS }
+    return { nfts, reload: fetchNftLandsData }
 }
 
 export const useNftDetail = (id) => {
-    const { data: nfts } = useGetLands()
+    const { nfts } = useFetchNftLands()
 
     return useMemo(() => {
         if (nfts.length > 0) {

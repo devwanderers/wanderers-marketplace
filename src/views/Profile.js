@@ -7,10 +7,10 @@ import CardNftMarket from './../components/Cards/CardNftMarket'
 import NftProfileDisplay from '../components/Profile/NftProfileDisplay'
 import UserInfo from '../components/Profile/UserInfo'
 import {
-    useFetchNftAvatars,
+    useNftAvatars,
     useNftAvatarReducer,
 } from '../store/reducers/nftAvatars/hooks'
-import { useGetLands } from './../store/reducers/nfts/hooks'
+import { useFetchNftLands } from './../store/reducers/nfts/hooks'
 
 import ButtonMint from './../components/Profile/ButtonMint'
 import {
@@ -25,12 +25,12 @@ const Profile = () => {
     const { account } = useWeb3React()
     if (!account) return <Navigate to={'/'} replace />
 
-    useFetchNftAvatars()
+    useNftAvatars()
     useFetchProfile()
 
     const { fetch, nfts } = useNftAvatarReducer()
     const { index, avatar } = useSelectedAvatar()
-    const { data: nftsLands, reload } = useGetLands()
+    const { nfts: nftsLands, reload } = useFetchNftLands()
 
     const setAvatar = useSetAvatar()
 

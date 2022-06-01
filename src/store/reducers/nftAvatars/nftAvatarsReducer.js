@@ -15,21 +15,6 @@ const initialState = {
 
 const nftAvatarsReducer = createReducer(initialState, (builder) => {
     builder
-        .addCase(actions.setNftIDsAvatar.pending, (state, { payload }) => {
-            state.nftIds = []
-            state.nfts = []
-            state.loading.requestNftIds = true
-            state.error = null
-        })
-        .addCase(actions.setNftIDsAvatar.rejected, (state, { payload }) => {
-            state.loading.requestNftIds = false
-            state.error = payload
-        })
-        .addCase(actions.setNftIDsAvatar.fulfilled, (state, { payload }) => {
-            state.loading.requestNftIds = false
-            state.nftIds = payload
-            state.error = null
-        })
         .addCase(actions.setNftAvatar.pending, (state, { payload }) => {
             state.loading.requestNft = true
             state.error = null
@@ -38,12 +23,16 @@ const nftAvatarsReducer = createReducer(initialState, (builder) => {
             state.loading.requestNft = false
             state.error = payload
         })
-        .addCase(actions.setNftAvatar.fulfilled, (state, { payload }) => {
-            state.loading.requestNft = false
-            state.nfts = nftTranformData(payload)
-            state.fetch = true
-            state.error = null
-        })
+        .addCase(
+            actions.setNftAvatar.fulfilled,
+            (state, { payload: { nfts, nftIds } }) => {
+                state.loading.requestNft = false
+                state.nfts = nftTranformData(nfts)
+                state.nftIds = nftIds
+                state.fetch = true
+                state.error = null
+            }
+        )
 })
 
 export default nftAvatarsReducer

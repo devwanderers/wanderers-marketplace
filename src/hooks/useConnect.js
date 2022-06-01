@@ -3,12 +3,15 @@ import { useEffect } from 'react'
 import { useLocalStorage } from './useStorage'
 import useAuth from './useAuth'
 import { useWeb3React } from '@web3-react/core'
+import { useDispatch } from 'react-redux'
+import * as actions from '../store/reducers/globalActions'
 
 const useConnect = () => {
     const { chainId, activate, deactivate } = useWeb3React()
     const { login } = useAuth()
     const { connector, account, library } = useWeb3React()
     // const [walletAuth, setWalletAuth] = useLocalStorage('walletAuth', false)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const walletAuth = window.localStorage.getItem('walletAuth')
@@ -25,10 +28,12 @@ const useConnect = () => {
             }
             const reload = () => {
                 window.location.reload()
+                dispatch(actions.logout())
             }
+
             connector.on('Web3ReactDeactivate', handleDeactivate)
             window.ethereum.on('chainChanged', reload)
-            // window.ethereum.on('accountsChanged', reload)
+            window.ethereum.on('accountsChanged', reload)
 
             return () => {
                 connector.removeListener(
@@ -36,7 +41,7 @@ const useConnect = () => {
                     handleDeactivate
                 )
                 window.ethereum.removeListener('chainChanged', reload)
-                // window.ethereum.removeListener('accountsChanged', reload)
+                window.ethereum.removeListener('accountsChanged', reload)
             }
         }
         return undefined

@@ -11,7 +11,7 @@ import {
     useFetchCountries,
     usePlaceReducer,
 } from './../store/reducers/places/hooks'
-import { useGetLands } from '../store/reducers/nfts/hooks'
+import { useFetchNftLands } from '../store/reducers/nfts/hooks'
 import GlobeFiber from '../components/GlobeFiber'
 import useDebounce from '../hooks/useDebounce'
 import { createVector3 } from '../utils/three.utils'
@@ -23,7 +23,7 @@ const MarketView = () => {
 
     // const [markers, setMarkers] = useState([])
 
-    const { data: nfts } = useGetLands()
+    const { nfts } = useFetchNftLands()
     const { places, countriesArray } = useFetchCountries()
     const {
         fetch: { requestCountries },

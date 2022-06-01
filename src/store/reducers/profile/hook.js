@@ -6,9 +6,10 @@ import * as actions from './actions'
 import { profileReducerSelector } from './selectors'
 import useDebounce from './../../../hooks/useDebounce'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
+import { useNftAvatars } from '../nftAvatars/hooks'
 
 export const useSelectedAvatar = () => {
-    const nfts = useSelector(nftsSelector)
+    const nfts = useNftAvatars()
     const { avatar } = useSelector(profileReducerSelector)
 
     return useMemo(() => {
@@ -66,6 +67,7 @@ export const useFetchProfile = () => {
     const dispatch = useDispatch()
 
     const fetchProfile = useCallback(async () => {
+        console.log({ account })
         dispatch(actions.getProfile(account)).then((res) => {
             if (
                 res?.error &&
@@ -84,6 +86,7 @@ export const useFetchProfile = () => {
                 const nftIndex = nfts.findIndex(
                     (n) => n.edition.toString() === avatar
                 )
+                console.log({ nftIndex })
                 if (nftIndex === -1 && nfts.length > 0) {
                     // Updating Selected NFT
                     dispatch(

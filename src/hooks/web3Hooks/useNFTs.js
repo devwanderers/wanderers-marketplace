@@ -115,7 +115,7 @@ export const useDisableMint = () => {
         }
     }, [erc721Contract, account])
 
-    const { fetch, data, ...rest } = _useResolveCall(fetchData, null, {})
+    const { fetch, data, ...rest } = _useResolveCall(fetchData, false, {})
 
     useEffect(() => {
         if (!data) fetch()

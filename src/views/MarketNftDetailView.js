@@ -6,7 +6,7 @@ import NftProperties from '../components/MarketNftDetail/NftProperties'
 import RoleLabel from '../components/Label/RoleLabel'
 import NftDetailsInfo from '../components/MarketNftDetail/NftDetailsInfo'
 import NftHeader from '../components/MarketNftDetail/NftHeader'
-import { useGetLands, useNftDetail } from '../store/reducers/nfts/hooks'
+import { useFetchNftLands, useNftDetail } from '../store/reducers/nfts/hooks'
 import { useFetchPlaceSelected } from '../store/reducers/places/hooks'
 import { Navigate, useParams } from 'react-router-dom'
 import { useWeb3React } from '@web3-react/core'
@@ -15,7 +15,7 @@ const MarketNftDetailView = (props) => {
     const { id } = useParams()
     const { account } = useWeb3React()
 
-    useGetLands()
+    useFetchNftLands()
     const detail = useNftDetail(id)
     const placeInfo = useFetchPlaceSelected(detail?.attributes[0].value)
 
