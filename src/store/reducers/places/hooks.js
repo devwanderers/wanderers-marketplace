@@ -32,10 +32,10 @@ export const useFetchCountries = () => {
 
     const fetchCountries = useCallback(async () => {
         const nftPlacesNames = nfts.reduce(
-            // (acc, n) => [...acc, n.attributes[0].value],
-            (acc, n) => [...acc, 'Venice'],
+            (acc, n) => [...acc, n.attributes[0]?.value],
             []
         )
+
         dispatch(actions.getContry(nftPlacesNames))
     }, [nfts, dispatch])
 
@@ -46,13 +46,14 @@ export const useFetchCountries = () => {
     return { countries, countriesArray, places }
 }
 
-export const useFetchPlaceSelected = (place) => {
+export const useFetchPlaceSelected = (place, country) => {
     const { selectedPlace } = usePlaceReducer()
-
     const dispatch = useDispatch()
+
     useEffect(() => {
-        if (place) dispatch(actions.getPlace(place))
+        if (place && country) dispatch(actions.getPlace({ place, country }))
     }, [place])
+
     return selectedPlace
 }
 

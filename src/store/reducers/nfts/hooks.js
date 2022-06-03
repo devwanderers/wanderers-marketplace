@@ -4,9 +4,10 @@ import { nftsSelector, nftReducerSelector } from './selectors'
 import * as actions from './actions'
 import useActiveWeb3React from './../../../hooks/useActiveWeb3React'
 
-import { useERC721Contract } from './../../../hooks/web3Hooks/useContract'
+import { useERC721LandContract } from './../../../hooks/web3Hooks/useContract'
 import { ipfsReplaceUri } from '../../../services/ipfs'
 import useRefresh from './../../../hooks/useRefresh'
+import { LAND_ADDRESS } from './../../../constants/addressConstants'
 
 export const useNftsReducer = () => {
     return useSelector(nftReducerSelector)
@@ -22,9 +23,7 @@ export const useFetchNftLands = (nftIds = []) => {
 
     const nfts = useLandNfts()
     const { slowRefresh } = useRefresh()
-    const erc721Contract = useERC721Contract(
-        process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
-    )
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
 
     const fetchNftLandsData = useCallback(async () => {
         try {

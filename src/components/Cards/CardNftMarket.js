@@ -58,12 +58,13 @@ const CardNftMarket = ({ nft, title, id, isProfile }) => {
                             >
                                 <EthIcon />
                             </div>
-                            <div className="">0.25</div>
+                            <div className="">Monthly Reward</div>
                         </div>
                         <div className="ml-auto">
                             <button
+                                disabled
                                 onClick={handleClickNft}
-                                className="bg-blue-6 rounded-md px-2 text-lg font-medium text-blue-5"
+                                className="bg-blue-6 disabled:opacity-50 rounded-md px-2 text-lg font-medium text-blue-5"
                             >
                                 Claim
                             </button>

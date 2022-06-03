@@ -19,11 +19,14 @@ export const getAllCountries = createAsyncThunk(
 
 export const getContry = createAsyncThunk(
     types.GET_COUNTRY,
-    async (places, { rejectWithValue }) => {
+    async (countries, { rejectWithValue }) => {
         try {
-            const res = await axiosInstance.post(`country/getbyplace`, {
-                places,
-            })
+            const res = await axiosInstance.post(
+                `country/getCountriesByCountryList`,
+                {
+                    countries,
+                }
+            )
             return res?.data
         } catch (error) {
             if (!error.response) {
@@ -36,9 +39,15 @@ export const getContry = createAsyncThunk(
 
 export const getPlace = createAsyncThunk(
     types.GET_PLACE,
-    async (place, { rejectWithValue }) => {
+    async ({ place, country }, { rejectWithValue }) => {
         try {
-            const res = await axiosInstance.get(`place/get/${place}`)
+            const res = await axiosInstance.post(
+                `place/getPlaceByCountryNameAndPlaceName`,
+                {
+                    place,
+                    country,
+                }
+            )
             return res?.data
         } catch (error) {
             if (!error.response) {

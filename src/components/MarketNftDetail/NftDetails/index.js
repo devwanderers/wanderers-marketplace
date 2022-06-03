@@ -2,6 +2,7 @@ import React from 'react'
 import Separator from './../../Separator/Separator'
 import NftDetailElement from './NftDetailElement'
 import { formatAddress } from './../../../services/address'
+import { LAND_ADDRESS } from '../../../constants/addressConstants'
 
 const NftDetails = ({ name, edition, tokenId }) => {
     return (
@@ -11,9 +12,7 @@ const NftDetails = ({ name, edition, tokenId }) => {
                 <NftDetailElement title="Token Name" value={name} />
                 <NftDetailElement
                     title="Contract Address"
-                    value={formatAddress(
-                        process.env.REACT_APP_LAND_DESTINARE_CONTRACT_ADDRESS
-                    )}
+                    value={formatAddress(LAND_ADDRESS)}
                 />
                 <NftDetailElement title="Token ID" value={tokenId} />
                 <NftDetailElement title="Token Standard" value="ERC-721" />

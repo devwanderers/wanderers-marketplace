@@ -196,6 +196,24 @@
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_tokenIdF",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tokenIdS",
+                "type": "uint256"
+            }
+        ],
+        "name": "claimSeasonTwoDrop",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
         "inputs": [],
         "name": "cost",
         "outputs": [
@@ -276,6 +294,19 @@
         "inputs": [
             {
                 "internalType": "address",
+                "name": "_seasontwo",
+                "type": "address"
+            }
+        ],
+        "name": "initSeasonTwoContract",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
                 "name": "owner",
                 "type": "address"
             },
@@ -348,6 +379,19 @@
                 "internalType": "string",
                 "name": "",
                 "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "nomadzAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
             }
         ],
         "stateMutability": "view",

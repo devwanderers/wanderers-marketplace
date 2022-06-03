@@ -1,27 +1,32 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import {
+    useClaimGenesis,
     useDisableMint,
     useGetNft,
-    useMint,
 } from '../../hooks/web3Hooks/useNFTs'
 import MintModal from '../Modals/MintModal'
 
 const ButtonMint = ({ onMintEnd }) => {
     const [visible, setVisible] = useState(false)
-    const { fetch: mint, data: tokenId, isLoading: isMinting } = useMint()
-    const { data: disableMint } = useDisableMint()
+    const {
+        fetch: claim,
+        data: tokenId,
+        isLoading: isMinting,
+    } = useClaimGenesis()
+    const { data: disableMint, reload } = useDisableMint()
 
     const handleMint = useCallback(async () => {
         setVisible(true)
-        await mint()
-            .then(() => {
-                if (onMintEnd) onMintEnd()
-            })
-            .catch((err) => {
-                console.log(err)
-                setVisible(false)
-            })
-    }, [onMintEnd, mint])
+
+        try {
+            await claim()
+            reload()
+            if (onMintEnd) onMintEnd()
+        } catch (error) {
+            console.log(error)
+            setVisible(false)
+        }
+    }, [onMintEnd, claim])
 
     const handleVisible = () => setVisible((state) => !state)
 

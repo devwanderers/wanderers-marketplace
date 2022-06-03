@@ -1,6 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
 import * as actions from './actions'
-import { nftTranformData } from '../services/nft-services'
 
 const initialState = {
     nftIds: [],
@@ -27,7 +26,7 @@ const nftAvatarsReducer = createReducer(initialState, (builder) => {
             actions.setNftAvatar.fulfilled,
             (state, { payload: { nfts, nftIds } }) => {
                 state.loading.requestNft = false
-                state.nfts = nftTranformData(nfts)
+                state.nfts = nfts
                 state.nftIds = nftIds
                 state.fetch = true
                 state.error = null

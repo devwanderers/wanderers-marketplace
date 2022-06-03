@@ -17,7 +17,10 @@ const MarketNftDetailView = (props) => {
 
     useFetchNftLands()
     const detail = useNftDetail(id)
-    const placeInfo = useFetchPlaceSelected(detail?.attributes[0].value)
+    const placeInfo = useFetchPlaceSelected(
+        detail?.attributes[0].value,
+        detail?.attributes[1].value
+    )
 
     if (!id || !account) return <Navigate to={'/'} replace />
 

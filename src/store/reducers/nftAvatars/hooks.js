@@ -50,7 +50,18 @@ export const useFetchNftAvatars = () => {
             }, [])
 
             const nfts = await Promise.all(urisPromises)
-            dispatch(actions.setNftAvatar.fulfilled({ nfts, nftIds }))
+            dispatch(
+                actions.setNftAvatar.fulfilled({
+                    nfts: nfts.map((v, index) => {
+                        return {
+                            ...v,
+                            tokenId: parseInt(Number(nftIds[index]._hex)),
+                            image: ipfsReplaceUri(v.image),
+                        }
+                    }),
+                    nftIds,
+                })
+            )
         } catch (error) {
             console.log('Failed to get nfts', error)
             dispatch(actions.setNftAvatar.rejected(error))

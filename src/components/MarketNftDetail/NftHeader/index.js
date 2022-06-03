@@ -24,7 +24,7 @@ const NftHeader = ({ title, ...props }) => {
                             <EthIcon size="1.5em" />
                         </div>
                         <div className="text-white text-xl leading-none font-medium">
-                            0.25 ETH
+                            Monthly Reward
                         </div>
                     </div>{' '}
                     <div>
@@ -36,6 +36,7 @@ const NftHeader = ({ title, ...props }) => {
                             View in OpenSea
                         </ButtonSpinner>
                         <ButtonSpinner
+                            disabled
                             className="w-20 justify-center font-semibold"
                             size="small"
                         >

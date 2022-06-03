@@ -13,7 +13,8 @@ export const useSelectedAvatar = () => {
     const { avatar } = useSelector(profileReducerSelector)
 
     return useMemo(() => {
-        const nftIndex = nfts.findIndex((n) => n.edition.toString() === avatar)
+        const nftIndex = nfts.findIndex((n) => n.tokenId.toString() === avatar)
+
         return nftIndex !== -1
             ? { index: nftIndex, avatar: nfts[nftIndex] }
             : { index: null, avatar: null }
@@ -77,22 +78,22 @@ export const useFetchProfile = () => {
                     actions.setProfile({
                         address: account,
                         avatar:
-                            nfts.length > 0 ? nfts[0].edition.toString() : '',
+                            nfts.length > 0 ? nfts[0].tokenId.toString() : '',
                     })
                 )
             }
             if (res?.payload?.profile) {
                 const { avatar } = res.payload.profile
                 const nftIndex = nfts.findIndex(
-                    (n) => n.edition.toString() === avatar
+                    (n) => n.tokenId.toString() === avatar
                 )
-                console.log({ nftIndex })
+
                 if (nftIndex === -1 && nfts.length > 0) {
                     // Updating Selected NFT
                     dispatch(
                         actions.setProfile({
                             address: account,
-                            avatar: nfts[0].edition.toString(),
+                            avatar: nfts[0].tokenId.toString(),
                         })
                     )
                 }

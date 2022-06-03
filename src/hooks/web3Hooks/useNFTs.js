@@ -2,15 +2,17 @@ import { useCallback, useEffect } from 'react'
 import useActiveWeb3React from './../useActiveWeb3React'
 import { ethers } from 'ethers'
 import { _useResolveCall } from './../utils/_useResolveCall'
-import { useERC721Contract } from './useContract'
+import { useERC721LandContract } from './useContract'
 import { ipfsReplaceUri } from './../../services/ipfs'
 import { LAND_ADDRESS } from '../../constants/addressConstants'
 import useRefresh from './../useRefresh'
+import { profileReducerSelector } from '../../store/reducers/profile/selectors'
+import { useSelector } from 'react-redux'
 
 export const useMint = () => {
     const { account } = useActiveWeb3React()
 
-    const erc721Contract = useERC721Contract(LAND_ADDRESS)
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
 
     const mint = useCallback(async () => {
         if (account) {
@@ -35,11 +37,37 @@ export const useMint = () => {
     return _useResolveCall(mint, null, {})
 }
 
+export const useClaimGenesis = () => {
+    const { account } = useActiveWeb3React()
+    const { avatar } = useSelector(profileReducerSelector)
+
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
+
+    const claim = useCallback(async () => {
+        if (account) {
+            try {
+                const tx = await erc721Contract.claimGenesisDrop(avatar)
+
+                const tokenId = await tx.wait().then((v) => {
+                    return parseInt(Number(v.logs[0].topics[3]))
+                })
+
+                return tokenId
+            } catch (error) {
+                console.log(error)
+                throw error
+            }
+        }
+    }, [erc721Contract, account, avatar])
+
+    return _useResolveCall(claim, null, {})
+}
+
 export const useGetTotalSupply = () => {
     const { account } = useActiveWeb3React()
     const { fastRefresh } = useRefresh()
 
-    const erc721Contract = useERC721Contract(LAND_ADDRESS)
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
 
     const fetchTotalSupply = useCallback(async () => {
         if (account) {
@@ -66,7 +94,7 @@ export const useGetTotalSupply = () => {
 export const useGetMaxSupply = () => {
     const { account } = useActiveWeb3React()
 
-    const erc721Contract = useERC721Contract(LAND_ADDRESS)
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
 
     const fetchMaxSupply = useCallback(async () => {
         if (account) {
@@ -93,27 +121,36 @@ export const useGetMaxSupply = () => {
 export const useDisableMint = () => {
     const { account } = useActiveWeb3React()
     const { fastRefresh } = useRefresh()
+    const { avatar } = useSelector(profileReducerSelector)
 
-    const erc721Contract = useERC721Contract(LAND_ADDRESS)
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
 
     const fetchData = useCallback(async () => {
         if (account) {
             try {
+                let disabled = false
+                if (avatar) {
+                    const claimed = await erc721Contract.genesisClaim(avatar)
+                    console.log({ claimed })
+                    disabled = claimed
+                }
+
                 const [totalSupply, maxSupply] = await Promise.all([
                     erc721Contract.totalSupply(),
                     erc721Contract.maxSupply(),
                 ])
 
                 return (
+                    disabled ||
                     parseInt(Number(totalSupply)) ===
-                    parseInt(Number(maxSupply))
+                        parseInt(Number(maxSupply))
                 )
             } catch (error) {
                 console.log('disableMint', error)
                 throw error
             }
         }
-    }, [erc721Contract, account])
+    }, [erc721Contract, account, avatar])
 
     const { fetch, data, ...rest } = _useResolveCall(fetchData, false, {})
 
@@ -125,7 +162,7 @@ export const useDisableMint = () => {
 }
 
 export const useFetchNft = (tokenId) => {
-    const erc721Contract = useERC721Contract(LAND_ADDRESS)
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
 
     const fetchNft = useCallback(async () => {
         try {

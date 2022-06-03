@@ -35,14 +35,14 @@ const Profile = () => {
     const setAvatar = useSetAvatar()
 
     const handleNextAvatar = useCallback(() => {
-        if (index === nfts.length - 1) setAvatar(nfts[0].edition.toString())
+        if (index === nfts.length - 1) setAvatar(nfts[0].tokenId.toString())
         if (index !== nfts.length - 1)
-            setAvatar(nfts[index + 1].edition.toString())
+            setAvatar(nfts[index + 1].tokenId.toString())
     }, [nfts, index])
 
     const handlePreAvatar = useCallback(() => {
-        if (index === 0) setAvatar(nfts[nfts.length - 1].edition.toString())
-        if (index !== 0) setAvatar(nfts[index - 1].edition.toString())
+        if (index === 0) setAvatar(nfts[nfts.length - 1].tokenId.toString())
+        if (index !== 0) setAvatar(nfts[index - 1].tokenId.toString())
     }, [nfts, index])
 
     const lands = useMemo(() => {
@@ -68,13 +68,12 @@ const Profile = () => {
                                     nftsLength={nfts?.length}
                                     image={avatar?.image}
                                 />
-                                {avatar?.dna && (
-                                    <UserInfo
-                                        className="mt-5"
-                                        nftDNA={avatar?.dna}
-                                        nftId={avatar?.name}
-                                    />
-                                )}
+                                <UserInfo
+                                    className="mt-5"
+                                    tokenId={avatar?.tokenId}
+                                    nftDNA={avatar?.dna}
+                                    nftId={avatar?.name}
+                                />
 
                                 {nfts.length > 1 && (
                                     <div className="flex flex-row items-center justify-center h-full mt-5">
@@ -111,7 +110,6 @@ const Profile = () => {
                                 <div className="w-full flex justify-center mt-4">
                                     <ButtonMint
                                         onMintEnd={() => {
-                                            console.log('Minted')
                                             reload()
                                         }}
                                     />

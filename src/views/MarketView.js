@@ -21,10 +21,9 @@ const MarketView = () => {
     const globeRef = useRef(null)
     const searchButtonRef = useRef(null)
 
-    // const [markers, setMarkers] = useState([])
-
     const { nfts } = useFetchNftLands()
     const { places, countriesArray } = useFetchCountries()
+    console.log({ places })
     const {
         fetch: { requestCountries },
     } = usePlaceReducer()
@@ -53,19 +52,13 @@ const MarketView = () => {
 
     const lands = useMemo(() => {
         if (!requestCountries && nfts.length === 0) return []
-
         return nfts.map((v) => {
-            const place = 'Baldwin County '
-            console.log({ places, p: places[place] })
-            // const place = v.attributes[0].value
+            const place = v.attributes[0]?.value
             return {
                 id: v.tokenId,
                 title: v.attributes[0].value,
                 nft: v.image,
-                country:
-                    !requestCountries && nfts.length > 0
-                        ? ''
-                        : places[place]?.country,
+                country: !place ? '' : places[place]?.country,
             }
         })
     }, [requestCountries, places, nfts])
