@@ -50,7 +50,10 @@ const Profile = () => {
         return nftsLands.map((land, index) => {
             return {
                 id: land.tokenId,
-                title: land.attributes[0].value,
+                title:
+                    land.attributes[0].value !== 'Unrevealed'
+                        ? land.attributes[1].value
+                        : land.attributes[0].value,
                 nft: land.image,
             }
         })

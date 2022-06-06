@@ -23,7 +23,6 @@ const MarketView = () => {
 
     const { nfts } = useFetchNftLands()
     const { places, countriesArray } = useFetchCountries()
-    console.log({ places })
     const {
         fetch: { requestCountries },
     } = usePlaceReducer()
@@ -53,10 +52,13 @@ const MarketView = () => {
     const lands = useMemo(() => {
         if (!requestCountries && nfts.length === 0) return []
         return nfts.map((v) => {
-            const place = v.attributes[0]?.value
+            const place = v.attributes[1]?.value
             return {
                 id: v.tokenId,
-                title: v.attributes[0].value,
+                title:
+                    v.attributes[0].value !== 'Unrevealed'
+                        ? v.attributes[1].value
+                        : v.attributes[0].value,
                 nft: v.image,
                 country: !place ? '' : places[place]?.country,
             }
