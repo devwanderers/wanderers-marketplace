@@ -56,9 +56,7 @@ const Globe = React.forwardRef(
               }
             : {}
 
-        const map = useTexture(
-            edit ? 'img/map-line.png' : 'img/global-dot3.png'
-        )
+        const map = useTexture(edit ? 'img/map-line.png' : 'img/map-dot2.png')
 
         return (
             <React.Suspense fallback={null}>
