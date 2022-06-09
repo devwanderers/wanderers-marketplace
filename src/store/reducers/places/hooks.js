@@ -32,7 +32,7 @@ export const useFetchCountries = () => {
 
     const fetchCountries = useCallback(async () => {
         const nftPlacesNames = nfts.reduce(
-            (acc, n) => [...acc, n.attributes[1]?.value],
+            (acc, n) => [...acc, n.attributes[0]?.value],
             []
         )
 
