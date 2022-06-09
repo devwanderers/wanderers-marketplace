@@ -1,19 +1,18 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import {
-    useClaimGenesis,
-    useDisableMint,
+    useClaimSecondSeason,
+    useUnClaimedNftsIdSecondSeason,
     useGetNft,
 } from '../../hooks/web3Hooks/useNFTs'
 import MintModal from '../Modals/MintModal'
-
-const ButtonMint = ({ onMintEnd }) => {
+const ButtonSeasonTwoMint = ({ onMintEnd }) => {
     const [visible, setVisible] = useState(false)
+    const { data: tokenIds, reload } = useUnClaimedNftsIdSecondSeason()
     const {
         fetch: claim,
         data: tokenId,
         isLoading: isMinting,
-    } = useClaimGenesis()
-    const { data: disableMint, reload } = useDisableMint()
+    } = useClaimSecondSeason()
 
     const handleMint = useCallback(async () => {
         setVisible(true)
@@ -36,6 +35,10 @@ const ButtonMint = ({ onMintEnd }) => {
         return isMinting || isLoadingNft
     }, [isMinting, isLoadingNft])
 
+    const disableMint = useMemo(() => {
+        return tokenIds.length < 2
+    }, [tokenIds])
+
     const nfts = useMemo(() => {
         if (data)
             return [
@@ -57,7 +60,7 @@ const ButtonMint = ({ onMintEnd }) => {
             />
             <div className="text-center">
                 <span className="text-primary font-semibold text-xl">
-                    Genesis airdrops
+                    Second Season airdrops
                 </span>
                 <button
                     disabled={disableMint}
@@ -73,4 +76,4 @@ const ButtonMint = ({ onMintEnd }) => {
     )
 }
 
-export default ButtonMint
+export default ButtonSeasonTwoMint

@@ -8,6 +8,7 @@ import { LAND_ADDRESS } from '../../constants/addressConstants'
 import useRefresh from './../useRefresh'
 import { profileReducerSelector } from '../../store/reducers/profile/selectors'
 import { useSelector } from 'react-redux'
+import { nftIdSelector } from './../../store/reducers/nftAvatars/selectors'
 
 export const useMint = () => {
     const { account } = useActiveWeb3React()
@@ -59,6 +60,37 @@ export const useClaimGenesis = () => {
             }
         }
     }, [erc721Contract, account, avatar])
+
+    return _useResolveCall(claim, null, {})
+}
+
+export const useClaimSecondSeason = () => {
+    const { account } = useActiveWeb3React()
+
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
+
+    const claim = useCallback(
+        async (tokendIdF, tokenIdS = []) => {
+            if (account) {
+                try {
+                    const tx = await erc721Contract.claimSeasonTwoDrop(
+                        tokendIdF,
+                        tokenIdS
+                    )
+
+                    const tokenId = await tx.wait().then((v) => {
+                        return parseInt(Number(v.logs[0].topics[3]))
+                    })
+
+                    return tokenId
+                } catch (error) {
+                    console.log(error)
+                    throw error
+                }
+            }
+        },
+        [erc721Contract, account]
+    )
 
     return _useResolveCall(claim, null, {})
 }
@@ -152,6 +184,43 @@ export const useDisableMint = () => {
     }, [erc721Contract, account, avatar])
 
     const { fetch, data, ...rest } = _useResolveCall(fetchData, true, {})
+
+    useEffect(() => {
+        if (!data) fetch()
+    }, [fetch, fastRefresh])
+
+    return { reload: fetchData, data, ...rest }
+}
+
+export const useUnClaimedNftsIdSecondSeason = () => {
+    const { account } = useActiveWeb3React()
+    const { fastRefresh } = useRefresh()
+    const nftIds = useSelector(nftIdSelector)
+
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
+
+    const fetchData = useCallback(async () => {
+        if (account) {
+            try {
+                const validIds = []
+                if (Array.isArray(nftIds)) {
+                    for (let index = 0; index < nftIds.length; index++) {
+                        const claimed = await erc721Contract.genesisClaim(
+                            nftIds[index]
+                        )
+                        if (!claimed) validIds.push(nftIds[index])
+                    }
+                }
+
+                return validIds
+            } catch (error) {
+                console.log('disableMint', error)
+                throw error
+            }
+        }
+    }, [erc721Contract, account, nftIds])
+
+    const { fetch, data, ...rest } = _useResolveCall(fetchData, [], {})
 
     useEffect(() => {
         if (!data) fetch()
