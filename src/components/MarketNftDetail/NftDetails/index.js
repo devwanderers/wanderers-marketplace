@@ -4,7 +4,9 @@ import NftDetailElement from './NftDetailElement'
 import { formatAddress } from './../../../services/address'
 import { LAND_ADDRESS } from '../../../constants/addressConstants'
 
-const NftDetails = ({ name, edition, tokenId }) => {
+const NftDetails = ({ name, edition, tokenId, attributes = [] }) => {
+    const isAmbassador = Boolean(attributes[5].trait_type === 'Ambassador')
+
     return (
         <React.Fragment>
             <Separator title="Details" className="mt-4" />
@@ -17,6 +19,7 @@ const NftDetails = ({ name, edition, tokenId }) => {
                 <NftDetailElement title="Token ID" value={tokenId} />
                 <NftDetailElement title="Token Standard" value="ERC-721" />
                 <NftDetailElement title="Blockchain" value="Ethereum" />
+                {isAmbassador && <NftDetailElement title="Ambassador" />}
             </div>
         </React.Fragment>
     )

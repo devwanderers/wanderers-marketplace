@@ -3,7 +3,7 @@ import CardUp from '../../assets/svg/frames/CardUp'
 import CardDown from '../../assets/svg/frames/CardDown'
 import { cls } from '../../services/helpers'
 
-const NFTDisplay = ({ title, image, className }) => {
+const NFTDisplay = ({ title, image, className, attributes }) => {
     return (
         <div className={cls(`w-full ${className}`)}>
             <div className="w-full flex justify-center">
