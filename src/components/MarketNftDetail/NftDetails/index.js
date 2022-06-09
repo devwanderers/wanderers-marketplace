@@ -5,7 +5,7 @@ import { formatAddress } from './../../../services/address'
 import { LAND_ADDRESS } from '../../../constants/addressConstants'
 
 const NftDetails = ({ name, edition, tokenId, attributes = [] }) => {
-    const isAmbassador = Boolean(attributes[5].trait_type === 'Ambassador')
+    const isAmbassador = Boolean(attributes[5]?.trait_type === 'Ambassador')
 
     return (
         <React.Fragment>

@@ -55,13 +55,18 @@ const ButtonMint = ({ onMintEnd }) => {
                 visibleModal={visible}
                 onCloseModal={() => handleVisible()}
             />
-            <button
-                disabled={disableMint}
-                onClick={() => handleMint()}
-                className="bg-blue-6 rounded-md w-full  text-xl font-medium text-blue-5 disabled:opacity-40"
-            >
-                Claim
-            </button>
+            <div className='text-center'>
+                <span className='text-primary font-semibold text-xl'>Your Destination airdrops</span>
+                <button
+                    disabled={disableMint}
+                    onClick={() => handleMint()}
+                    className="bg-blue-6 rounded-md w-full  text-xl font-medium text-blue-5 disabled:opacity-40 mt-5"
+                >
+                    {disableMint ? "Already in your wallet" : "Send airdrop to your account"}
+                </button>
+            </div>
+
+
         </React.Fragment>
     )
 }

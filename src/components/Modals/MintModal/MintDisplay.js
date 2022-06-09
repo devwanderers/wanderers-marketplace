@@ -150,11 +150,7 @@ const MintDisplay = ({ data = example }) => {
                                     <h3 className="text-green-0 text-base lg:text-lg">
                                         About
                                     </h3>
-                                    {/* <p>{data[index]?.nftData.description}</p> */}
-                                    <p>
-                                        Nomadzland the first project with real
-                                        pasive incomes.
-                                    </p>
+                                    <p>{data[index]?.nftData.description}</p>
                                 </div>
                             </div>
                         </Col>
@@ -165,7 +161,7 @@ const MintDisplay = ({ data = example }) => {
                         <div className="flex space-x-5 flex-wrap leading-none mb-4">
                             <div>
                                 <h3 className="text-green-0 text-base md:text-lg lg:text-xl mb-2">
-                                    Nomad ID
+                                    Destination ID
                                 </h3>
                                 <p className="text-base lg:text-lg">
                                     {data[index] ? data[index].tokenId : ''}
@@ -246,7 +242,7 @@ const MintDisplay = ({ data = example }) => {
                                             focus:bg-primary text-white hover:text-white focus:text-white"
                         size="large"
                     >
-                        Add NFT
+                        Add to MetaMask
                     </Button>
                     <Button
                         onClick={() => console.log('OpenSea Link')}
@@ -254,7 +250,7 @@ const MintDisplay = ({ data = example }) => {
                                             focus:bg-info text-white hover:text-white focus:text-white"
                         size="large"
                     >
-                        Secondary Marketplace
+                        OpenSea
                     </Button>
                     {/* <Button
                         className="flex-1 border-solid border-1 border-info bg-transparent
