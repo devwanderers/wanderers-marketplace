@@ -131,7 +131,6 @@ export const useDisableMint = () => {
                 let disabled = false
                 if (avatar) {
                     const claimed = await erc721Contract.genesisClaim(avatar)
-                    console.log({ claimed })
                     disabled = claimed
                 }
 
@@ -152,7 +151,7 @@ export const useDisableMint = () => {
         }
     }, [erc721Contract, account, avatar])
 
-    const { fetch, data, ...rest } = _useResolveCall(fetchData, false, {})
+    const { fetch, data, ...rest } = _useResolveCall(fetchData, true, {})
 
     useEffect(() => {
         if (!data) fetch()

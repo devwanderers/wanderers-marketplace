@@ -20,6 +20,7 @@ import {
 } from './../store/reducers/profile/hook'
 import { useWeb3React } from '@web3-react/core'
 import { Navigate } from 'react-router-dom'
+// import Season2MintModal from '../components/Profile/Season2MintModal'
 
 const Profile = () => {
     const { account } = useWeb3React()
@@ -61,6 +62,7 @@ const Profile = () => {
 
     return (
         <div className="flex-1 flex bg-blue-7">
+            {/* <Season2MintModal /> */}
             <div className="w-full max-w-1280px flex-1 mx-auto flex flex-row bg-blue-4">
                 <div className="flex flex-col lg:flex-row h-full w-full">
                     <div className="w-full lg:w-3/12 2xl:w-96  border-b-2 lg:border-r-2 border-blue-5 h-full pt-8 lg:pt-16 pb-4">

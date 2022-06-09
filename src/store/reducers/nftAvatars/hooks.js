@@ -45,7 +45,6 @@ export const useFetchNftAvatars = () => {
                 //     'Qme3xnUh9NmPa9EMcAUwyRM67x3JGJoB1yTnp5Bk3Pmh8Q',
                 //     'QmU1t74BcGEEqNX438VnE3M2WiLdAUswYquSgQBo258Nvb'
                 // )
-                console.log({ newUri })
                 return fetch(newUri).then((res) => res.json())
             }, [])
 
