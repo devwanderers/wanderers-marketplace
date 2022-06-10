@@ -204,7 +204,6 @@ export const CameraControls = forwardRef(
                 'controlend',
                 handleUserControlEnd
             )
-            console.log('Entro')
 
             return () => {
                 cameraControls?.current?.removeEventListener(

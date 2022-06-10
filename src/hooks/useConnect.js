@@ -16,7 +16,6 @@ const useConnect = () => {
     useEffect(() => {
         const walletAuth = window.localStorage.getItem('walletAuth')
         if (walletAuth === 'true') {
-            console.log('Login')
             login()
         }
     }, [login])
