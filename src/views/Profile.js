@@ -21,6 +21,7 @@ import {
 import { useWeb3React } from '@web3-react/core'
 import { Navigate } from 'react-router-dom'
 // import Season2MintModal from '../components/Profile/Season2MintModal'
+import ButtonSeasonTwoMint from './../components/Profile/ButtonSeasonTwoMint'
 
 const Profile = () => {
     const { account } = useWeb3React()
@@ -114,6 +115,13 @@ const Profile = () => {
                                 )}
                                 <div className="w-full flex justify-center mt-4">
                                     <ButtonMint
+                                        onMintEnd={() => {
+                                            reload()
+                                        }}
+                                    />
+                                </div>
+                                <div className="w-full flex justify-center mt-4">
+                                    <ButtonSeasonTwoMint
                                         onMintEnd={() => {
                                             reload()
                                         }}
