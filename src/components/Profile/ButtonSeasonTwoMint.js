@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useCallback, useMemo, useState } from 'react'
 import {
     useClaimSecondSeason,
@@ -5,8 +6,13 @@ import {
     useGetNft,
 } from '../../hooks/web3Hooks/useNFTs'
 import MintModal from '../Modals/MintModal'
+import MintSeasonTwoModal from '../Modals/MintSeasonTwoModal'
+
 const ButtonSeasonTwoMint = ({ onMintEnd }) => {
-    const [visible, setVisible] = useState(false)
+    const [{ mintConfirm, mintModal }, setVisible] = useState({
+        mintModal: false,
+        mintConfirm: false,
+    })
     const { data: tokenIds, reload } = useUnClaimedNftsIdSecondSeason()
     const {
         fetch: claim,
@@ -14,20 +20,26 @@ const ButtonSeasonTwoMint = ({ onMintEnd }) => {
         isLoading: isMinting,
     } = useClaimSecondSeason()
 
-    const handleMint = useCallback(async () => {
-        setVisible(true)
+    const handleMint = useCallback(
+        async (tokendId1, tokenId2) => {
+            handleVisible('mintModal')
 
-        try {
-            await claim()
-            reload()
-            if (onMintEnd) onMintEnd()
-        } catch (error) {
-            console.log(error)
-            setVisible(false)
-        }
-    }, [onMintEnd, claim])
+            try {
+                await claim({ params: { tokendId1, tokenId2 } })
 
-    const handleVisible = () => setVisible((state) => !state)
+                if (onMintEnd) onMintEnd()
+            } catch (error) {
+                console.log(error)
+                handleVisible('mintModal')
+            } finally {
+                reload()
+            }
+        },
+        [onMintEnd, claim]
+    )
+
+    const handleVisible = (modal) =>
+        setVisible((state) => ({ ...state, [modal]: !state[modal] }))
 
     const { data, isLoading: isLoadingNft } = useGetNft(tokenId)
 
@@ -39,6 +51,7 @@ const ButtonSeasonTwoMint = ({ onMintEnd }) => {
         return tokenIds.length < 2
     }, [tokenIds])
 
+    console.log({ tokenIds })
     const nfts = useMemo(() => {
         if (data)
             return [
@@ -55,16 +68,22 @@ const ButtonSeasonTwoMint = ({ onMintEnd }) => {
             <MintModal
                 data={nfts}
                 minting={minting}
-                visibleModal={visible}
-                onCloseModal={() => handleVisible()}
+                visibleModal={mintModal}
+                onCloseModal={() => handleVisible('mintModal')}
             />
-            <div className="text-center">
+            <MintSeasonTwoModal
+                tokenIds={tokenIds}
+                visible={mintConfirm}
+                onCancel={() => handleVisible('mintConfirm')}
+                onOk={handleMint}
+            />
+            <div className="text-center w-full">
                 <span className="text-primary font-semibold text-xl">
                     Second Season airdrops
                 </span>
                 <button
                     disabled={disableMint}
-                    onClick={() => handleMint()}
+                    onClick={() => handleVisible('mintConfirm')}
                     className="bg-blue-6 rounded-md w-full  text-xl font-medium text-blue-5 disabled:opacity-40 mt-5"
                 >
                     {disableMint

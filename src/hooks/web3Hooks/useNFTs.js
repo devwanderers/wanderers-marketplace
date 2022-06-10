@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import useActiveWeb3React from './../useActiveWeb3React'
 import { ethers } from 'ethers'
 import { _useResolveCall } from './../utils/_useResolveCall'
@@ -70,12 +70,12 @@ export const useClaimSecondSeason = () => {
     const erc721Contract = useERC721LandContract(LAND_ADDRESS)
 
     const claim = useCallback(
-        async (tokendIdF, tokenIdS = []) => {
+        async ({ tokendId1, tokenId2 }) => {
             if (account) {
                 try {
                     const tx = await erc721Contract.claimSeasonTwoDrop(
-                        tokendIdF,
-                        tokenIdS
+                        tokendId1,
+                        tokenId2
                     )
 
                     const tokenId = await tx.wait().then((v) => {
@@ -151,6 +151,7 @@ export const useGetMaxSupply = () => {
 }
 
 export const useDisableMint = () => {
+    const [init, setInit] = useState(false)
     const { account } = useActiveWeb3React()
     const { fastRefresh } = useRefresh()
     const { avatar } = useSelector(profileReducerSelector)
@@ -161,8 +162,10 @@ export const useDisableMint = () => {
         if (account) {
             try {
                 let disabled = false
+                console.log('fetchData')
                 if (avatar) {
                     const claimed = await erc721Contract.genesisClaim(avatar)
+                    console.log(claimed)
                     disabled = claimed
                 }
 
@@ -186,13 +189,17 @@ export const useDisableMint = () => {
     const { fetch, data, ...rest } = _useResolveCall(fetchData, true, {})
 
     useEffect(() => {
-        if (!data) fetch()
-    }, [fetch, fastRefresh])
+        if (!init || !data) {
+            if (!init) setInit(true)
+            fetch()
+        }
+    }, [fetch, fastRefresh, init])
 
     return { reload: fetchData, data, ...rest }
 }
 
 export const useUnClaimedNftsIdSecondSeason = () => {
+    const [init, setInit] = useState(false)
     const { account } = useActiveWeb3React()
     const { fastRefresh } = useRefresh()
     const nftIds = useSelector(nftIdSelector)
@@ -205,13 +212,14 @@ export const useUnClaimedNftsIdSecondSeason = () => {
                 const validIds = []
                 if (Array.isArray(nftIds)) {
                     for (let index = 0; index < nftIds.length; index++) {
-                        const claimed = await erc721Contract.genesisClaim(
+                        const claimed = await erc721Contract.seasonTwoClaim(
                             nftIds[index]
                         )
-                        if (!claimed) validIds.push(nftIds[index])
+                        if (!claimed)
+                            validIds.push(Number(parseInt(nftIds[index])))
                     }
                 }
-
+                console.log({ validIds })
                 return validIds
             } catch (error) {
                 console.log('disableMint', error)
@@ -223,8 +231,11 @@ export const useUnClaimedNftsIdSecondSeason = () => {
     const { fetch, data, ...rest } = _useResolveCall(fetchData, [], {})
 
     useEffect(() => {
-        if (!data) fetch()
-    }, [fetch, fastRefresh])
+        if (!init || !data) {
+            if (!init) setInit(true)
+            fetch()
+        }
+    }, [fetch, fastRefresh, init])
 
     return { reload: fetchData, data, ...rest }
 }

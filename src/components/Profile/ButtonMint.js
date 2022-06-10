@@ -20,11 +20,13 @@ const ButtonMint = ({ onMintEnd }) => {
 
         try {
             await claim()
-            reload()
+
             if (onMintEnd) onMintEnd()
         } catch (error) {
             console.log(error)
             setVisible(false)
+        } finally {
+            reload()
         }
     }, [onMintEnd, claim])
 
@@ -55,7 +57,7 @@ const ButtonMint = ({ onMintEnd }) => {
                 visibleModal={visible}
                 onCloseModal={() => handleVisible()}
             />
-            <div className="text-center">
+            <div className="text-center w-full">
                 <span className="text-primary font-semibold text-xl">
                     Genesis airdrops
                 </span>
