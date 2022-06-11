@@ -110,7 +110,6 @@ const MintDisplay = ({ data = example }) => {
     }
 
     const imageUri = data[index]?.nftData.image
-    console.log({ d: data[index] })
     return (
         <React.Fragment>
             <Row gutter={[20, 10]} className="my-5 ">

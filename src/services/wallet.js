@@ -64,7 +64,7 @@ export const registerToken = async () => {
             type: 'ERC20',
             options: {
                 address: LAND_ADDRESS,
-                symbol: 'NLD',
+                symbol: 'NOMDES',
                 decimals: 0,
                 // image: `${BASE_URL}/images/tokens/${tokenAddress}.png`,
             },
