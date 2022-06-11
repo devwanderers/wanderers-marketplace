@@ -4,6 +4,7 @@ import { FrameNftTopSVG, FrameNftBottomSVG } from '../../../assets/svg/frames'
 import { FaArrowCircleRight, FaArrowCircleLeft } from 'react-icons/fa'
 import useResponsive from '../../../hooks/useResponsive'
 import { registerToken } from '../../../services/wallet'
+import windowOpen from './../../../services/windowOpen'
 
 const example = [
     {
@@ -245,22 +246,17 @@ const MintDisplay = ({ data = example }) => {
                         Add to MetaMask
                     </Button>
                     <Button
-                        onClick={() => console.log('OpenSea Link')}
+                        onClick={() =>
+                            windowOpen(
+                                'https://opensea.io/collection/nomadzland-destinations'
+                            )
+                        }
                         className="flex-1 border-none bg-info hover:bg-info
                                             focus:bg-info text-white hover:text-white focus:text-white"
                         size="large"
                     >
                         OpenSea
                     </Button>
-                    {/* <Button
-                        className="flex-1 border-solid border-1 border-info bg-transparent
-                                            text-info hover:border-white hover:bg-info focus:bg-info
-                                            hover:text-white focus:text-white"
-                        size="large"
-                    >
-                        Download Image
-                    </Button> */}
-                    {/* </div> */}
                 </Col>
             </Row>
         </React.Fragment>
