@@ -18,7 +18,7 @@ import {
 import { useWeb3React } from '@web3-react/core'
 import { Navigate } from 'react-router-dom'
 // import Season2MintModal from '../components/Profile/Season2MintModal'
-import ButtonSeasonTwoMint from './../components/Profile/ButtonSeasonTwoMint'
+// import ButtonSeasonTwoMint from './../components/Profile/ButtonSeasonTwoMint'
 
 const getAvatarName = (nft) => {
     return `${nft.tokenId}_${nft.address}`
@@ -118,13 +118,13 @@ const Profile = () => {
                                         }}
                                     />
                                 </div>
-                                <div className="w-full flex justify-center mt-4">
+                                {/* <div className="w-full flex justify-center mt-4">
                                     <ButtonSeasonTwoMint
                                         onMintEnd={() => {
                                             reload()
                                         }}
                                     />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
