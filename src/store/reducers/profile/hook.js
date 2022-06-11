@@ -8,12 +8,16 @@ import useDebounce from './../../../hooks/useDebounce'
 import useActiveWeb3React from '../../../hooks/useActiveWeb3React'
 import { useNftAvatars } from '../nftAvatars/hooks'
 
+const getAvatarName = (nft) => {
+    return `${nft.tokenId}_${nft.address}`
+}
+
 export const useSelectedAvatar = () => {
     const nfts = useNftAvatars()
     const { avatar } = useSelector(profileReducerSelector)
 
     return useMemo(() => {
-        const nftIndex = nfts.findIndex((n) => n.tokenId.toString() === avatar)
+        const nftIndex = nfts.findIndex((n) => getAvatarName(n) === avatar)
 
         return nftIndex !== -1
             ? { index: nftIndex, avatar: nfts[nftIndex] }
@@ -68,24 +72,27 @@ export const useFetchProfile = () => {
     const dispatch = useDispatch()
 
     const fetchProfile = useCallback(async () => {
-        console.log({ account })
         dispatch(actions.getProfile(account)).then((res) => {
             if (
                 res?.error &&
                 res?.payload.message === "Profile doesn't exist"
             ) {
+                const avatar =
+                    nfts.length > 0
+                        ? `${nfts[0].tokenId}_${nfts[0].address}`
+                        : ''
+
                 dispatch(
                     actions.setProfile({
                         address: account,
-                        avatar:
-                            nfts.length > 0 ? nfts[0].tokenId.toString() : '',
+                        avatar,
                     })
                 )
             }
             if (res?.payload?.profile) {
                 const { avatar } = res.payload.profile
                 const nftIndex = nfts.findIndex(
-                    (n) => n.tokenId.toString() === avatar
+                    (n) => `${n.tokenId}_${n.address}` === avatar
                 )
 
                 if (nftIndex === -1 && nfts.length > 0) {
@@ -93,7 +100,7 @@ export const useFetchProfile = () => {
                     dispatch(
                         actions.setProfile({
                             address: account,
-                            avatar: nfts[0].tokenId.toString(),
+                            avatar: `${nfts[0].tokenId}_${nfts[0].address}`,
                         })
                     )
                 }

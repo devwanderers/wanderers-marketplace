@@ -4,11 +4,16 @@ import { ethers } from 'ethers'
 import { _useResolveCall } from './../utils/_useResolveCall'
 import { useERC721LandContract } from './useContract'
 import { ipfsReplaceUri } from './../../services/ipfs'
-import { LAND_ADDRESS } from '../../constants/addressConstants'
+import {
+    LAND_ADDRESS,
+    NFT_ADDRESS,
+    NFT_ADDRESS_GENESIS,
+} from '../../constants/addressConstants'
 import useRefresh from './../useRefresh'
 import { profileReducerSelector } from '../../store/reducers/profile/selectors'
 import { useSelector } from 'react-redux'
 import { nftIdSelector } from './../../store/reducers/nftAvatars/selectors'
+import useDebounce from './../useDebounce'
 
 export const useMint = () => {
     const { account } = useActiveWeb3React()
@@ -47,13 +52,14 @@ export const useClaimGenesis = () => {
     const claim = useCallback(async () => {
         if (account) {
             try {
-                const tx = await erc721Contract.claimGenesisDrop(avatar)
+                const [tokenId] = avatar.split('_')
+                const tx = await erc721Contract.claimGenesisDrop(tokenId)
 
-                const tokenId = await tx.wait().then((v) => {
+                const _tokenId = await tx.wait().then((v) => {
                     return parseInt(Number(v.logs[0].topics[3]))
                 })
 
-                return tokenId
+                return _tokenId
             } catch (error) {
                 console.log(error)
                 throw error
@@ -162,10 +168,13 @@ export const useDisableMint = () => {
         if (account) {
             try {
                 let disabled = false
-                console.log('fetchData')
+                console.log({ avatar })
                 if (avatar) {
-                    const claimed = await erc721Contract.genesisClaim(avatar)
-                    console.log(claimed)
+                    const [tokenId, address] = avatar.split('_')
+                    console.log(tokenId, address)
+                    if (address !== NFT_ADDRESS_GENESIS) return true
+                    const claimed = await erc721Contract.genesisClaim(tokenId)
+
                     disabled = claimed
                 }
 
@@ -188,6 +197,16 @@ export const useDisableMint = () => {
 
     const { fetch, data, ...rest } = _useResolveCall(fetchData, true, {})
 
+    useDebounce(
+        () => {
+            if (init) {
+                fetch()
+            }
+        },
+        600,
+        [avatar, init]
+    )
+
     useEffect(() => {
         if (!init || !data) {
             if (!init) setInit(true)
@@ -209,20 +228,32 @@ export const useUnClaimedNftsIdSecondSeason = () => {
     const fetchData = useCallback(async () => {
         if (account) {
             try {
+                const secondSeasonNfts = Array.isArray(nftIds)
+                    ? nftIds.reduce((acc, v) => {
+                          if (v.address !== NFT_ADDRESS) return acc
+                          return [...acc, v]
+                      }, [])
+                    : []
                 const validIds = []
-                if (Array.isArray(nftIds)) {
-                    for (let index = 0; index < nftIds.length; index++) {
+                if (secondSeasonNfts.length > 0) {
+                    for (
+                        let index = 0;
+                        index < secondSeasonNfts.length;
+                        index++
+                    ) {
+                        const tokenId = secondSeasonNfts[index].tokenId
+                        console.log({ tokenId })
                         const claimed = await erc721Contract.seasonTwoClaim(
-                            nftIds[index]
+                            tokenId
                         )
                         if (!claimed)
-                            validIds.push(Number(parseInt(nftIds[index])))
+                            validIds.push(Number(parseInt(tokenId._hex)))
                     }
                 }
                 console.log({ validIds })
                 return validIds
             } catch (error) {
-                console.log('disableMint', error)
+                console.log('error', error)
                 throw error
             }
         }

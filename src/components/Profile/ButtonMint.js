@@ -31,7 +31,6 @@ const ButtonMint = ({ onMintEnd }) => {
     }, [onMintEnd, claim])
 
     const handleVisible = () => setVisible((state) => !state)
-
     const { data, isLoading: isLoadingNft } = useGetNft(tokenId)
 
     const minting = useMemo(() => {

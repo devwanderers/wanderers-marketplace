@@ -183,37 +183,6 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-            }
-        ],
-        "name": "claimGenesisDrop",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_tokenIdF",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_tokenIdS",
-                "type": "uint256"
-            }
-        ],
-        "name": "claimSeasonTwoDrop",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
         "inputs": [],
         "name": "cost",
         "outputs": [
@@ -227,35 +196,16 @@
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "genesisAddress",
-        "outputs": [
+        "inputs": [
             {
                 "internalType": "address",
-                "name": "",
+                "name": "_to",
                 "type": "address"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "genesisClaim",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
+        "name": "dropFounder",
+        "outputs": [],
+        "stateMutability": "payable",
         "type": "function"
     },
     {
@@ -275,32 +225,6 @@
             }
         ],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_genesis",
-                "type": "address"
-            }
-        ],
-        "name": "initGenesisContract",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_seasontwo",
-                "type": "address"
-            }
-        ],
-        "name": "initSeasonTwoContract",
-        "outputs": [],
-        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -342,6 +266,19 @@
     },
     {
         "inputs": [],
+        "name": "maxOGMintAmount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "maxSupply",
         "outputs": [
             {
@@ -355,11 +292,6 @@
     },
     {
         "inputs": [
-            {
-                "internalType": "address",
-                "name": "_to",
-                "type": "address"
-            },
             {
                 "internalType": "uint256",
                 "name": "_mintAmount",
@@ -386,12 +318,12 @@
     },
     {
         "inputs": [],
-        "name": "nomadzAddress",
+        "name": "notRevealedUri",
         "outputs": [
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "",
-                "type": "address"
+                "type": "string"
             }
         ],
         "stateMutability": "view",
@@ -399,12 +331,12 @@
     },
     {
         "inputs": [],
-        "name": "notRevealedUri",
+        "name": "onlyOG",
         "outputs": [
             {
-                "internalType": "string",
+                "internalType": "bool",
                 "name": "",
-                "type": "string"
+                "type": "bool"
             }
         ],
         "stateMutability": "view",
@@ -643,6 +575,13 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "startPublicSale",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "bytes4",
@@ -829,14 +768,22 @@
                 "internalType": "address",
                 "name": "_user",
                 "type": "address"
-            },
-            {
-                "internalType": "uint8",
-                "name": "_tickets",
-                "type": "uint8"
             }
         ],
         "name": "whitelistUser",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address[]",
+                "name": "_users",
+                "type": "address[]"
+            }
+        ],
+        "name": "whitelistUsers",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -852,13 +799,8 @@
         "name": "whitelisted",
         "outputs": [
             {
-                "internalType": "uint256",
-                "name": "places",
-                "type": "uint256"
-            },
-            {
                 "internalType": "bool",
-                "name": "pswl",
+                "name": "",
                 "type": "bool"
             }
         ],

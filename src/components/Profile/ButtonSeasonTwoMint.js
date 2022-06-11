@@ -51,7 +51,6 @@ const ButtonSeasonTwoMint = ({ onMintEnd }) => {
         return tokenIds.length < 2
     }, [tokenIds])
 
-    console.log({ tokenIds })
     const nfts = useMemo(() => {
         if (data)
             return [

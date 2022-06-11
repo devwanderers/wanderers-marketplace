@@ -10,7 +10,10 @@ import useActiveWeb3React from './../../../hooks/useActiveWeb3React'
 import { useERC721Contract } from '../../../hooks/web3Hooks/useContract'
 import { ipfsReplaceUri } from './../../../services/ipfs'
 // import { useNavigate } from 'react-router-dom'
-import { NFT_ADDRESS_GENESIS } from './../../../constants/addressConstants'
+import {
+    NFT_ADDRESS_GENESIS,
+    NFT_ADDRESS,
+} from './../../../constants/addressConstants'
 
 export const useNftAvatarReducer = () => {
     return useSelector(nftAvatarsReducerSelector)
@@ -20,45 +23,77 @@ export const useFetchNftAvatars = () => {
     const { account, library } = useActiveWeb3React()
     const dispatch = useDispatch()
 
-    const erc721Contract = useERC721Contract(NFT_ADDRESS_GENESIS)
+    const erc721ContractGenesis = useERC721Contract(NFT_ADDRESS_GENESIS)
+    const erc721Contract = useERC721Contract(NFT_ADDRESS)
 
     const fetchNftAvatarsData = useCallback(async () => {
         if (!account) return
         try {
             dispatch(actions.setNftAvatar.pending())
-            const nftIds = await erc721Contract.walletOfOwner(account)
-            if (nftIds?.length === 0 || !Array.isArray(nftIds))
+
+            const [nftIdsGenesis, nftIdsSecondSeason] = await Promise.all([
+                erc721ContractGenesis.walletOfOwner(account),
+                erc721Contract.walletOfOwner(account),
+            ])
+
+            if (nftIdsGenesis?.length === 0 && nftIdsSecondSeason?.length === 0)
                 dispatch(
                     actions.setNftAvatar.fulfilled({ nfts: [], nftIds: [] })
                 )
 
-            const promises = nftIds.reduce((acc, v) => {
-                return [...acc, erc721Contract.tokenURI(v)]
-            }, [])
+            const promisesGenesis = nftIdsGenesis.map((v) =>
+                erc721ContractGenesis.tokenURI(v)
+            )
+            const promisesSecondSeason = nftIdsGenesis.map((v) =>
+                erc721Contract.tokenURI(v)
+            )
 
-            const uris = await Promise.all(promises)
-            const urisPromises = uris.map((uri) => {
+            const urisGenesis = await Promise.all(promisesGenesis)
+            const urisSecondSeason = await Promise.all(promisesSecondSeason)
+
+            const fetchImagesGenesis = urisGenesis.map((uri) => {
                 const newUri = ipfsReplaceUri(uri)
-                // Must delete
-
-                // newUri = newUri.replace(
-                //     'Qme3xnUh9NmPa9EMcAUwyRM67x3JGJoB1yTnp5Bk3Pmh8Q',
-                //     'QmU1t74BcGEEqNX438VnE3M2WiLdAUswYquSgQBo258Nvb'
-                // )
                 return fetch(newUri).then((res) => res.json())
             }, [])
 
-            const nfts = await Promise.all(urisPromises)
+            const fetchImagesSecondS = urisSecondSeason.map((uri) => {
+                const newUri = ipfsReplaceUri(uri)
+                return fetch(newUri).then((res) => res.json())
+            }, [])
+
+            const nftsGenesis = await Promise.all(fetchImagesGenesis).then(
+                (v) =>
+                    v.map((v, index) => ({
+                        ...v,
+                        tokenId: parseInt(Number(nftIdsGenesis[index]._hex)),
+                        image: ipfsReplaceUri(v.image),
+                        address: NFT_ADDRESS_GENESIS,
+                    }))
+            )
+
+            const nftsSecondS = await Promise.all(fetchImagesSecondS).then(
+                (v) =>
+                    v.map((v, index) => ({
+                        ...v,
+                        tokenId: parseInt(Number(nftIdsGenesis[index]._hex)),
+                        image: ipfsReplaceUri(v.image),
+                        address: NFT_ADDRESS,
+                    }))
+            )
+
             dispatch(
                 actions.setNftAvatar.fulfilled({
-                    nfts: nfts.map((v, index) => {
-                        return {
-                            ...v,
-                            tokenId: parseInt(Number(nftIds[index]._hex)),
-                            image: ipfsReplaceUri(v.image),
-                        }
-                    }),
-                    nftIds,
+                    nfts: [...nftsGenesis, ...nftsSecondS],
+                    nftIds: [
+                        ...nftIdsGenesis.map((v) => ({
+                            tokenId: v,
+                            address: NFT_ADDRESS_GENESIS,
+                        })),
+                        ...nftIdsGenesis.map((v) => ({
+                            tokenId: v,
+                            address: NFT_ADDRESS,
+                        })),
+                    ],
                 })
             )
         } catch (error) {
@@ -66,7 +101,7 @@ export const useFetchNftAvatars = () => {
             dispatch(actions.setNftAvatar.rejected(error))
             throw error
         }
-    }, [account, erc721Contract, dispatch])
+    }, [account, erc721ContractGenesis, erc721Contract, dispatch])
 
     useEffect(() => {
         fetchNftAvatarsData()

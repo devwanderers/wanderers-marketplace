@@ -6,10 +6,7 @@ import Tabs, { TabPane } from '../components/Tabs/Tabs'
 import CardNftMarket from './../components/Cards/CardNftMarket'
 import NftProfileDisplay from '../components/Profile/NftProfileDisplay'
 import UserInfo from '../components/Profile/UserInfo'
-import {
-    useNftAvatars,
-    useNftAvatarReducer,
-} from '../store/reducers/nftAvatars/hooks'
+import { useNftAvatarReducer } from '../store/reducers/nftAvatars/hooks'
 import { useFetchNftLands } from './../store/reducers/nfts/hooks'
 
 import ButtonMint from './../components/Profile/ButtonMint'
@@ -23,13 +20,15 @@ import { Navigate } from 'react-router-dom'
 // import Season2MintModal from '../components/Profile/Season2MintModal'
 import ButtonSeasonTwoMint from './../components/Profile/ButtonSeasonTwoMint'
 
+const getAvatarName = (nft) => {
+    return `${nft.tokenId}_${nft.address}`
+}
+
 const Profile = () => {
     const { account } = useWeb3React()
     if (!account) return <Navigate to={'/'} replace />
 
-    useNftAvatars()
     useFetchProfile()
-
     const { fetch, nfts } = useNftAvatarReducer()
     const { index, avatar } = useSelectedAvatar()
     const { nfts: nftsLands, reload } = useFetchNftLands()
@@ -37,14 +36,13 @@ const Profile = () => {
     const setAvatar = useSetAvatar()
 
     const handleNextAvatar = useCallback(() => {
-        if (index === nfts.length - 1) setAvatar(nfts[0].tokenId.toString())
-        if (index !== nfts.length - 1)
-            setAvatar(nfts[index + 1].tokenId.toString())
+        if (index === nfts.length - 1) setAvatar(getAvatarName(nfts[0]))
+        if (index !== nfts.length - 1) setAvatar(getAvatarName(nfts[index + 1]))
     }, [nfts, index])
 
     const handlePreAvatar = useCallback(() => {
-        if (index === 0) setAvatar(nfts[nfts.length - 1].tokenId.toString())
-        if (index !== 0) setAvatar(nfts[index - 1].tokenId.toString())
+        if (index === 0) setAvatar(getAvatarName(nfts[nfts.length - 1]))
+        if (index !== 0) setAvatar(getAvatarName(nfts[index - 1]))
     }, [nfts, index])
 
     const lands = useMemo(() => {
@@ -77,7 +75,7 @@ const Profile = () => {
                                 <UserInfo
                                     className="mt-5"
                                     tokenId={avatar?.tokenId}
-                                    nftDNA={avatar?.dna}
+                                    nftDNA={avatar?.address}
                                     nftId={avatar?.name}
                                 />
 

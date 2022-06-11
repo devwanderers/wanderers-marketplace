@@ -1,1 +1,2 @@
-export const supportedChainIds = [1, 4]
+export const supportedChainIds =
+    process.env.NODE_ENV === 'development' ? [4] : [1]

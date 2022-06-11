@@ -1,8 +1,8 @@
 import { ethers } from 'ethers'
 import { useMemo } from 'react'
 import useActiveWeb3React from './../useActiveWeb3React'
-import nftAbiAvatar from '../../abi/AvatarDestinare.json'
-import nftAbiLand from '../../abi/DestinareContract.json'
+import nomadzLandsAbi from '../../abi/nomadzLandsAbi.json'
+import nomadzDestinationsAbi from '../../abi/nomadzDestinationsAbi.json'
 import { genericProvider } from './../../services/providers'
 
 const getContract = (abi, address, signer) => {
@@ -11,11 +11,11 @@ const getContract = (abi, address, signer) => {
 }
 
 const getERC721Contract = (address, signer) => {
-    return getContract(nftAbiAvatar, address, signer)
+    return getContract(nomadzLandsAbi, address, signer)
 }
 
 const getERC721LandContract = (address, signer) => {
-    return getContract(nftAbiLand, address, signer)
+    return getContract(nomadzDestinationsAbi, address, signer)
 }
 
 export const useERC721Contract = (address) => {
