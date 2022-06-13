@@ -243,7 +243,7 @@ const MarketView = () => {
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
                             {nftsAvatar && nftsAvatar?.length > 0 && (
                                 <CardRewardTrip
-                                    title={!isRevealed ? '???' : 'Free Trip'}
+                                    title={'???'}
                                     image={mysteryBox}
                                     // onReveal={() => setIsRevealed(true)}
                                 />
