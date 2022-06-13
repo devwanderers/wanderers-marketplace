@@ -2,8 +2,9 @@ import React from 'react'
 // import NftSaleCountDown from './../NftSaleCountDown'
 import EthIcon from './../../../assets/svg/icons/EthIcon'
 import ButtonSpinner from '../../Buttons/ButtonSpinner'
+import windowOpen from './../../../services/windowOpen'
 
-const NftHeader = ({ title, ...props }) => {
+const NftHeader = ({ title, tokenId, ...props }) => {
     return (
         <div className="flex flex-row pr-5 lg:pr-20">
             <div>
@@ -32,6 +33,11 @@ const NftHeader = ({ title, ...props }) => {
                             className="w-32 justify-center font-semibold mr-2"
                             size="small"
                             variant="secondary"
+                            onClick={() =>
+                                windowOpen(
+                                    `https://opensea.io/assets/ethereum/0xac8167ab915cfa9bfafdee7f8d0ff6c198f9c230/${tokenId}`
+                                )
+                            }
                         >
                             View in OpenSea
                         </ButtonSpinner>

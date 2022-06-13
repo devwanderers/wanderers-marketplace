@@ -6,7 +6,7 @@ const removeEmptyStringAtEnd = (str) => {
     return str
 }
 
-export const limitStringLengthTo = (limit, str) => {
+export const limitStringLengthTo = (limit, str = '') => {
     if (str.length < limit) return str
     return removeEmptyStringAtEnd(str.substring(0, limit)) + '...'
 }

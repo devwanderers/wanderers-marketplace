@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import useActiveWeb3React from './../useActiveWeb3React'
 import { ethers } from 'ethers'
 import { _useResolveCall } from './../utils/_useResolveCall'
-import { useERC721LandContract } from './useContract'
+import { useERC721Contract, useERC721LandContract } from './useContract'
 import { ipfsReplaceUri } from './../../services/ipfs'
 import {
     LAND_ADDRESS,
@@ -168,7 +168,6 @@ export const useDisableMint = () => {
         if (account) {
             try {
                 let disabled = false
-                console.log({ avatar })
                 if (avatar) {
                     const [tokenId, address] = avatar.split('_')
                     console.log(tokenId, address)
@@ -206,6 +205,38 @@ export const useDisableMint = () => {
         600,
         [avatar, init]
     )
+
+    useEffect(() => {
+        if (!init || !data) {
+            if (!init) setInit(true)
+            fetch()
+        }
+    }, [fetch, fastRefresh, init])
+
+    return { reload: fetchData, data, ...rest }
+}
+
+export const useRevealCollection = () => {
+    const [init, setInit] = useState(false)
+    const { account } = useActiveWeb3React()
+    const { fastRefresh } = useRefresh()
+
+    const erc721Contract = useERC721Contract(LAND_ADDRESS)
+
+    const fetchData = useCallback(async () => {
+        if (account) {
+            try {
+                const isRevealed = await erc721Contract.revealed()
+
+                return isRevealed
+            } catch (error) {
+                console.log('Error:', error)
+                throw error
+            }
+        }
+    }, [erc721Contract, account])
+
+    const { fetch, data, ...rest } = _useResolveCall(fetchData, true, {})
 
     useEffect(() => {
         if (!init || !data) {

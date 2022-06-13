@@ -41,7 +41,7 @@ const MarketNftDetailView = (props) => {
                     <NftDetails {...detail} />
                 </div>
                 <div className="flex-1 pt-6 pl-4 pb-20 lg:pb-0">
-                    <NftHeader title={placeInfo?.place} />
+                    <NftHeader tokenId={id} title={placeInfo?.place} />
                     {detail && detail.attributes[0]?.value !== 'Unrevealed' && (
                         <NftDetailsInfo detail={placeInfo} />
                     )}
