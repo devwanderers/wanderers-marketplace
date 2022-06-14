@@ -1,3 +1,5 @@
 export const SET_PROFILE = 'profile/set'
 export const GET_PROFILE = 'profile/get'
 export const SET_AVATAR = 'profile/setAvatar'
+export const GET_CODE = 'profile/getCode'
+export const GET_UN_CLAIMED_CODE = 'profile/unClaimedCode'

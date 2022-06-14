@@ -9,15 +9,23 @@ import CardUp from '../../assets/svg/frames/CardUp'
 import Banner from '../../assets/svg/frames/Banner'
 import EthIcon from '../../assets/svg/icons/EthIcon'
 import { MarketDetailPath } from '../../constants/routerConstants'
+import ButtonSpinner from '../Buttons/ButtonSpinner'
+import { FaSpinner } from 'react-icons/fa'
+import { cls } from './../../services/helpers'
 
-const CardRewardTrip = ({ image, title, id, onReveal }) => {
+const CardRewardTrip = ({
+    image,
+    title,
+    id,
+    loading,
+    onClickTerm,
+    onReveal,
+    hideReveal,
+    hideTerms,
+}) => {
     const [topFrame] = useResponsive({ base: '-2%', lg: '-1%' })
 
     const navigate = useNavigate()
-
-    const handleClickNft = () => {
-        // navigate('/detail/' + id)
-    }
 
     return (
         <div className="w-full">
@@ -25,10 +33,7 @@ const CardRewardTrip = ({ image, title, id, onReveal }) => {
                 <CardUp width="50%" />
             </div>
             <div className="w-full border-t border-b border-blue-6 relative">
-                <div
-                    onClick={handleClickNft}
-                    className="relative cursor-pointer"
-                >
+                <div onClick={onClickTerm} className="relative cursor-pointer">
                     <div className="w-full h-60 relative flex justify-center items-center overflow-hidden">
                         {image && (
                             <img
@@ -36,6 +41,13 @@ const CardRewardTrip = ({ image, title, id, onReveal }) => {
                                 alt={image}
                                 className="w-full h-full object-cover"
                             />
+                        )}
+                        {loading && (
+                            <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center text-white bg-gray-800 bg-opacity-50">
+                                <FaSpinner
+                                    className={'animate-spin text-4xl'}
+                                />
+                            </div>
                         )}
                     </div>
                     <div className="w-full flex justify-center my-3 relative">
@@ -53,29 +65,33 @@ const CardRewardTrip = ({ image, title, id, onReveal }) => {
                                 'linear-gradient(to top, rgba(0,162,210,0.13), transparent)',
                         }}
                     >
-                        {/* <div className="flex flex-row items-center text-light-0">
-                            <div
-                                className="mr-1 relative "
-                                style={{ top: '-1.5px' }}
-                            >
-                                <EthIcon />
-                            </div>
-                        </div> */}
-                        <div className="w-full flex justify-between">
-                            <button
-                                disabled
-                                onClick={onReveal}
-                                className="bg-blue-6 disabled:opacity-50 rounded-md px-2 text-lg font-medium text-blue-5"
-                            >
-                                Reveal
-                            </button>
-                            <button
-                                disabled
-                                onClick={handleClickNft}
-                                className="bg-blue-6 disabled:opacity-50 rounded-md px-2 text-lg font-medium text-blue-5"
-                            >
-                                Terms & Cond
-                            </button>
+                        <div
+                            className={cls(
+                                `w-full flex ${
+                                    !hideReveal && !hideTerms
+                                        ? 'justify-between'
+                                        : 'justify-center'
+                                }`
+                            )}
+                        >
+                            {!hideReveal && (
+                                <button
+                                    disabled={loading}
+                                    onClick={onReveal}
+                                    className="bg-blue-6 disabled:opacity-50 rounded-md px-2 text-lg font-medium text-blue-5"
+                                >
+                                    Reveal
+                                </button>
+                            )}
+                            {!hideTerms && (
+                                <button
+                                    disabled={loading}
+                                    onClick={onClickTerm}
+                                    className="bg-blue-6 disabled:opacity-50 rounded-md px-2 text-lg font-medium text-blue-5"
+                                >
+                                    Terms & Cond
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>

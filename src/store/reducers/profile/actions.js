@@ -35,3 +35,35 @@ export const getProfile = createAsyncThunk(
         }
     }
 )
+
+export const getCode = createAsyncThunk(
+    types.GET_CODE,
+    async (address, { rejectWithValue }) => {
+        try {
+            const res = await axiosInstance.post(`codes/get`, { address })
+            return res?.data
+        } catch (error) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const getUnClaimedCode = createAsyncThunk(
+    types.GET_UN_CLAIMED_CODE,
+    async (address, { rejectWithValue }) => {
+        try {
+            const res = await axiosInstance.post(`codes/getUnClaimedCode`, {
+                address,
+            })
+            return res?.data
+        } catch (error) {
+            if (!error.response) {
+                throw error
+            }
+            return rejectWithValue(error.response.data)
+        }
+    }
+)

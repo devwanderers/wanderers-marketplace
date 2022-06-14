@@ -12,11 +12,11 @@ import { useFetchNftLands } from './../store/reducers/nfts/hooks'
 import ButtonMint from './../components/Profile/ButtonMint'
 import {
     useSetAvatar,
-    useFetchProfile,
     useSelectedAvatar,
 } from './../store/reducers/profile/hook'
 import { useWeb3React } from '@web3-react/core'
 import { Navigate } from 'react-router-dom'
+import MisteryBoxSection from '../components/MarketView/MisteryBoxSection'
 // import Season2MintModal from '../components/Profile/Season2MintModal'
 // import ButtonSeasonTwoMint from './../components/Profile/ButtonSeasonTwoMint'
 
@@ -28,7 +28,6 @@ const Profile = () => {
     const { account } = useWeb3React()
     if (!account) return <Navigate to={'/'} replace />
 
-    useFetchProfile()
     const { fetch, nfts } = useNftAvatarReducer()
     const { index, avatar } = useSelectedAvatar()
     const { nfts: nftsLands, reload } = useFetchNftLands()
@@ -138,6 +137,7 @@ const Profile = () => {
                                 className="px-6 2xl:px-10"
                             >
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-4 gap-4">
+                                    <MisteryBoxSection />
                                     {lands.map((f) => {
                                         return (
                                             <div key={`${f.id}-${f.title}`}>

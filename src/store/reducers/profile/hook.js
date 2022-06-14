@@ -12,9 +12,13 @@ const getAvatarName = (nft) => {
     return `${nft.tokenId}_${nft.address}`
 }
 
+export const useProfileReducer = () => {
+    return useSelector(profileReducerSelector)
+}
+
 export const useSelectedAvatar = () => {
     const nfts = useNftAvatars()
-    const { avatar } = useSelector(profileReducerSelector)
+    const { avatar } = useProfileReducer()
 
     return useMemo(() => {
         const nftIndex = nfts.findIndex((n) => getAvatarName(n) === avatar)
@@ -26,24 +30,42 @@ export const useSelectedAvatar = () => {
 }
 
 export const useSaveAvatar = () => {
+    const setProfile = useSetProfile()
+
+    return useCallback(
+        (avatar, cb) => {
+            setProfile(
+                {
+                    avatar,
+                },
+                cb
+            )
+        },
+        [setProfile]
+    )
+}
+
+export const useSetProfile = () => {
     const { account } = useActiveWeb3React()
     const dispatch = useDispatch()
 
     return useCallback(
-        (idAvatar, cb) => {
-            dispatch(
+        async (data, cb = () => {}) => {
+            await dispatch(
                 actions.setProfile({
                     address: account,
-                    avatar: idAvatar,
+                    ...data,
                 })
-            ).then(() => cb())
+            )
+                .unwrap()
+                .then(() => cb())
         },
-        [dispatch]
+        [account, dispatch]
     )
 }
 
 export const useSetAvatar = () => {
-    const { avatar } = useSelector(profileReducerSelector)
+    const { avatar } = useProfileReducer()
     const [initialAvatar, setInitialAvatar] = useState(avatar)
     const saveAvatar = useSaveAvatar()
     const dispatch = useDispatch()
@@ -111,4 +133,22 @@ export const useFetchProfile = () => {
     useEffect(() => {
         if (account && nfts.length > 0) fetchProfile()
     }, [account, nfts])
+}
+
+export const useGetCode = () => {
+    const { account } = useActiveWeb3React()
+    const { code } = useSelector(profileReducerSelector)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (account) {
+            dispatch(actions.getCode(account))
+        }
+    }, [account])
+
+    const claimCode = useCallback(async () => {
+        await dispatch(actions.getUnClaimedCode(account)).unwrap()
+    }, [account])
+
+    return { code, claimCode }
 }

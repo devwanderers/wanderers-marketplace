@@ -5,6 +5,8 @@ const initialState = {
     avatar: '',
     userName: '',
     address: '',
+    revealed: false,
+    code: null,
 }
 
 const profileReducer = createReducer(initialState, (builder) => {
@@ -19,6 +21,14 @@ const profileReducer = createReducer(initialState, (builder) => {
         .addCase(actions.setProfile.fulfilled, (state, { payload }) => ({
             ...state,
             ...payload.profile,
+        }))
+        .addCase(actions.getCode.fulfilled, (state, { payload }) => ({
+            ...state,
+            code: payload.data,
+        }))
+        .addCase(actions.getUnClaimedCode.fulfilled, (state, { payload }) => ({
+            ...state,
+            code: payload.data,
         }))
 })
 

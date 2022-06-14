@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-loss-of-precision */
 import React, { useRef, useState, useMemo } from 'react'
 import { AutoComplete, Input, Select, Row, Col } from 'antd'
@@ -14,28 +13,21 @@ import {
 } from './../store/reducers/places/hooks'
 import GlobeFiber from '../components/GlobeFiber'
 import useDebounce from '../hooks/useDebounce'
-import { useNftAvatarReducer } from './../store/reducers/nftAvatars/hooks'
-import CardRewardTrip from './../components/Cards/CardRewardTrip'
 import { createVector3 } from '../utils/three.utils'
 import { useFetchNftLands } from '../store/reducers/nfts/hooks'
-import mysteryBox from '../assets/images/utilities/mysterybox_1.gif'
-import complementaryTrip from '../assets/images/utilities/complimentarytrip_1_1.gif'
-import { useRevealCollection } from '../hooks/web3Hooks/useNFTs'
+import MisteryBoxSection from '../components/MarketView/MisteryBoxSection'
 
 const MarketView = () => {
     const globeContainerRef = useRef(null)
     const globeRef = useRef(null)
     const searchButtonRef = useRef(null)
 
-    const { data: isRevealed } = useRevealCollection()
     const { nfts } = useFetchNftLands()
-    const { nfts: nftsAvatar } = useNftAvatarReducer()
     const { places, countriesArray } = useFetchCountries()
     const {
         fetch: { requestCountries },
     } = usePlaceReducer()
 
-    // const [isRevealed, setIsRevealed] = useState(false)
     const [searchText, setSearchText] = useState()
     const [selectedText, setSelected] = useState()
 
@@ -241,13 +233,7 @@ const MarketView = () => {
                         className="max-w-1280px px-6 2xl:px-16"
                     >
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
-                            {nftsAvatar && nftsAvatar?.length > 0 && (
-                                <CardRewardTrip
-                                    title={'???'}
-                                    image={mysteryBox}
-                                    // onReveal={() => setIsRevealed(true)}
-                                />
-                            )}
+                            <MisteryBoxSection />
                             {filter.map((f, index) => {
                                 return (
                                     <div key={`${f.id}-${f.title}`}>
