@@ -1,19 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useMemo, useState } from 'react'
-import {
-    useClaimSecondSeason,
-    useUnClaimedNftsIdSecondSeason,
-    useGetNft,
-} from '../../hooks/web3Hooks/useNFTs'
+import { useClaimSecondSeason, useGetNft } from '../../hooks/web3Hooks/useNFTs'
 import MintModal from '../Modals/MintModal'
 import MintSeasonTwoModal from '../Modals/MintSeasonTwoModal'
+import { useFetchTokenSecondSeasonClaim } from './../../store/reducers/secondSeasonClaim/hook'
 
 const ButtonSeasonTwoMint = ({ onMintEnd }) => {
     const [{ mintConfirm, mintModal }, setVisible] = useState({
         mintModal: false,
         mintConfirm: false,
     })
-    const { data: tokenIds, reload } = useUnClaimedNftsIdSecondSeason()
     const {
         fetch: claim,
         data: tokenId,
@@ -32,7 +28,7 @@ const ButtonSeasonTwoMint = ({ onMintEnd }) => {
                 console.log(error)
                 handleVisible('mintModal')
             } finally {
-                reload()
+                // reload()
             }
         },
         [onMintEnd, claim]
@@ -47,9 +43,9 @@ const ButtonSeasonTwoMint = ({ onMintEnd }) => {
         return isMinting || isLoadingNft
     }, [isMinting, isLoadingNft])
 
-    const disableMint = useMemo(() => {
-        return tokenIds.length < 2
-    }, [tokenIds])
+    // const disableMint = useMemo(() => {
+    //     return tokenIds.length < 2
+    // }, [tokenIds])
 
     const nfts = useMemo(() => {
         if (data)
@@ -70,17 +66,11 @@ const ButtonSeasonTwoMint = ({ onMintEnd }) => {
                 visibleModal={mintModal}
                 onCloseModal={() => handleVisible('mintModal')}
             />
-            <MintSeasonTwoModal
-                tokenIds={tokenIds}
-                visible={mintConfirm}
-                onCancel={() => handleVisible('mintConfirm')}
-                onOk={handleMint}
-            />
             <div className="text-center w-full">
                 <span className="text-primary font-semibold text-xl">
                     Second Season airdrops
                 </span>
-                <button
+                {/* <button
                     disabled={disableMint}
                     onClick={() => handleVisible('mintConfirm')}
                     className="bg-blue-6 rounded-md w-full  text-xl font-medium text-blue-5 disabled:opacity-40 mt-5"
@@ -88,7 +78,7 @@ const ButtonSeasonTwoMint = ({ onMintEnd }) => {
                     {disableMint
                         ? 'Already in your wallet'
                         : 'Send airdrop to your account'}
-                </button>
+                </button> */}
             </div>
         </React.Fragment>
     )

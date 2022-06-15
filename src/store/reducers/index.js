@@ -9,6 +9,7 @@ import nftAvatars from './nftAvatars/nftAvatarsReducer'
 import nfts from './nfts/nftsReducer'
 import profile from './profile/profileReducer'
 import places from './places/placesReducer'
+// import secondSeasonClaim from './secondSeasonClaim/secondSeasonClaimReducer'
 
 const persistKey = 'rootNM'
 
@@ -25,6 +26,7 @@ const appReducer = combineReducers({
     nfts,
     profile,
     places,
+    // secondSeasonClaim,
 })
 
 const rootReducer = (state, action) => {

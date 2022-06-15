@@ -1,11 +1,10 @@
 {
   "files": {
     "main.css": "/static/css/main.0a55f95f.css",
-    "main.js": "/static/js/main.f4929d4d.js",
+    "main.js": "/static/js/main.db5bdac5.js",
     "static/js/787.66b477fd.chunk.js": "/static/js/787.66b477fd.chunk.js",
     "static/media/earth-loading.gif": "/static/media/earth-loading.7d64cc997ab8bc1994a7.gif",
     "static/media/luxepass.gif": "/static/media/luxepass.84a605562d48204729f3.gif",
-    "static/media/complimentarytrip_1_1.gif": "/static/media/complimentarytrip_1_1.24d067a91d42a749afc5.gif",
     "static/media/mysterybox_1.gif": "/static/media/mysterybox_1.593d72879affe43c57cb.gif",
     "static/media/847.png": "/static/media/847.6332d1e250ed0b6099cc.png",
     "static/media/841.png": "/static/media/841.225c4c9439928c243ff4.png",
@@ -50,11 +49,11 @@
     "static/media/frame-top.svg": "/static/media/frame-top.efcd1829b673a53df0f1dfaa53b35d30.svg",
     "static/media/frame-bottom.svg": "/static/media/frame-bottom.69f031221b0630fb910e261d248e2ffc.svg",
     "main.0a55f95f.css.map": "/static/css/main.0a55f95f.css.map",
-    "main.f4929d4d.js.map": "/static/js/main.f4929d4d.js.map",
+    "main.db5bdac5.js.map": "/static/js/main.db5bdac5.js.map",
     "787.66b477fd.chunk.js.map": "/static/js/787.66b477fd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0a55f95f.css",
-    "static/js/main.f4929d4d.js"
+    "static/js/main.db5bdac5.js"
   ]
 }

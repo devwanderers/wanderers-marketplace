@@ -6,13 +6,11 @@ import { useERC721Contract, useERC721LandContract } from './useContract'
 import { ipfsReplaceUri } from './../../services/ipfs'
 import {
     LAND_ADDRESS,
-    NFT_ADDRESS,
     NFT_ADDRESS_GENESIS,
 } from '../../constants/addressConstants'
 import useRefresh from './../useRefresh'
 import { profileReducerSelector } from '../../store/reducers/profile/selectors'
 import { useSelector } from 'react-redux'
-import { nftIdSelector } from './../../store/reducers/nftAvatars/selectors'
 import useDebounce from './../useDebounce'
 
 export const useMint = () => {
@@ -170,7 +168,7 @@ export const useDisableMint = () => {
                 let disabled = false
                 if (avatar) {
                     const [tokenId, address] = avatar.split('_')
-                    console.log(tokenId, address)
+
                     if (address !== NFT_ADDRESS_GENESIS) return true
                     const claimed = await erc721Contract.genesisClaim(tokenId)
 
@@ -237,60 +235,6 @@ export const useRevealCollection = () => {
     }, [erc721Contract, account])
 
     const { fetch, data, ...rest } = _useResolveCall(fetchData, true, {})
-
-    useEffect(() => {
-        if (!init || !data) {
-            if (!init) setInit(true)
-            fetch()
-        }
-    }, [fetch, fastRefresh, init])
-
-    return { reload: fetchData, data, ...rest }
-}
-
-export const useUnClaimedNftsIdSecondSeason = () => {
-    const [init, setInit] = useState(false)
-    const { account } = useActiveWeb3React()
-    const { fastRefresh } = useRefresh()
-    const nftIds = useSelector(nftIdSelector)
-
-    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
-
-    const fetchData = useCallback(async () => {
-        if (account) {
-            try {
-                const secondSeasonNfts = Array.isArray(nftIds)
-                    ? nftIds.reduce((acc, v) => {
-                          if (v.address !== NFT_ADDRESS) return acc
-                          return [...acc, v]
-                      }, [])
-                    : []
-                const validIds = []
-                if (secondSeasonNfts.length > 0) {
-                    for (
-                        let index = 0;
-                        index < secondSeasonNfts.length;
-                        index++
-                    ) {
-                        const tokenId = secondSeasonNfts[index].tokenId
-                        console.log({ tokenId })
-                        const claimed = await erc721Contract.seasonTwoClaim(
-                            tokenId
-                        )
-                        if (!claimed)
-                            validIds.push(Number(parseInt(tokenId._hex)))
-                    }
-                }
-                console.log({ validIds })
-                return validIds
-            } catch (error) {
-                console.log('error', error)
-                throw error
-            }
-        }
-    }, [erc721Contract, account, nftIds])
-
-    const { fetch, data, ...rest } = _useResolveCall(fetchData, [], {})
 
     useEffect(() => {
         if (!init || !data) {
