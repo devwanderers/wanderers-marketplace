@@ -86,7 +86,7 @@ const Profile = () => {
                                                     nfts.length === 0 ||
                                                     nfts.length === 1
                                                 }
-                                                onClick={() =>
+                                                onPointerDown={() =>
                                                     handlePreAvatar()
                                                 }
                                                 className="text-3xl text-primary disabled:opacity-70 transform active:scale-75"
@@ -100,7 +100,7 @@ const Profile = () => {
                                                     nfts.length === 0 ||
                                                     nfts.length === 1
                                                 }
-                                                onClick={() =>
+                                                onPointerDown={() =>
                                                     handleNextAvatar()
                                                 }
                                                 className="text-3xl disabled:opacity-70 transform active:scale-75"
