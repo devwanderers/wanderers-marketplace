@@ -22,6 +22,7 @@ const CardRewardTrip = ({
     onReveal,
     hideReveal,
     hideTerms,
+    disableReveal,
 }) => {
     const [topFrame] = useResponsive({ base: '-2%', lg: '-1%' })
 
@@ -76,7 +77,7 @@ const CardRewardTrip = ({
                         >
                             {!hideReveal && (
                                 <button
-                                    disabled={loading}
+                                    disabled={loading || disableReveal}
                                     onClick={onReveal}
                                     className="bg-blue-6 disabled:opacity-50 rounded-md px-2 text-lg font-medium text-blue-5"
                                 >

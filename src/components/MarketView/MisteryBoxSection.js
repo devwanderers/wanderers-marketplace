@@ -7,16 +7,29 @@ import {
     useSetProfile,
 } from '../../store/reducers/profile/hook'
 import mysteryBox from '../../assets/images/utilities/mysterybox_1.gif'
+import mysteryBoxSilver from '../../assets/images/utilities/mystery box-silver_1.gif'
+import mysteryBoxBronze from '../../assets/images/utilities/mystery box_bronze_1.gif'
+import mysteryBoxGold from '../../assets/images/utilities/gold-mysterybox.gif'
+import mysteryBox2 from '../../assets/images/utilities/mysterybox2.gif'
+import mysteryNomad from '../../assets/images/utilities/MYSTERY-NOMAD.gif'
+import mysteryDestination from '../../assets/images/utilities/mystery box-destination nft_1.gif'
 import luxepass from '../../assets/images/utilities/luxepass.gif'
 import { NFT_ADDRESS_GENESIS } from './../../constants/addressConstants'
 import { timeout } from '../../services/promises'
 import windowOpen from './../../services/windowOpen'
 
-const MisteryBoxSection = () => {
+const mysteryBoxSection = () => {
     const { nfts } = useNftAvatarReducer()
-    const { revealed } = useProfileReducer()
-    const [loading, setLoading] = useState()
-    // const { code, claimCode } = useGetCode()
+    const { revealed, revealed2, revealed3, revealed4 } = useProfileReducer()
+    const [
+        { mysteryBox1L, mysteryBox2L, mysteryBox3L, mysteryBox4L },
+        setLoading,
+    ] = useState({
+        mysteryBox1L: false,
+        mysteryBox2L: false,
+        mysteryBox3L: false,
+        mysteryBox4L: false,
+    })
 
     const setProfile = useSetProfile()
 
@@ -25,26 +38,29 @@ const MisteryBoxSection = () => {
         return nfts.filter((v) => v.address === NFT_ADDRESS_GENESIS).length
     }, [nfts])
 
-    const handleReveal = useCallback(async () => {
-        setLoading(true)
-        await timeout(3000)
-        try {
-            await setProfile({ revealed: true })
-        } catch (error) {
-            console.log({ error })
-        } finally {
-            setLoading(false)
-        }
-    }, [setProfile])
+    const handleReveal = useCallback(
+        async (mysteryBox = 'revealed', loadingBox = 'mysteryBox1L') => {
+            setLoading((state) => ({ ...state, [loadingBox]: true }))
+            await timeout(3000)
+            try {
+                await setProfile({ [mysteryBox]: true })
+            } catch (error) {
+                console.log({ error })
+            } finally {
+                setLoading((state) => ({ ...state, [loadingBox]: false }))
+            }
+        },
+        [setProfile]
+    )
 
     return (
         <React.Fragment>
             {totalNfts > 0 && !revealed && (
                 <CardRewardTrip
-                    loading={loading}
+                    loading={mysteryBox1L}
                     title={'???'}
                     image={mysteryBox}
-                    onReveal={handleReveal}
+                    onReveal={() => handleReveal()}
                     hideTerms
                 />
             )}
@@ -57,8 +73,84 @@ const MisteryBoxSection = () => {
                     hideTerms
                 />
             )}
+            {totalNfts > 1 && !revealed2 && (
+                <CardRewardTrip
+                    loading={mysteryBox2L}
+                    title={'???'}
+                    image={mysteryBoxBronze}
+                    onReveal={() => handleReveal('revealed2', 'mysteryBox2L')}
+                    hideTerms
+                />
+            )}
+            {totalNfts > 1 && revealed2 && (
+                <CardRewardTrip
+                    loading={mysteryBox2L}
+                    title={'Free Destination'}
+                    image={mysteryDestination}
+                    hideReveal
+                    hideTerms
+                />
+            )}
+            {totalNfts > 4 && !revealed3 && (
+                <CardRewardTrip
+                    loading={mysteryBox3L}
+                    title={'???'}
+                    image={mysteryBoxSilver}
+                    onReveal={() => handleReveal('revealed3', 'mysteryBox3L')}
+                    hideTerms
+                />
+            )}
+            {totalNfts > 4 && revealed3 && (
+                <React.Fragment>
+                    <CardRewardTrip
+                        title={'Free Destination'}
+                        image={mysteryDestination}
+                        hideReveal
+                        hideTerms
+                    />
+                    <CardRewardTrip
+                        title={'Free Nomadz Season 2'}
+                        image={mysteryNomad}
+                        hideReveal
+                        hideTerms
+                    />
+                </React.Fragment>
+            )}
+
+            {totalNfts > 10 && !revealed4 && (
+                <CardRewardTrip
+                    loading={mysteryBox4L}
+                    title={'???'}
+                    image={mysteryBoxGold}
+                    onReveal={() => handleReveal('revealed4', 'mysteryBox4L')}
+                    hideTerms
+                />
+            )}
+
+            {totalNfts > 10 && revealed4 && (
+                <React.Fragment>
+                    <CardRewardTrip
+                        title={'Free Destination'}
+                        image={mysteryDestination}
+                        hideReveal
+                        hideTerms
+                    />{' '}
+                    <CardRewardTrip
+                        title={'Free Destination'}
+                        image={mysteryDestination}
+                        hideReveal
+                        hideTerms
+                    />
+                    <CardRewardTrip
+                        title={'Free Nomadz Season 2'}
+                        image={mysteryNomad}
+                        hideReveal
+                        hideTerms
+                    />
+                </React.Fragment>
+            )}
         </React.Fragment>
     )
 }
 
-export default MisteryBoxSection
+export default mysteryBoxSection
