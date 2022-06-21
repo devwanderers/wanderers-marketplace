@@ -6,6 +6,7 @@ const initialState = {
     userName: '',
     address: '',
     revealed: false,
+    secondRevealed: false,
     code: null,
 }
 
