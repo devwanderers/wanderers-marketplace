@@ -53,71 +53,9 @@ const mysteryBoxSection = () => {
         [setProfile]
     )
 
-    return (
-        <React.Fragment>
-            {totalNfts > 0 && !revealed && (
-                <CardRewardTrip
-                    loading={mysteryBox1L}
-                    title={'???'}
-                    image={mysteryBox}
-                    onReveal={() => handleReveal()}
-                    hideTerms
-                />
-            )}
-
-            {totalNfts > 0 && revealed && (
-                <CardRewardTrip
-                    title={'Luxe Pass'}
-                    image={luxepass}
-                    hideReveal
-                    hideTerms
-                />
-            )}
-            {totalNfts > 1 && !revealed2 && (
-                <CardRewardTrip
-                    loading={mysteryBox2L}
-                    title={'???'}
-                    image={mysteryBoxBronze}
-                    onReveal={() => handleReveal('revealed2', 'mysteryBox2L')}
-                    hideTerms
-                />
-            )}
-            {totalNfts > 1 && revealed2 && (
-                <CardRewardTrip
-                    loading={mysteryBox2L}
-                    title={'Free Destination'}
-                    image={mysteryDestination}
-                    hideReveal
-                    hideTerms
-                />
-            )}
-            {totalNfts > 4 && !revealed3 && (
-                <CardRewardTrip
-                    loading={mysteryBox3L}
-                    title={'???'}
-                    image={mysteryBoxSilver}
-                    onReveal={() => handleReveal('revealed3', 'mysteryBox3L')}
-                    hideTerms
-                />
-            )}
-            {totalNfts > 4 && revealed3 && (
-                <React.Fragment>
-                    <CardRewardTrip
-                        title={'Free Destination'}
-                        image={mysteryDestination}
-                        hideReveal
-                        hideTerms
-                    />
-                    <CardRewardTrip
-                        title={'Free Nomadz Season 2'}
-                        image={mysteryNomad}
-                        hideReveal
-                        hideTerms
-                    />
-                </React.Fragment>
-            )}
-
-            {totalNfts > 10 && !revealed4 && (
+    const renderMysteryBox = () => {
+        if (totalNfts > 10) {
+            return !revealed4 ? (
                 <CardRewardTrip
                     loading={mysteryBox4L}
                     title={'???'}
@@ -125,9 +63,7 @@ const mysteryBoxSection = () => {
                     onReveal={() => handleReveal('revealed4', 'mysteryBox4L')}
                     hideTerms
                 />
-            )}
-
-            {totalNfts > 10 && revealed4 && (
+            ) : (
                 <React.Fragment>
                     <CardRewardTrip
                         title={'Free Destination'}
@@ -148,7 +84,78 @@ const mysteryBoxSection = () => {
                         hideTerms
                     />
                 </React.Fragment>
+            )
+        }
+
+        if (totalNfts > 4) {
+            return !revealed3 ? (
+                <CardRewardTrip
+                    loading={mysteryBox3L}
+                    title={'???'}
+                    image={mysteryBoxSilver}
+                    onReveal={() => handleReveal('revealed3', 'mysteryBox3L')}
+                    hideTerms
+                />
+            ) : (
+                <React.Fragment>
+                    <CardRewardTrip
+                        title={'Free Destination'}
+                        image={mysteryDestination}
+                        hideReveal
+                        hideTerms
+                    />
+                    <CardRewardTrip
+                        title={'Free Nomadz Season 2'}
+                        image={mysteryNomad}
+                        hideReveal
+                        hideTerms
+                    />
+                </React.Fragment>
+            )
+        }
+
+        if (totalNfts > 1) {
+            return !revealed2 ? (
+                <CardRewardTrip
+                    loading={mysteryBox2L}
+                    title={'???'}
+                    image={mysteryBoxBronze}
+                    onReveal={() => handleReveal('revealed2', 'mysteryBox2L')}
+                    hideTerms
+                />
+            ) : (
+                <CardRewardTrip
+                    loading={mysteryBox2L}
+                    title={'Free Destination'}
+                    image={mysteryDestination}
+                    hideReveal
+                    hideTerms
+                />
+            )
+        }
+    }
+
+    return (
+        <React.Fragment>
+            {totalNfts > 0 && !revealed && (
+                <CardRewardTrip
+                    loading={mysteryBox1L}
+                    title={'???'}
+                    image={mysteryBox}
+                    onReveal={() => handleReveal()}
+                    hideTerms
+                />
             )}
+
+            {totalNfts > 0 && revealed && (
+                <CardRewardTrip
+                    title={'Luxe Pass'}
+                    image={luxepass}
+                    hideReveal
+                    hideTerms
+                />
+            )}
+            {renderMysteryBox()}
         </React.Fragment>
     )
 }
