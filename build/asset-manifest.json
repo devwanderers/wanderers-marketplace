@@ -1,10 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.0a55f95f.css",
-    "main.js": "/static/js/main.f49606da.js",
+    "main.js": "/static/js/main.10f036ef.js",
     "static/js/787.66b477fd.chunk.js": "/static/js/787.66b477fd.chunk.js",
     "static/media/earth-loading.gif": "/static/media/earth-loading.7d64cc997ab8bc1994a7.gif",
+    "static/media/mystery box-destination nft_1.gif": "/static/media/mystery box-destination nft_1.52b663198f4e4e35846f.gif",
     "static/media/luxepass.gif": "/static/media/luxepass.84a605562d48204729f3.gif",
+    "static/media/mysterybox2.gif": "/static/media/mysterybox2.4b2470cf1ca853d3f03e.gif",
+    "static/media/mystery box-silver_1.gif": "/static/media/mystery box-silver_1.deb559e9626a7b33f011.gif",
+    "static/media/gold-mysterybox.gif": "/static/media/gold-mysterybox.5a2bf8dcafdcb1d1cb05.gif",
+    "static/media/mystery box_bronze_1.gif": "/static/media/mystery box_bronze_1.f16789107c80f1d49ea7.gif",
     "static/media/mysterybox_1.gif": "/static/media/mysterybox_1.593d72879affe43c57cb.gif",
     "static/media/847.png": "/static/media/847.6332d1e250ed0b6099cc.png",
     "static/media/841.png": "/static/media/841.225c4c9439928c243ff4.png",
@@ -23,6 +28,7 @@
     "static/media/1111.jpeg": "/static/media/1111.2f9ac3b8334366bf730f.jpeg",
     "static/media/tarjeta.png": "/static/media/tarjeta.2d17be27fb921c2f1a26.png",
     "static/media/nft-personaje.png": "/static/media/nft-personaje.770b818f54a289d34689.png",
+    "static/media/MYSTERY-NOMAD.gif": "/static/media/MYSTERY-NOMAD.6d836ce939347fa74ab1.gif",
     "static/media/wtt-coin.png": "/static/media/wtt-coin.995ea548935f881bf991.png",
     "static/media/isla.png": "/static/media/isla.9497e00a90c6bf67108c.png",
     "static/media/logotipo-white.svg": "/static/media/logotipo-white.fb1b274da19d5f4f39ec12b93c07e8fd.svg",
@@ -49,11 +55,11 @@
     "static/media/frame-top.svg": "/static/media/frame-top.efcd1829b673a53df0f1dfaa53b35d30.svg",
     "static/media/frame-bottom.svg": "/static/media/frame-bottom.69f031221b0630fb910e261d248e2ffc.svg",
     "main.0a55f95f.css.map": "/static/css/main.0a55f95f.css.map",
-    "main.f49606da.js.map": "/static/js/main.f49606da.js.map",
+    "main.10f036ef.js.map": "/static/js/main.10f036ef.js.map",
     "787.66b477fd.chunk.js.map": "/static/js/787.66b477fd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0a55f95f.css",
-    "static/js/main.f49606da.js"
+    "static/js/main.10f036ef.js"
   ]
 }
