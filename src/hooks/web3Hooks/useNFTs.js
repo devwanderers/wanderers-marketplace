@@ -276,3 +276,5 @@ export const useGetNft = (tokenId) => {
     }, [tokenId, account])
     return { fetch, ...rest }
 }
+
+export const useRefoundNft = () => {}

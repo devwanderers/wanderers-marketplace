@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo } from 'react'
+/* eslint-disable no-unused-vars */
+import React, { useCallback, useMemo, useState } from 'react'
 
 import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'
 
@@ -19,9 +20,73 @@ import { Navigate } from 'react-router-dom'
 import MisteryBoxSection from '../components/MarketView/MisteryBoxSection'
 // import Season2MintModal from '../components/Profile/Season2MintModal'
 // import ButtonSeasonTwoMint from './../components/Profile/ButtonSeasonTwoMint'
+import useNftWalletOfOwner from './../hooks/web3Hooks/useNftWalletOfOwner'
+import {
+    NFT_ADDRESS_GENESIS,
+    LAND_ADDRESS,
+} from './../constants/addressConstants'
+import RefundModal from '../components/Modals/RefundModal'
+import { useDispatch } from 'react-redux'
+import { sendEmailRefund } from '../store/reducers/globalActions'
+import useActiveWeb3React from './../hooks/useActiveWeb3React'
+import requestedRefundsAddress from '../constants/requestedRefundsAddress'
+import EmailSended from './../components/Modals/EmailSended'
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const getAvatarName = (nft) => {
     return `${nft.tokenId}_${nft.address}`
+}
+
+const ButtonRefund = () => {
+    const [loading, setLoading] = useState(false)
+    const [visible, setVisible] = useState(false)
+    const [visibleSended, setVisibleSended] = useState(false)
+    const { account } = useActiveWeb3React()
+    const tokensIdLand = useNftWalletOfOwner(NFT_ADDRESS_GENESIS)
+    const tokensIdGenesis = useNftWalletOfOwner(LAND_ADDRESS)
+    const dispatch = useDispatch()
+
+    const sendEmail = useCallback(async () => {
+        if (loading) return
+        setLoading(true)
+        try {
+            await sleep(1000)
+            await dispatch(sendEmailRefund(account)).unwrap()
+            setVisibleSended((state) => !state)
+            setVisible((state) => !state)
+        } catch (error) {
+            console.log(error)
+        }
+        setLoading(false)
+    }, [loading, account, dispatch])
+
+    return (
+        <React.Fragment>
+            <RefundModal
+                loading={loading}
+                visible={visible}
+                tokensIdLand={tokensIdLand}
+                tokensIdGenesis={tokensIdGenesis}
+                onCancel={() => setVisible((state) => !state)}
+                onConfirm={sendEmail}
+            />
+            <EmailSended
+                visible={visibleSended}
+                onCancel={() => setVisibleSended((state) => !state)}
+            />
+            <div className="text-center w-full">
+                <span className="text-primary font-semibold text-xl">
+                    Refund
+                </span>
+                <button
+                    onClick={() => setVisible((state) => !state)}
+                    className="bg-blue-6 rounded-md w-full  text-xl font-medium text-blue-5 disabled:opacity-40 mt-5"
+                >
+                    Refund NFTS
+                </button>
+            </div>
+        </React.Fragment>
+    )
 }
 
 const Profile = () => {
@@ -57,6 +122,10 @@ const Profile = () => {
             }
         })
     }, [nftsLands])
+
+    const enableRefund = useMemo(() => {
+        return requestedRefundsAddress.includes(account)
+    }, [account])
 
     return (
         <div className="flex-1 flex bg-blue-7">
@@ -117,6 +186,11 @@ const Profile = () => {
                                         }}
                                     />
                                 </div>
+                                {enableRefund && (
+                                    <div className="w-full flex justify-center mt-4">
+                                        <ButtonRefund />
+                                    </div>
+                                )}
                                 {/* <div className="w-full flex justify-center mt-4">
                                     <ButtonSeasonTwoMint
                                         onMintEnd={() => {
