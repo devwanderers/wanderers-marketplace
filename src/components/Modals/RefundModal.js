@@ -3,6 +3,7 @@ import React from 'react'
 import { Modal } from 'antd'
 import { FaCopy, FaSpinner } from 'react-icons/fa'
 import useCopyToClipboard from './../../hooks/useCopyToClipboard'
+import { IoCloseOutline } from 'react-icons/io5'
 
 const RefundModal = ({
     loading,
@@ -19,10 +20,15 @@ const RefundModal = ({
             centered
             closable={false}
             onCancel={onCancel}
-            maskClosable={false}
             footer={null}
         >
-            <div>
+            <div className="relative">
+                <div
+                    className="absolute p-1 -m-4 right-0 cursor-pointer"
+                    onPointerDown={onCancel}
+                >
+                    <IoCloseOutline className="text-2xl" />
+                </div>
                 <div className="text-3xl text-center font-semibold">
                     Money back waranty
                 </div>

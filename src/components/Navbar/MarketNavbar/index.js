@@ -6,7 +6,6 @@ import { navbarMenu } from '../../../constants/navbarMenu'
 import { BsPerson } from 'react-icons/bs'
 import WalletButton from '../../Wallet/WalletButton'
 import useActiveWeb3React from './../../../hooks/useActiveWeb3React'
-import { useNftAvatars } from '../../../store/reducers/nftAvatars/hooks'
 
 const MenuOption = ({ selected, onClick, children }) => {
     return (
@@ -24,7 +23,7 @@ const MenuOption = ({ selected, onClick, children }) => {
 
 const MarketNavbar = ({ onOpenDrawer, visibleDrawer }) => {
     const navigate = useNavigate()
-    const nftAvatars = useNftAvatars()
+    // const nftAvatars = useNftAvatars()
     // const { visibleWalletDrawer } = useWalletDrawer()
     const location = useLocation()
     const { account } = useActiveWeb3React()
@@ -65,7 +64,7 @@ const MarketNavbar = ({ onOpenDrawer, visibleDrawer }) => {
                             })}
                         </div>
                         <div className="h-full flex flex-row items-end gap-6">
-                            {account && nftAvatars.length > 0 && (
+                            {account && (
                                 <div className="relative text-white h-12 pb-3 px-4">
                                     {isSelected('profile') && (
                                         <div className="absolute h-1 bg-blue-6 bottom-0 left-0 w-full"></div>

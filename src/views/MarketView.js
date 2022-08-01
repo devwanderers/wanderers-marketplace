@@ -154,6 +154,7 @@ const MarketView = () => {
                         ref={globeRef}
                         markers={markers}
                         onSelectMarker={handleOnClickMarker}
+                        visiblePaths={false}
                     />
                 </React.Suspense>
 

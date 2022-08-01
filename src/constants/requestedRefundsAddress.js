@@ -12,4 +12,7 @@ export default process.env.NODE_ENV === 'production'
           '0xc173CBF586BfCFdb4B01073c45908029ec6d064A',
           '0xc5F8Cfa9F3057196401565c4420fF474E1D969A4',
       ]
-    : ['0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC']
+    : [
+          '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
+          '0x8d5e13438F70252F4EdeacCcb81Bf9a582cD8fBB',
+      ]
