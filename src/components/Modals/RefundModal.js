@@ -66,7 +66,7 @@ const RefundModal = ({
                     confirm the successful transfer, you must go back to your
                     profile and click on verify button. (You can transfer all of
                     them by using Open Sea multi transfer or your preferred
-                    wallet)
+                    wallet).
                 </div>
 
                 <div className="w-full bg-blue-9 bg-opacity-75 rounded-sm flex justify-center mt-6">
@@ -75,7 +75,7 @@ const RefundModal = ({
                             className="cursor-pointer"
                             onPointerDown={() =>
                                 copyToClipboard(
-                                    '0x0000000000000000000000000000000000000000'
+                                    '0xa7AB14f6BC7a807A134D4ddfF482D1B0B2e53dAC'
                                 )
                             }
                         >
@@ -85,7 +85,7 @@ const RefundModal = ({
                             className="relative -mt-1"
                             onPointerDown={() =>
                                 copyToClipboard(
-                                    '0x0000000000000000000000000000000000000000'
+                                    '0xa7AB14f6BC7a807A134D4ddfF482D1B0B2e53dAC'
                                 )
                             }
                         >
