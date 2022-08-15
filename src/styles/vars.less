@@ -8,3 +8,60 @@
 @min1536: ~'(min-width: 1536px)';
 
 @min1200: ~'(min-width: 1200px)';
+
+// Table
+// --
+@table-bg: #141c2f;
+@table-header-bg: #141c2f;
+@table-header-color: white;
+@table-header-sort-bg: @background-color-base;
+@table-body-sort-bg: #fafafa;
+@table-row-hover-bg: @background-color-light;
+@table-selected-row-color: inherit;
+@table-selected-row-bg: #122135;
+@table-body-selected-sort-bg: @table-selected-row-bg;
+@table-selected-row-hover-bg: darken(@table-selected-row-bg, 2%);
+@table-expanded-row-bg: #fbfbfb;
+@table-padding-vertical: 16px;
+@table-padding-horizontal: 16px;
+@table-padding-vertical-md: (@table-padding-vertical * 3 / 4);
+@table-padding-horizontal-md: (@table-padding-horizontal / 2);
+@table-padding-vertical-sm: (@table-padding-vertical / 2);
+@table-padding-horizontal-sm: (@table-padding-horizontal / 2);
+@table-border-color: @border-color-split;
+@table-border-radius-base: @border-radius-base;
+@table-footer-bg: @background-color-light;
+@table-footer-color: @heading-color;
+@table-header-bg-sm: @table-header-bg;
+@table-font-size: @font-size-base;
+@table-font-size-md: @table-font-size;
+@table-font-size-sm: @table-font-size;
+@table-header-cell-split-color: rgba(0, 0, 0, 0.06);
+// Sorter
+// Legacy: `table-header-sort-active-bg` is used for hover not real active
+@table-header-sort-active-bg: rgba(0, 0, 0, 0.04);
+@table-fixed-header-sort-active-bg: hsv(0, 0, 96%);
+
+// Filter
+@table-header-filter-active-bg: rgba(0, 0, 0, 0.04);
+@table-filter-btns-bg: inherit;
+@table-filter-dropdown-bg: @component-background;
+@table-expand-icon-bg: @component-background;
+@table-selection-column-width: 32px;
+// Sticky
+@table-sticky-scroll-bar-bg: fade(#000, 35%);
+@table-sticky-scroll-bar-radius: 4px;
+
+// Pagination
+// ---
+@pagination-item-bg: @component-background;
+@pagination-item-size: @height-base;
+@pagination-item-size-sm: 24px;
+@pagination-font-family: @font-family;
+@pagination-font-weight-active: 500;
+@pagination-item-bg-active: @component-background;
+@pagination-item-link-bg: @component-background;
+@pagination-item-disabled-color-active: @disabled-color;
+@pagination-item-disabled-bg-active: @disabled-active-bg;
+@pagination-item-input-bg: @component-background;
+@pagination-mini-options-size-changer-top: 0px;

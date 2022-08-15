@@ -31,6 +31,7 @@ import { sendEmailRefund } from '../store/reducers/globalActions'
 import useActiveWeb3React from './../hooks/useActiveWeb3React'
 import requestedRefundsAddress from '../constants/requestedRefundsAddress'
 import EmailSended from './../components/Modals/EmailSended'
+import { Table } from 'antd'
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const getAvatarName = (nft) => {
@@ -88,6 +89,80 @@ const ButtonRefund = () => {
         </React.Fragment>
     )
 }
+const format = Intl.NumberFormat('en-US')
+
+const convertToUSD = (someNumber) => {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(someNumber)
+}
+
+const TableDestinationsRewards = ({ lands }) => {
+    const columns = [
+        {
+            title: 'Token Id',
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: 'Country',
+            dataIndex: 'country',
+            key: 'country',
+        },
+        {
+            title: 'Destination',
+            dataIndex: 'destination',
+            key: 'destination',
+        },
+        {
+            title: 'Type',
+            dataIndex: 'type',
+            key: 'type',
+        },
+        {
+            title: 'Visitors',
+            dataIndex: 'visitors',
+            key: 'visitors',
+        },
+        {
+            title: 'Rewards',
+            dataIndex: 'rewards',
+            key: 'rewards',
+        },
+    ]
+
+    const dataSource = useMemo(() => {
+        const dummys = [
+            [2, 30],
+            [3, 48.33],
+            [4, 50],
+            [20, 120],
+            [50, 300],
+        ]
+        return lands.map(({ title, data: { tokenId, attributes } }, index) => {
+            return {
+                id: tokenId,
+                country: attributes[0].value,
+                destination: title,
+                visitors: format.format(dummys[index][0]),
+                type: attributes[5].value ? 'Ambassador' : 'Destination',
+                rewards: convertToUSD(dummys[index][1]),
+            }
+        })
+    }, [lands])
+
+    return (
+        <div className="flex flex-col">
+            <div className="ml-auto">
+                <a className="bg-blue-6 rounded-md px-8 text-xl font-medium text-blue-5 disabled:opacity-40 mt-5">
+                    Claim Rewards
+                </a>
+            </div>
+            <Table className="mt-6" columns={columns} dataSource={dataSource} />
+        </div>
+    )
+}
 
 const Profile = () => {
     const { account } = useWeb3React()
@@ -119,6 +194,7 @@ const Profile = () => {
                         ? land.attributes[1].value
                         : land.attributes[0].value,
                 nft: land.image,
+                data: land,
             }
         })
     }, [nftsLands])
@@ -225,6 +301,9 @@ const Profile = () => {
                                         )
                                     })}
                                 </div>
+                            </TabPane>
+                            <TabPane tab="Rewards" className="px-6 2xl:px-10">
+                                <TableDestinationsRewards lands={lands} />
                             </TabPane>
                         </Tabs>
                     </div>
