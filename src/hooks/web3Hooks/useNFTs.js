@@ -1,12 +1,18 @@
+/* eslint-disable no-undef */
 import { useCallback, useEffect, useState } from 'react'
 import useActiveWeb3React from './../useActiveWeb3React'
 import { ethers } from 'ethers'
 import { _useResolveCall } from './../utils/_useResolveCall'
-import { useERC721Contract, useERC721LandContract } from './useContract'
+import {
+    useERC721Contract,
+    useERC721LandContract,
+    useRewardsContract,
+} from './useContract'
 import { ipfsReplaceUri } from './../../services/ipfs'
 import {
     LAND_ADDRESS,
     NFT_ADDRESS_GENESIS,
+    REWARDS_ADDRESS,
 } from '../../constants/addressConstants'
 import useRefresh from './../useRefresh'
 import { profileReducerSelector } from '../../store/reducers/profile/selectors'
@@ -277,4 +283,51 @@ export const useGetNft = (tokenId) => {
     return { fetch, ...rest }
 }
 
-export const useRefoundNft = () => {}
+export const useApproveNft = (tokenId) => {
+    const { account } = useActiveWeb3React()
+
+    const erc721Contract = useERC721LandContract(LAND_ADDRESS)
+
+    const approve = useCallback(async () => {
+        if (account) {
+            try {
+                const tx = await erc721Contract.approve(
+                    '0x70997970C51812dc3A010C7d01b50e0d17dc79C8',
+                    '6'
+                )
+
+                const approved = await tx.wait()
+
+                return approved
+            } catch (error) {
+                console.log(error)
+                throw error
+            }
+        }
+    }, [erc721Contract, account])
+
+    return _useResolveCall(approve, null, {})
+}
+
+export const useClaimRewards = () => {
+    const { account } = useActiveWeb3React()
+
+    const erc721Contract = useRewardsContract(REWARDS_ADDRESS)
+
+    const claim = useCallback(async () => {
+        if (account) {
+            try {
+                const tx = await erc721Contract.claimNFTDropsByBalance(1, 1)
+
+                const completed = await tx.wait()
+
+                return completed
+            } catch (error) {
+                console.log(error)
+                throw error
+            }
+        }
+    }, [erc721Contract, account])
+
+    return _useResolveCall(claim, null, {})
+}

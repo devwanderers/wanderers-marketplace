@@ -18,6 +18,7 @@ const classes = {
         secondary:
             'bg-gray-200 hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-gray-900 hover:text-white',
         danger: 'bg-red-500 hover:bg-red-800 focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-white',
+        info: 'bg-blue-6 hover:bg-blue-10 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 text-blue-5',
         warning:
             'bg-yellow-600 hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-600 focus:ring-opacity-50 text-white',
         warningLink:

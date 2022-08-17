@@ -1,7 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useMemo, useState } from 'react'
 
-import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa'
+import {
+    FaArrowCircleLeft,
+    FaArrowCircleRight,
+    FaSpinner,
+} from 'react-icons/fa'
 
 import Tabs, { TabPane } from '../components/Tabs/Tabs'
 import CardNftMarket from './../components/Cards/CardNftMarket'
@@ -18,8 +22,6 @@ import {
 import { useWeb3React } from '@web3-react/core'
 import { Navigate } from 'react-router-dom'
 import MisteryBoxSection from '../components/MarketView/MisteryBoxSection'
-// import Season2MintModal from '../components/Profile/Season2MintModal'
-// import ButtonSeasonTwoMint from './../components/Profile/ButtonSeasonTwoMint'
 import useNftWalletOfOwner from './../hooks/web3Hooks/useNftWalletOfOwner'
 import {
     NFT_ADDRESS_GENESIS,
@@ -32,6 +34,8 @@ import useActiveWeb3React from './../hooks/useActiveWeb3React'
 import requestedRefundsAddress from '../constants/requestedRefundsAddress'
 import EmailSended from './../components/Modals/EmailSended'
 import { Table } from 'antd'
+import { useClaimRewards } from './../hooks/web3Hooks/useNFTs'
+import ButtonSpinner from './../components/Buttons/ButtonSpinner'
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const getAvatarName = (nft) => {
@@ -99,6 +103,7 @@ const convertToUSD = (someNumber) => {
 }
 
 const TableDestinationsRewards = ({ lands }) => {
+    const { fetch, data, isFetching } = useClaimRewards()
     const columns = [
         {
             title: 'Token Id',
@@ -145,19 +150,29 @@ const TableDestinationsRewards = ({ lands }) => {
                 id: tokenId,
                 country: attributes[0].value,
                 destination: title,
-                visitors: format.format(dummys[index][0]),
+                // visitors: format.format(0),
+                visitors: format.format(!data ? dummys?.[index]?.[0] : 0),
                 type: attributes[5].value ? 'Ambassador' : 'Destination',
-                rewards: convertToUSD(dummys[index][1]),
+                // rewards: convertToUSD(0),
+                rewards: convertToUSD(!data ? dummys?.[index]?.[1] : 0),
             }
         })
-    }, [lands])
+    }, [lands, data])
 
     return (
         <div className="flex flex-col">
             <div className="ml-auto">
-                <a className="bg-blue-6 rounded-md px-8 text-xl font-medium text-blue-5 disabled:opacity-40 mt-5">
+                <ButtonSpinner
+                    loading={isFetching}
+                    onPointerDown={() => fetch()}
+                    variant="info"
+                    size="normal"
+                    className="text-xl font-medium"
+                    disabled={data}
+                >
+                    {' '}
                     Claim Rewards
-                </a>
+                </ButtonSpinner>
             </div>
             <Table className="mt-6" columns={columns} dataSource={dataSource} />
         </div>
