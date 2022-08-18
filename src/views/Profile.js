@@ -150,11 +150,11 @@ const TableDestinationsRewards = ({ lands }) => {
                 id: tokenId,
                 country: attributes[0].value,
                 destination: title,
-                // visitors: format.format(0),
-                visitors: format.format(!data ? dummys?.[index]?.[0] : 0),
+                visitors: format.format(0),
+                // visitors: format.format(!data ? dummys?.[index]?.[0] : 0),
                 type: attributes[5].value ? 'Ambassador' : 'Destination',
-                // rewards: convertToUSD(0),
-                rewards: convertToUSD(!data ? dummys?.[index]?.[1] : 0),
+                rewards: convertToUSD(0),
+                // rewards: convertToUSD(!data ? dummys?.[index]?.[1] : 0),
             }
         })
     }, [lands, data])
@@ -164,7 +164,7 @@ const TableDestinationsRewards = ({ lands }) => {
             <div className="ml-auto">
                 <ButtonSpinner
                     loading={isFetching}
-                    onPointerDown={() => fetch()}
+                    // onPointerDown={() => fetch()}
                     variant="info"
                     size="normal"
                     className="text-xl font-medium"
