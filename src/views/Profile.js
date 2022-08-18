@@ -103,7 +103,7 @@ const convertToUSD = (someNumber) => {
 }
 
 const TableDestinationsRewards = ({ lands }) => {
-    const { fetch, data, isFetching } = useClaimRewards()
+    // const { fetch, data, isFetching } = useClaimRewards()
     const columns = [
         {
             title: 'Token Id',
@@ -157,18 +157,18 @@ const TableDestinationsRewards = ({ lands }) => {
                 // rewards: convertToUSD(!data ? dummys?.[index]?.[1] : 0),
             }
         })
-    }, [lands, data])
+    }, [lands])
 
     return (
         <div className="flex flex-col">
             <div className="ml-auto">
                 <ButtonSpinner
-                    loading={isFetching}
+                    // loading={isFetching}
                     // onPointerDown={() => fetch()}
                     variant="info"
                     size="normal"
                     className="text-xl font-medium"
-                    disabled={data}
+                    // disabled={data}
                 >
                     {' '}
                     Claim Rewards
